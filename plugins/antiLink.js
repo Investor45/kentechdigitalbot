@@ -1,4 +1,4 @@
-const { getAntiLink, bot, setAntiLink, setAllowedUrl, lang, normalizeUrl } = require('../lib/')
+const { getAntiLink, bot, setAntiLink, setAllowedUrl, lang, normalizeUrl, isAdmin } = require('../lib/')
 
 bot(
   {
@@ -20,9 +20,29 @@ bot(
     const cmd = match.split(' ')[0].toLowerCase()
     const args = match.slice(cmd.length).trim()
 
+    // Only group administrators may change link-deletion settings.
+    const mutatingCommands = ['on', 'off', 'kick', 'warn', 'null', 'allow', 'disallow', 'clear']
+    if (mutatingCommands.includes(cmd)) {
+      const participants = await message.groupMetadata(message.jid)
+      const userJid = message.participant || message.jid
+      if (!(await isAdmin(participants, userJid))) {
+        return message.send(lang.plugins.common.not_admin)
+      }
+
+      // WhatsApp only permits message deletion when the bot is a group admin.
+      if (cmd === 'on' && !(await isAdmin(participants, message.client.user.jid))) {
+        return message.send('Make the bot a group admin first so it can delete links.')
+      }
+    }
+
     if (cmd === 'on' || cmd === 'off') {
       if (cmd === 'off' && status === 'off') return message.send(lang.plugins.antilink.disable)
       await setAntiLink(message.jid, cmd === 'on', message.id)
+      if (cmd === 'on') {
+        // Default to delete-only and remove exceptions: every link is blocked.
+        await setAntiLink(message.jid, 'null', message.id)
+        await setAllowedUrl(message.jid, 'null', message.id)
+      }
       return message.send(
         lang.plugins.antilink.status.format(cmd === 'on' ? lang.plugins.antilink.enabled : lang.plugins.antilink.disabled)
       )

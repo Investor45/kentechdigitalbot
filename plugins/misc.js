@@ -14,6 +14,7 @@ bot(
     pattern: 'status ?(.*)',
     desc: lang.plugins.status.desc,
     type: 'whatsapp',
+    fromMe: true,
   },
   async (message, match) => {
     if (!match) {

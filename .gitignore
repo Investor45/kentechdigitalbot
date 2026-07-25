@@ -16,3 +16,6 @@ word.txt
 config.json
 credentials.json
 token.json
+sales-assistant-state.json
+registered-contacts.json
+*.tar.gz

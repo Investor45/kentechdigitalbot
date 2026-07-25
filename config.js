@@ -61,7 +61,7 @@ module.exports = {
           evict: 10000,
         },
       }),
-  PREFIX: (process.env.PREFIX || '^[.,!]').trim(),
+  PREFIX: (process.env.PREFIX || '^[.,!+]').trim(),
   SUDO: process.env.SUDO || '',
   HEROKU_APP_NAME: process.env.HEROKU_APP_NAME,
   HEROKU_API_KEY: process.env.HEROKU_API_KEY,
@@ -95,7 +95,9 @@ module.exports = {
   APPROVE: (process.env.APPROVE || '').trim(),
   ANTI_DELETE: (process.env.ANTI_DELETE || 'null').trim(),
   PERSONAL_MESSAGE: (process.env.PERSONAL_MESSAGE || 'null').trim(),
-  DISABLE_START_MESSAGE: process.env.DISABLE_START_MESSAGE || 'false',
+  // Always suppress Levanter's built-in startup advertisement. The custom
+  // `.alive` command in plugins/alive.js is the only public bot card.
+  DISABLE_START_MESSAGE: 'true',
   ANTI_BOT: (process.env.ANTI_BOT || 'off').trim(),
   ANTI_BOT_MESSAGE: process.env.ANTI_BOT_MESSAGE || '&mention removed',
   WARN_MESSAGE:
@@ -115,7 +117,8 @@ module.exports = {
   RENDER_API_KEY: (process.env.RENDER_API_KEY || '').trim(),
   TIMEZONE: process.env.TIMEZONE,
   CMD_REACTION: process.env.CMD_REACTION || 'true',
-  AUTO_UPDATE: process.env.AUTO_UPDATE || 'true',
+  // Never let the upstream updater overwrite this customized deployment.
+  AUTO_UPDATE: 'false',
   WHITE_LIST: process.env.WHITE_LIST || '',
   BOT_LANG: process.env.BOT_LANG || 'en',
   YT_COOKIE: process.env.YT_COOKIE,

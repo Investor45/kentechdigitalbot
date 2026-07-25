@@ -1,0 +1,29 @@
+# Permanent Kentech runtime customizations.
+# Keep this list updated whenever a new custom plugin or runtime file is added.
+config.js
+auto-download-groups.json
+plugins/ai-sales-assistant.js
+plugins/alive.js
+plugins/antiLink.js
+plugins/auto-social-download.js
+plugins/gid.js
+plugins/group-vcf.js
+plugins/misc.js
+plugins/status-shortcut.js
+eplugins/0audio.js
+eplugins/0calc.js
+eplugins/0caption.js
+eplugins/0doc.js
+eplugins/0emix.js
+eplugins/0emoji.js
+eplugins/0ephoto.js
+eplugins/0find.js
+eplugins/0ig.js
+eplugins/0jean.js
+eplugins/0mforward.js
+eplugins/0play.js
+eplugins/0sudo.js
+eplugins/0tg.js
+eplugins/0time.js
+eplugins/0upscale.js
+eplugins/0vv.js

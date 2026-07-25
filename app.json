@@ -101,7 +101,7 @@
     "AUTO_STATUS_VIEW": {
       "description": "view others status",
       "required": false,
-      "value": "false"
+      "value": "no-dl"
     },
     "SEND_READ": {
       "description": "send blue tick",
@@ -121,7 +121,7 @@
     "DISABLE_START_MESSAGE": {
       "description": "Disable start Message",
       "required": false,
-      "value": "false"
+      "value": "true"
     }
   },
   "addons": [
