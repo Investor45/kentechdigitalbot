@@ -51,13 +51,24 @@ function participantDetails(message, participant, index) {
   if (!phone) return null
   const name = [
     contact.name,
-    contact.notify,
     contact.verifiedName,
+    contact.notify,
     contact.shortName,
     participant.name,
     participant.notify,
   ].find(Boolean) || `Group Member ${String(index + 1).padStart(3, '0')}`
-  return { name: String(name).trim(), phone }
+  return {
+    name: String(name).trim(),
+    phone,
+    fallback: ![
+      contact.name,
+      contact.verifiedName,
+      contact.notify,
+      contact.shortName,
+      participant.name,
+      participant.notify,
+    ].some(Boolean),
+  }
 }
 
 function safeFileName(value) {
@@ -89,11 +100,19 @@ bot(
     const contacts = participants
       .map((participant, index) => participantDetails(message, participant, index))
       .filter(Boolean)
-    if (!contacts.length) {
+    const uniqueContacts = new Map()
+    for (const contact of contacts) {
+      const previous = uniqueContacts.get(contact.phone)
+      if (!previous || (previous.fallback && !contact.fallback)) {
+        uniqueContacts.set(contact.phone, contact)
+      }
+    }
+    const deduplicatedContacts = [...uniqueContacts.values()]
+    if (!deduplicatedContacts.length) {
       return message.send('No group members with resolvable phone numbers were found.')
     }
 
-    const cards = contacts.map(({ name, phone }) => [
+    const cards = deduplicatedContacts.map(({ name, phone }) => [
       'BEGIN:VCARD',
       'VERSION:3.0',
       `FN:${escapeVcard(name)}`,
@@ -107,6 +126,6 @@ bot(
       { fileName, mimetype: 'text/vcard', quoted: message.data },
       'document'
     )
-    return message.send(`Created ${fileName} with ${contacts.length} contact(s).`)
+    return message.send(`Created ${fileName} with ${deduplicatedContacts.length} unique contact(s).`)
   }
 )
