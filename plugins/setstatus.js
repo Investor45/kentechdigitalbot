@@ -160,7 +160,7 @@ const listOwnedGroups = async message => {
   return message.send(lines.join('\n').trim())
 }
 
-for (const pattern of ['groupids', 'listgroupgit']) {
+for (const pattern of ['groupids ?(.*)', 'groupid ?(.*)', 'listgroupgit ?(.*)']) {
   bot(
     {
       pattern,
@@ -174,7 +174,10 @@ for (const pattern of ['groupids', 'listgroupgit']) {
 
 bot({ on: 'text', fromMe: true, type: 'groupIdsOwner' }, async message => {
   const text = String(message.text || '').trim().toLowerCase()
-  if (text === 'groupids' || text === 'listgroupgit') return listOwnedGroups(message)
+  const command = text.replace(/^[.,!+]/, '').split(/\s+/)[0]
+  if (command === 'groupids' || command === 'groupid' || command === 'listgroupgit') {
+    return listOwnedGroups(message)
+  }
 })
 
 const scheduleStatusDeletion = (message, result) => {
