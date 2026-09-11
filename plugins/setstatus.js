@@ -99,31 +99,35 @@ async function ownedGroups(message) {
   })
 }
 
-bot(
-  {
-    pattern: 'listgroupgit',
-    desc: 'List owned groups and their gstatus aliases',
-    type: 'whatsapp',
-    fromMe: true,
-  },
-  async message => {
-    let groups
-    try {
-      groups = await ownedGroups(message)
-    } catch (_) {
-      return message.send('I could not fetch your WhatsApp groups. Please try again.')
-    }
-    if (!groups.length) return message.send('No groups where this account is an admin were found.')
-    const lines = ['Your owned WhatsApp groups:', '']
-    groups.forEach((group, index) => {
-      lines.push(`${index + 1}. ${group.subject}`)
-      lines.push(`Code: ${group.alias}`)
-      lines.push(`JID: ${group.jid}`)
-      lines.push(`Post: gstatus/${group.alias}`, '')
-    })
-    return message.send(lines.join('\n').trim())
+const listOwnedGroups = async message => {
+  let groups
+  try {
+    groups = await ownedGroups(message)
+  } catch (_) {
+    return message.send('I could not fetch your WhatsApp groups. Please try again.')
   }
-)
+  if (!groups.length) return message.send('No groups where this account is an admin were found.')
+  const lines = ['Your WhatsApp admin groups:', '']
+  groups.forEach((group, index) => {
+    lines.push(`${index + 1}. ${group.subject}`)
+    lines.push(`Group ID: ${group.jid}`)
+    lines.push(`Code: ${group.alias}`)
+    lines.push(`Post: gstatus/${group.alias}`, '')
+  })
+  return message.send(lines.join('\n').trim())
+}
+
+for (const pattern of ['groupids', 'listgroupgit']) {
+  bot(
+    {
+      pattern,
+      desc: 'List your WhatsApp admin groups and group IDs',
+      type: 'whatsapp',
+      fromMe: true,
+    },
+    listOwnedGroups
+  )
+}
 
 const scheduleStatusDeletion = (message, result) => {
   const keys = Array.isArray(result) ? result : [result]
