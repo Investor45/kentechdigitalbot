@@ -45,7 +45,6 @@ bot(
     pattern: 'mystatus ?(.*)',
     desc: 'Post replied media or text to your personal status',
     type: 'whatsapp',
-    fromMe: true,
   },
   myStatusHandler
 )
@@ -143,6 +142,7 @@ async function ownedGroups(message) {
 }
 
 const listOwnedGroups = async message => {
+  if (!message.data?.key?.fromMe) return
   let groups
   try {
     groups = await ownedGroups(message)
@@ -166,7 +166,6 @@ for (const pattern of ['groupids ?(.*)', 'groupid ?(.*)', 'listgroupgit ?(.*)'])
       pattern,
       desc: 'List your WhatsApp admin groups and group IDs',
       type: 'whatsapp',
-      fromMe: true,
     },
     listOwnedGroups
   )
