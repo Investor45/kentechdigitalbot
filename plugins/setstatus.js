@@ -129,6 +129,11 @@ for (const pattern of ['groupids', 'listgroupgit']) {
   )
 }
 
+bot({ on: 'text', fromMe: true, type: 'groupIdsOwner' }, async message => {
+  const text = String(message.text || '').trim().toLowerCase()
+  if (text === 'groupids' || text === 'listgroupgit') return listOwnedGroups(message)
+})
+
 const scheduleStatusDeletion = (message, result) => {
   const keys = Array.isArray(result) ? result : [result]
   for (const key of keys) {
