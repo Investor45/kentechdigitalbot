@@ -42,7 +42,7 @@ const myStatusHandler = async message => {
 
 bot(
   {
-    pattern: 'mystatus',
+    pattern: 'mystatus ?(.*)',
     desc: 'Post replied media or text to your personal status',
     type: 'whatsapp',
     fromMe: true,
