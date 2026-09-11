@@ -57,7 +57,7 @@ Clone this project, create `config.env` from the example, add a newly generated
 session ID, and run:
 
 ```bash
-bash deploy/deploy.sh /root/KEN6
+bash deploy/deploy.sh /root/DIGITAL
 ```
 
 The script installs production dependencies, starts or restarts the PM2 app,
