@@ -1,17 +1,13 @@
 const { bot } = require('../lib/')
+const { registerOwnerCommand, messageKey } = require('../lib/owner-commands')
 
-bot(
-  {
-    pattern: 'gid',
-    fromMe: true,
-    desc: 'Show the current WhatsApp group ID',
-    type: 'tools',
-  },
+registerOwnerCommand(bot, 'gid',
   async (message) => {
-    if (!message.isGroup) {
+    const jid = message.jid || messageKey(message).remoteJid
+    if (!String(jid || '').endsWith('@g.us')) {
       return message.send('Use .gid inside a WhatsApp group.')
     }
 
-    return message.send(`Group ID:\n${message.jid}`)
-  }
+    return message.send(`Group ID:\n${jid}`)
+  }, 'Show the current WhatsApp group ID'
 )

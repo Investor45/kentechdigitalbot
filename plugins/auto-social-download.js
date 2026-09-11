@@ -66,8 +66,9 @@ async function handleLink(message) {
   if (!isGroup || !enabledGroups.has(jid) || activeGroups.has(jid)) return
   if (getGuard().shouldBlock(message.data || {}, message.client)) return
   // Explicit downloader commands are handled by their command plugins.
-  if (/^[.,!+](?:video|ytv|song|yts|tiktok)\b/i.test(String(message.text || '').trim())) return
-  const url = tiktokUrl(message.text) || String(message.text || '').match(URL_PATTERN)?.[0]
+  const text = String(message.text || message.caption || '').trim()
+  if (/^[.,!+](?:video|ytv|song|yts|tiktok)\b/i.test(text)) return
+  const url = tiktokUrl(text) || text.match(URL_PATTERN)?.[0]
   if (!url) return
   let platform
   try { platform = platformFor(url) } catch (_) { return }
@@ -124,3 +125,7 @@ async function control(message, match) {
 bot({ pattern: 'autodownload ?(.*)', fromMe: true, type: 'download' }, control)
 bot({ on: 'text', fromMe: false, type: 'autoSocialDownload' }, handleLink)
 bot({ on: 'text', fromMe: true, type: 'autoSocialDownloadOwner' }, handleLink)
+for (const on of ['image', 'video', 'document']) {
+  bot({ on, fromMe: false, type: `autoSocialDownload:${on}` }, handleLink)
+  bot({ on, fromMe: true, type: `autoSocialDownloadOwner:${on}` }, handleLink)
+}

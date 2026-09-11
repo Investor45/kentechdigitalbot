@@ -1,9 +1,10 @@
 const { bot } = require('../lib')
 const { getGuard, normalize } = require('../lib/download-group-guard')
+const { isOwner, registerOwnerCommand } = require('../lib/owner-commands')
 
 async function control(message, action) {
   // fromMe can include configured sudo users in some builds; check the raw key.
-  if (!message.data?.key?.fromMe) return
+  if (!isOwner(message)) return
   if (!message.isGroup) return message.send('Use this command inside the download group.')
   const guard = getGuard()
   try {
@@ -26,7 +27,7 @@ async function control(message, action) {
   } catch (error) { return message.send(error.message) }
 }
 
-bot({ pattern: 'botguard ?(.*)', fromMe: true, type: 'group' }, (message, match) => control(message, String(match || 'status').trim().toLowerCase()))
-bot({ pattern: 'silencebot$', fromMe: true, type: 'group' }, message => control(message, 'block'))
-bot({ pattern: 'releasebot$', fromMe: true, type: 'group' }, message => control(message, 'release'))
-bot({ pattern: 'releasebots$', fromMe: true, type: 'group' }, message => control(message, 'off'))
+registerOwnerCommand(bot, 'botguard', (message, match) => control(message, String(match || 'status').trim().toLowerCase()), 'Control the group bot filter')
+registerOwnerCommand(bot, 'silencebot', message => control(message, 'block'), 'Silence the replied sender')
+registerOwnerCommand(bot, 'releasebot', message => control(message, 'release'), 'Release the replied sender')
+registerOwnerCommand(bot, 'releasebots', message => control(message, 'off'), 'Disable the group bot filter')

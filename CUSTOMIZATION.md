@@ -53,6 +53,23 @@ Current permanent features include:
 
 ## Deploy on a new VPS
 
+Owner commands use the original WhatsApp key (`message.message.key` in Levanter
+6.1.7), with compatibility for older `data.key` messages. `.gid` shows the current
+group ID; `.groupids` lists groups where the connected account is an admin or
+owner; reply with `.mystatus` to post personal status to saved status contacts.
+These commands also accept bare text. `.gstatus` posts to the current group, and
+`.gstatus/<alias>` uses an alias from `.groupids`. Duplicate command/event dispatch
+is suppressed. Personal-status renewals use in-process timers and do not survive
+a restart.
+
+In groups protected by `.botguard on`, native `groupStatusMessage` and
+`groupStatusMessageV2` posts from known non-admin members are deleted. Admin and
+owner posts are allowed; personal statuses and unprotected groups are untouched.
+`.botguard off` disables this protection along with bot-message filtering.
+Deletion still requires WhatsApp to grant this account group-admin permission.
+
+Regression checks: `node --test lib/test/gstatus.test.js lib/test/download-group-guard.test.js`.
+
 Clone this project, create `config.env` from the example, add a newly generated
 session ID, and run:
 
