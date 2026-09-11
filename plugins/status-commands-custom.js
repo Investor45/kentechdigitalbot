@@ -19,11 +19,9 @@ async function mystatus(message) {
       const own = [message.client?.user?.id, message.client?.user?.jid, message.client?.user?.lid]
         .map(String).find(jid => /@(s\.whatsapp\.net|lid)$/.test(jid))
       if (!own) throw error
-      count = await message.setStatus(message, [own], '')
+      count = await message.setStatus(message, [own], own)
     }
-    return message.send(typeof count === 'number' && count > 0
-      ? `Status posted to ${count} contact(s).`
-      : 'Personal status posted.')
+    return message.send('Personal status posted successfully.')
   } catch (error) {
     process.stderr.write(`[mystatus] ${error?.stack || error}\n`)
     return message.send('Could not post your personal status. Reply to the media again and try.')
