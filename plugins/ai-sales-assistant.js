@@ -324,10 +324,6 @@ async function showPremiumOrderPrompt(message) {
 
 async function chooseAdmin(message) {
   setMode(String(message.jid || ''), 'admin')
-  return message.send(
-    'You are now connected for human assistance. Automated replies are paused. An administrator will respond when available. Type *OFFERS* anytime to view products again.',
-    { quoted: message.data }
-  )
 }
 
 async function welcomeMenu(message) {

@@ -72,49 +72,131 @@ bot(
   }
 )
 
+const normalizeJid = jid => String(jid || '').replace(/:\d+(?=@)/, '')
+const groupAlias = subject => String(subject || 'group')
+  .toLowerCase()
+  .replace(/[^a-z0-9]+/g, '-')
+  .replace(/^-|-$/g, '') || 'group'
+
+async function ownedGroups(message) {
+  const groups = await message.client.groupFetchAllParticipating()
+  const own = [message.client.user?.id, message.client.user?.jid, message.client.user?.lid]
+    .map(normalizeJid)
+    .filter(Boolean)
+  const used = new Set()
+  return Object.entries(groups || {}).flatMap(([jid, metadata]) => {
+    const participants = Array.isArray(metadata) ? metadata : metadata.participants || []
+    const isAdmin = participants.some(participant => participant.admin &&
+      [participant.id, participant.lid, participant.phoneNumber, participant.jid]
+        .map(normalizeJid).some(id => own.includes(id)))
+    if (!isAdmin) return []
+    const base = groupAlias(metadata.subject)
+    let alias = base
+    let index = 2
+    while (used.has(alias)) alias = `${base}-${index++}`
+    used.add(alias)
+    return [{ jid, alias, subject: metadata.subject || jid }]
+  })
+}
+
+bot(
+  {
+    pattern: 'listgroupgit',
+    desc: 'List owned groups and their gstatus aliases',
+    type: 'whatsapp',
+    fromMe: true,
+  },
+  async message => {
+    let groups
+    try {
+      groups = await ownedGroups(message)
+    } catch (_) {
+      return message.send('I could not fetch your WhatsApp groups. Please try again.')
+    }
+    if (!groups.length) return message.send('No groups where this account is an admin were found.')
+    const lines = ['Your owned WhatsApp groups:', '']
+    groups.forEach((group, index) => {
+      lines.push(`${index + 1}. ${group.subject}`)
+      lines.push(`Code: ${group.alias}`)
+      lines.push(`JID: ${group.jid}`)
+      lines.push(`Post: gstatus/${group.alias}`, '')
+    })
+    return message.send(lines.join('\n').trim())
+  }
+)
+
+const scheduleStatusDeletion = (message, result) => {
+  const keys = Array.isArray(result) ? result : [result]
+  for (const key of keys) {
+    if (!key?.id || typeof message.client?.sendMessage !== 'function') continue
+    const timer = setTimeout(() => message.client.sendMessage('status@broadcast', {
+      delete: { ...key, remoteJid: key.remoteJid || 'status@broadcast', fromMe: false },
+    }).catch(() => {}), 48 * 60 * 60 * 1000)
+    timer.unref?.()
+  }
+}
+
+const gstatusHandler = async (message, match) => {
+  // Enforce account ownership even when the framework treats sudo as fromMe.
+  if (!message.data?.key?.fromMe) return
+  const reply = message.reply_message
+  if (!reply || (!reply.image && !reply.video && !reply.txt && !String(reply.text || '').trim())) {
+    return message.send('Reply to an image, video, or text with .gstatus inside the group.')
+  }
+  const argument = String(match || '').trim().replace(/^\//, '')
+  let targets
+  if (argument) {
+    const tokens = argument.split(/\s+/)
+    const aliases = tokens.filter(target => !target.endsWith('@g.us'))
+    const byAlias = aliases.length
+      ? new Map((await ownedGroups(message)).map(group => [group.alias, group.jid]))
+      : new Map()
+    targets = tokens.flatMap(target => byAlias.has(target) ? [byAlias.get(target)] : parsedJid(target))
+  } else {
+    targets = message.isGroup ? [message.jid] : []
+  }
+  if (!targets.length) return message.send('Use .gstatus/<group-name> from private chat, or .gstatus inside a group.')
+  if (typeof message.groupStatus !== 'function') {
+    return message.send('Group status is not supported by this bot build.')
+  }
+  const own = [message.client.user?.id, message.client.user?.jid, message.client.user?.lid,
+    message.data.key.participant, message.data.key.participantAlt].map(normalizeJid).filter(Boolean)
+  let posted = 0
+  for (const jid of new Set(targets)) {
+    try {
+      const metadata = await message.client.groupMetadata(jid)
+      const participants = Array.isArray(metadata) ? metadata : metadata.participants || []
+      const admin = participants.some(p => p.admin && [p.id, p.lid, p.phoneNumber].map(normalizeJid).some(id => own.includes(id)))
+      if (!admin) {
+        await message.send('Your bot account must be an admin in the target group to post its status.')
+        continue
+      }
+      const statusKey = await message.groupStatus(message, jid)
+      scheduleStatusDeletion(message, statusKey)
+      posted++
+    } catch (_) {
+      await message.send('Could not post the group status. Check the group permissions and try again.')
+    }
+  }
+  if (posted) return message.send(posted === 1 ? 'Group status posted.' : `Group status posted to ${posted} groups.`)
+}
+
 bot(
   {
     pattern: 'gstatus ?(.*)',
-    desc: 'Update group status (reply to image, video, or text)',
-    type: 'group'
+    desc: 'Reply to an image, video, or text to post a group status',
+    type: 'whatsapp',
+    fromMe: true,
   },
-  async (message, match) => {
-    if (
-      !message.reply_message ||
-      (!message.reply_message.image && !message.reply_message.video && !message.reply_message.txt)
-    ) {
-      return await message.send('Reply to an image, video, or text with `.gstatus <jid>`')
-    }
-    const groupJid = parsedJid(match)
-    if (groupJid.length === 0) {
-      if (!message.isGroup) {
-        return await message.send('Use this in a group, or pass a group JID: `.gstatus <jid>`')
-      }
-      const participants = await message.groupMetadata(message.jid)
-      if (!participants) {
-        return await message.send('Could not fetch group metadata.')
-      }
-      const isImAdmin = await isAdmin(participants, message.participant)
-      if (!isImAdmin) {
-        return await message.send('You are not admin')
-      }
-      await message.groupStatus(message, message.jid)
-    } else {
-      for (const jid of groupJid) {
-        if (!isGroup(jid)) continue
-        const participants = await message.groupMetadata(jid)
-        if (!participants) {
-          await message.send(`Could not fetch group metadata for @${jid}`, { contextInfo: { mentionedJid: [jid] } })
-          continue
-        }
-        const isImAdmin = await isAdmin(participants, message.participant)
-        if (!isImAdmin) {
-          await message.send(`You are not admin at @${jid}`, { contextInfo: { mentionedJid: [jid] } })
-          continue
-        }
-        await message.groupStatus(message, jid)
-      }
-    }
-    return await message.send('Group status updated.')
-  }
+  gstatusHandler
+)
+
+bot(
+  {
+    pattern: 'gstatus/(.*)',
+    desc: 'Post a group status using an owned group alias',
+    type: 'whatsapp',
+    fromMe: true,
+  },
+  gstatusHandler
 )

@@ -27,11 +27,29 @@ The runtime files that must survive every redeployment are recorded in
 Current permanent features include:
 
 - Kentech sales assistant and manual offer flow
+- YouTube Shorts/links and `.video` use the existing YT1D-backed provider's
+  merged-video route through `lib/youtube-download.js`. Direct Google media
+  downloads were rejected by the VPS network. Default quality is 480p with
+  audio, capped at 60 MB, with bounded lookup, conversion and transfer times.
+  `ffprobe` checks audio/video streams; `ffmpeg` converts incompatible video
+  codecs to H.264/AAC for WhatsApp. Both programs must be installed on the VPS.
 - custom `.alive`, `.gid`, and `.vcf` commands
 - group-restricted social and YouTube automatic downloads
 - `.autodownload on`, `.autodownload off`, and status controls
 - persistent `AUTO_STATUS_VIEW=no-dl` deployment defaults
 - disabled upstream auto-update and Levanter startup advertisement
+- Download-group bot filtering is installed before the Baileys client starts.
+  It deletes new messages from detected or manually silenced bot accounts,
+  while allowing this account and ordinary members' download requests.
+  Detection uses known bot message IDs and downloader captions; it is heuristic.
+  Group admin permission is required. Owner commands: `.botguard on`,
+  `.botguard status`, `.releasebots` (disable for the group), and reply with
+  `.silencebot` / `.releasebot` for an individual sender. Settings persist in
+  `download-group-guard.json`; runtime permission/errors are recorded in
+  `download-group-guard-status.json`. Neither runtime file belongs in git.
+- TikTok command and group downloads use `lib/tiktok-download.js`, with
+  verified MP4 bytes, alternate media links, and a 60 MB limit. Regression
+  checks: `node --test lib/test/tiktok-download.test.js`.
 
 ## Deploy on a new VPS
 

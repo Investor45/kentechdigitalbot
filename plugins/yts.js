@@ -1,4 +1,5 @@
-const { bot, yts, song, video, addAudioMetaData, generateList, lang, YT_URL_REGEX } = require('../lib/')
+const { bot, yts, song, addAudioMetaData, generateList, lang, YT_URL_REGEX } = require('../lib/')
+const { downloadYouTube, youtubeId } = require('../lib/youtube-download')
 
 bot(
   {
@@ -35,7 +36,7 @@ bot(
     type: 'download',
   },
   async (message, match) => {
-    match = match || message.reply_message.text
+    match = match || message.reply_message?.text
     if (!match) return await message.send(lang.plugins.song.usage)
     const isDirect = YT_URL_REGEX.test(match)
     if (isDirect) {
@@ -74,7 +75,7 @@ bot(
     type: 'download',
   },
   async (message, match) => {
-    match = match || message.reply_message.text
+    match = match || message.reply_message?.text
     if (!match) return await message.send(lang.plugins.video.usage)
 
     let quality = null;
@@ -88,7 +89,8 @@ bot(
       urlMatch = qualityMatch[2];
     }
 
-    const vid = YT_URL_REGEX.exec(urlMatch)
+    const videoId = youtubeId(urlMatch)
+    const vid = videoId ? [urlMatch, videoId] : null
     if (!vid) {
       const result = (await yts(urlMatch, false, null, message.id)).filter(r => !r.isMusic)
       if (!result.length) return await message.send(lang.plugins.video.not_found)
@@ -106,10 +108,14 @@ bot(
     }
 
     const options = quality ? { videoQuality: quality } : {};
-    return await message.send(
-      await video(vid[1], message.id, options),
-      { quoted: message.data, fileName: `${vid[1]}.mp4` },
-      'video'
-    )
+    try {
+      return await message.send(
+        await downloadYouTube(vid[1], options),
+        { quoted: message.data, mimetype: 'video/mp4', fileName: `${vid[1]}.mp4` },
+        'video'
+      )
+    } catch (_) {
+      return message.send('YouTube could not provide the video right now. Please try again shortly.', { quoted: message.data })
+    }
   }
 )

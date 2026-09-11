@@ -18,4 +18,6 @@ credentials.json
 token.json
 sales-assistant-state.json
 registered-contacts.json
+download-group-guard.json
+download-group-guard-status.json
 *.tar.gz

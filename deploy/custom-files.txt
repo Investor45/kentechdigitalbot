@@ -1,6 +1,14 @@
 # Permanent Kentech runtime customizations.
 # Keep this list updated whenever a new custom plugin or runtime file is added.
 config.js
+index.js
+lib/download-group-guard.js
+plugins/download-group-guard.js
+lib/tiktok-download.js
+lib/youtube-download.js
+lib/whatsapp-video.js
+plugins/yts.js
+plugins/tiktok.js
 auto-download-groups.json
 plugins/ai-sales-assistant.js
 plugins/alive.js
@@ -27,3 +35,4 @@ eplugins/0tg.js
 eplugins/0time.js
 eplugins/0upscale.js
 eplugins/0vv.js
+plugins/setstatus.js
