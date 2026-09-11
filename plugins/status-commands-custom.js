@@ -11,7 +11,16 @@ async function mystatus(message) {
   if (!repliedContent(message)) return message.send('Reply to an image, video, or text with .mystatus.')
   if (typeof message.setStatus !== 'function') return message.send('Personal status is not supported by this bot build.')
   try {
-    const count = await message.setStatus(message, [], 'contact')
+    let count
+    try {
+      count = await message.setStatus(message, [], 'contact')
+    } catch (error) {
+      if (!/contact list is empty/i.test(String(error?.message || error))) throw error
+      const own = [message.client?.user?.id, message.client?.user?.jid, message.client?.user?.lid]
+        .map(String).find(jid => /@(s\.whatsapp\.net|lid)$/.test(jid))
+      if (!own) throw error
+      count = await message.setStatus(message, [own], '')
+    }
     return message.send(typeof count === 'number' && count > 0
       ? `Status posted to ${count} contact(s).`
       : 'Personal status posted.')
