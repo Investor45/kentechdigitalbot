@@ -11,6 +11,49 @@ const {
   isAdmin
 } = require('../lib/')
 
+const hasStatusReply = reply => Boolean(reply &&
+  (reply.image || reply.video || reply.txt || String(reply.text || '').trim()))
+
+const scheduleMyStatusRenewals = message => {
+  for (const delay of [23, 46].map(hours => hours * 60 * 60 * 1000)) {
+    const timer = setTimeout(() => {
+      Promise.resolve(message.setStatus(message, [], 'contact')).catch(() => {})
+    }, delay)
+    timer.unref?.()
+  }
+}
+
+const myStatusHandler = async message => {
+  if (!message.data?.key?.fromMe) return
+  if (!hasStatusReply(message.reply_message)) {
+    return message.send('Reply to an image, video, or text with .mystatus.')
+  }
+  if (typeof message.setStatus !== 'function') {
+    return message.send('Personal status is not supported by this bot build.')
+  }
+  try {
+    const statusCount = await message.setStatus(message, [], 'contact')
+    scheduleMyStatusRenewals(message)
+    return message.send(`Status posted to ${statusCount || 'your'} contact(s). It will renew for over 48 hours.`)
+  } catch (_) {
+    return message.send('Could not post your personal status. Please try again.')
+  }
+}
+
+bot(
+  {
+    pattern: 'mystatus',
+    desc: 'Post replied media or text to your personal status',
+    type: 'whatsapp',
+    fromMe: true,
+  },
+  myStatusHandler
+)
+
+bot({ on: 'text', fromMe: true, type: 'myStatusOwner' }, async message => {
+  if (String(message.text || '').trim().toLowerCase() === 'mystatus') return myStatusHandler(message)
+})
+
 bot(
   {
     pattern: 'setstatus ?(.*)',
