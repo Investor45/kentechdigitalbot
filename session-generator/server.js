@@ -42,11 +42,13 @@ async function createPairing(job, phone) {
   try {
     const api = await loadWhatsApp()
     const auth = await api.useMultiFileAuthState(job.directory)
+    const { version } = await api.fetchLatestBaileysVersion()
     const socket = api.makeWASocket({
       auth: auth.state,
+      version,
       printQRInTerminal: false,
       logger: { trace() {}, debug() {}, info() {}, warn() {}, error() {}, fatal() {}, child() { return this } },
-      browser: ['KENTECH AI', 'Chrome', '1.0.0'],
+      browser: ['Ubuntu', 'Chrome', '22.04.4'],
     })
     job.socket = socket
     socket.ev.on('creds.update', auth.saveCreds)
@@ -67,12 +69,23 @@ async function createPairing(job, phone) {
         job.error = 'WhatsApp closed the pairing request. Please create a new code.'
       }
     })
-    job.code = await socket.requestPairingCode(phone)
+    // WhatsApp rejects pairing requests sent before the new WebSocket has
+    // completed its initial handshake (HTTP 428 / Connection Closed).
+    await api.delay(4000)
+    try {
+      job.code = await socket.requestPairingCode(phone)
+    } catch (error) {
+      const status = error?.output?.statusCode || error?.data?.statusCode
+      if (status !== 428) throw error
+      await api.delay(2000)
+      job.code = await socket.requestPairingCode(phone)
+    }
     job.state = 'pairing'
   } catch (error) {
     job.state = 'failed'
     job.error = 'Could not create a pairing code. Please try again.'
-    process.stderr.write(`[session-generator] ${error?.name || 'Error'}\n`)
+    const status = error?.output?.statusCode || error?.data?.statusCode || 'unknown'
+    process.stderr.write(`[session-generator] ${error?.name || 'Error'} (status ${status})\n`)
   }
 }
 
