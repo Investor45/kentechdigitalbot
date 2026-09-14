@@ -24,7 +24,16 @@ and webhook support.
 
 ### Quick VPS deployment
 
-On a fresh Ubuntu/Debian VPS, paste these commands as a sudo-capable user:
+On a fresh Ubuntu/Debian VPS, run this one-line installer as a sudo-capable user:
+
+```bash
+bash <(curl -fsSL https://raw.githubusercontent.com/Investor45/kentechdigitalbot/kentech-custom/deploy/install.sh)
+```
+
+The installer installs Node.js, FFmpeg, Yarn, and PM2; clones KENTECH AI;
+opens `config.env` for `SESSION_ID` and `SUDO`; and starts the bot with PM2.
+
+For manual installation, use these commands:
 
 ```bash
 sudo apt update && sudo apt upgrade -y
