@@ -22,6 +22,29 @@ and webhook support.
 
 ## Deploy on a VPS or PC
 
+### Quick VPS deployment
+
+On a fresh Ubuntu/Debian VPS, paste these commands as a sudo-capable user:
+
+```bash
+sudo apt update && sudo apt upgrade -y
+sudo apt install -y git curl ffmpeg
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt install -y nodejs
+sudo npm install -g yarn pm2
+git clone -b kentech-custom https://github.com/Investor45/kentechdigitalbot.git kentech-ai
+cd kentech-ai
+cp config.env.example config.env
+nano config.env
+bash deploy/deploy.sh "$(pwd)"
+pm2 save
+pm2 status
+pm2 logs kentech-ai --lines 100
+```
+
+Set `SESSION_ID`, `SUDO`, `PREFIX`, and `BOT_LANG` in `config.env` before
+running the deployment command. Keep `config.env` private.
+
 Windows users can run the PowerShell deployment script directly. WSL2 with
 Ubuntu is also supported if you prefer Bash.
 
