@@ -1,13 +1,15 @@
 require('./lib/download-group-guard').install()
 const { Client, logger } = require('./lib/client')
-const { DATABASE, VERSION } = require('./config')
+const { DATABASE, VERSION, RAW_SESSION_ID } = require('./config')
 const { stopInstance } = require('./lib/pm2')
+const { importSessionBundle } = require('./lib/import-session-bundle')
 
 const start = async () => {
   logger.info(`KENTECH AI ${VERSION}`)
 
   try {
     await DATABASE.authenticate({ retry: { max: 3 } })
+    await importSessionBundle(DATABASE, RAW_SESSION_ID)
   } catch (error) {
     logger.error({
       msg: 'Database connection failed',

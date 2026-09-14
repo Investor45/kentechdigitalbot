@@ -94,6 +94,25 @@ It asks for the WhatsApp session ID, locked admin number `670217260`, command
 prefix, language, and timezone without opening an editor. Never commit `config.env`, session
 files, or database files; they contain private account information.
 
+### Generate a KENTECH session ID
+
+Start the included generator on the VPS or PC:
+
+```bash
+SESSION_PORT=3100 npm run session
+```
+
+For safe testing before a subdomain is connected, open an SSH tunnel from your PC:
+
+```bash
+ssh -L 3100:127.0.0.1:3100 user@your-server
+```
+
+Visit `http://127.0.0.1:3100`, enter the WhatsApp number with country code, and
+follow the Linked Devices instructions. Paste the generated `KENTECH_...` value
+into `SESSION_ID`. The generator binds only to localhost until an HTTPS reverse
+proxy is configured.
+
 ### 4. Install and start
 
 ```bash

@@ -25,6 +25,7 @@
   "main": "index.js",
   "scripts": {
     "start": "pm2 start . --attach --name kentech-ai",
+    "session": "node session-generator/server.js",
     "docker": "pm2-runtime start . --name kentech-ai",
     "stop": "pm2 stop kentech-ai",
     "postinstall": "node -e \"try { require('sharp') } catch (e) { process.exit(1); }\" || yarn add --ignore-engines sharp@0.34.5"

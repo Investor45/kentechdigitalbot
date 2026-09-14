@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>KENTECH AI Session Generator</title>
+  <style>
+    :root{color-scheme:dark;font-family:Inter,system-ui,sans-serif;background:#07120e;color:#f2fff8}*{box-sizing:border-box}
+    body{margin:0;min-height:100vh;display:grid;place-items:center;padding:24px;background:radial-gradient(circle at top,#123c2b,#07120e 55%)}
+    main{width:min(620px,100%);background:#0d2018;border:1px solid #24543e;border-radius:22px;padding:32px;box-shadow:0 24px 80px #0008}
+    h1{margin:0 0 8px;font-size:clamp(28px,6vw,44px)}h1 span{color:#39e58c}p{color:#b9d7c8;line-height:1.55}
+    label{display:block;margin:26px 0 8px;font-weight:700}input,button,textarea{width:100%;border-radius:12px;border:1px solid #347052;padding:14px;font:inherit}
+    input,textarea{background:#07150f;color:#fff}button{margin-top:12px;background:#25d366;color:#04120a;border:0;font-weight:800;cursor:pointer}
+    button:disabled{opacity:.55;cursor:wait}.panel{margin-top:22px;padding:18px;background:#07150f;border-radius:14px}.hidden{display:none}
+    .code{font-size:30px;letter-spacing:5px;text-align:center;color:#39e58c;font-weight:900}textarea{height:130px;resize:vertical;font-family:monospace;font-size:12px}
+    small{display:block;color:#87ad9a;margin-top:12px}.danger{color:#ffb5b5}
+  </style>
+</head>
+<body><main>
+  <h1><span>KENTECH AI</span><br>Session Generator</h1>
+  <p>Connect your WhatsApp account and generate the private session ID required by the bot.</p>
+  <form id="form"><label for="phone">WhatsApp number with country code</label><input id="phone" inputmode="numeric" autocomplete="tel" placeholder="237670217260" required><button>Generate pairing code</button></form>
+  <section id="pair" class="panel hidden"><p>On your phone, open <b>WhatsApp → Linked devices → Link a device → Link with phone number</b>, then enter:</p><div id="code" class="code">WAIT</div><small>This request expires after 10 minutes.</small></section>
+  <section id="result" class="panel hidden"><p>Connected. Copy this value into <b>SESSION_ID</b> in your <b>config.env</b>.</p><textarea id="session" readonly></textarea><button id="copy" type="button">Copy SESSION_ID</button><small class="danger">Never send this ID to anyone. It gives access to your WhatsApp session.</small></section>
+  <p id="error" class="danger"></p>
+  <script src="/app.js"></script>
+</main></body></html>
