@@ -45,13 +45,47 @@ fi
 cd "$APP_DIR"
 [[ -f config.env ]] || cp config.env.example config.env
 
-if [[ -t 0 ]]; then
-  echo "Edit config.env and set SESSION_ID and SUDO before the bot starts."
-  "${EDITOR:-nano}" config.env
-else
-  echo "Created $APP_DIR/config.env. Set SESSION_ID and SUDO, then run:"
-  echo "bash deploy/deploy.sh $APP_DIR"
+set_env() {
+  local key="$1"
+  local value="$2"
+  local temp_file
+  temp_file="$(mktemp)"
+  awk -v key="$key" -v value="$value" '
+    BEGIN { prefix = key "="; updated = 0 }
+    index($0, prefix) == 1 { print prefix "\"" value "\""; updated = 1; next }
+    { print }
+    END { if (!updated) print prefix "\"" value "\"" }
+  ' config.env > "$temp_file"
+  mv "$temp_file" config.env
+}
+
+if [[ ! -t 0 ]]; then
+  echo "Created $APP_DIR/config.env. Run this installer from an interactive terminal to enter bot settings." >&2
   exit 0
 fi
+
+echo "KENTECH AI setup"
+echo "Answer the questions below. No editor will be opened."
+while :; do
+  read -r -s -p "WhatsApp SESSION_ID (hidden): " session_id
+  echo
+  [[ -n "$session_id" ]] && break
+  echo "SESSION_ID is required."
+done
+read -r -p "Owner phone number with country code [optional]: " sudo_number
+read -r -p "Command prefix [.] : " prefix
+prefix="${prefix:-.}"
+read -r -p "Bot language [en]: " bot_lang
+bot_lang="${bot_lang:-en}"
+read -r -p "Timezone [Africa/Lagos]: " timezone
+timezone="${timezone:-Africa/Lagos}"
+
+set_env SESSION_ID "$session_id"
+set_env SUDO "$sudo_number"
+set_env PREFIX "$prefix"
+set_env BOT_LANG "$bot_lang"
+set_env TIMEZONE "$timezone"
+chmod 600 config.env
+echo "Configuration saved to $APP_DIR/config.env"
 
 bash deploy/deploy.sh "$APP_DIR"

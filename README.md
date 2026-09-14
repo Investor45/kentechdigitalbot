@@ -30,8 +30,8 @@ On a fresh Ubuntu/Debian VPS, run this one-line installer as a sudo-capable user
 bash <(curl -fsSL https://raw.githubusercontent.com/Investor45/kentechdigitalbot/kentech-custom/deploy/install.sh)
 ```
 
-The installer installs Node.js, FFmpeg, Yarn, and PM2; clones KENTECH AI;
-opens `config.env` for `SESSION_ID` and `SUDO`; and starts the bot with PM2.
+The installer installs Node.js, FFmpeg, Yarn, and PM2; clones KENTECH AI; asks
+for the bot settings directly in the terminal; and starts the bot with PM2.
 
 For manual installation, use these commands:
 
