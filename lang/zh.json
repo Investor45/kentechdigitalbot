@@ -43,7 +43,7 @@
     "screenshot_error": "糟糕！截图失败。 📸❌",
     "id_missing": "等等，我缺少一个 ID！ 🕵️",
     "not_on_whatsapp": "{0} 不在 WhatsApp 上！ 👻",
-    "yt_auth_required": "下载失败！YouTube 需要验证。 🗝️\n\n*解决方案：*\n1. *Google 授权：* 试试 `.gauth auth` 进行关联。\n2. *YT_COOKIE：* 设置 `YT_COOKIE` 环境变量。\n文档：https://github.com/lyfe00011/levanter/wiki/yt%E2%80%90cookie\n\n*错误：* {0}"
+    "yt_auth_required": "下载失败！YouTube 需要验证。 🗝️\n\n*解决方案：*\n1. *Google 授权：* 试试 `.gauth auth` 进行关联。\n2. *YT_COOKIE：* 设置 `YT_COOKIE` 环境变量。\n文档：https://github.com/Investor45/kentechdigitalbot {0}"
   },
   "plugins": {
     "common": {
@@ -70,7 +70,7 @@
       "upscale_failed": "图片放大失败，请稍后再试。",
       "invalid_file_type": "错误：无法处理 {0} 格式文件",
       "upload_failed": "文件上传错误：{0}",
-      "yt_login_prompt": "请登录您的 YouTube 账号或设置 YT_COOKIE 变量。\n\n登录地址 => https://levanter-plugins.vercel.app/yt\n",
+      "yt_login_prompt": "请登录您的 YouTube 账号或设置 YT_COOKIE 变量。\n\n登录地址 => https://github.com/Investor45/kentechdigitalbot",
       "yt_cookie_needed": "请设置 YouTube Cookie\nhttps://t.me/c/2479057503/378/2550",
       "yt_not_found": "未找到 {0}",
       "time_day": " 天 ",
@@ -83,8 +83,8 @@
       "time_seconds": " 秒"
     },
     "menu": {
-      "help": "```╭────────────────╮\n      ʟᴇᴠᴀɴᴛᴇʀ\n╰────────────────╯\n\n╭────────────────\n│ 前缀 : {0}\n│ 用户 : {1}\n│ 时间 : {2}\n│ 星期 : {3}\n│ 日期 : {4}\n│ 版本 : {5}\n│ 插件 : {6}\n│ 内存 : {7}\n│ 运行时间 : {8}\n│ 平台 : {9}\n╰────────────────```",
-      "menu": "```╭═══ LEVANTER ═══⊷\n┃❃╭──────────────\n┃❃│ 前缀 : {0}\n┃❃│ 用户 : {1}\n┃❃│ 时间 : {2}\n┃❃│ 星期 : {3}\n┃❃│ 日期 : {4}\n┃❃│ 版本 : {5}\n┃❃│ 插件 : {6}\n┃❃│ 内存 : {7}\n┃❃│ 运行时间 : {8}\n┃❃│ 平台 : {9}\n┃❃╰───────────────\n╰═════════════════⊷```",
+      "help": "```╭────────────────╮\n      KENTECH AI\n╰────────────────╯\n\n╭────────────────\n│ 前缀 : {0}\n│ 用户 : {1}\n│ 时间 : {2}\n│ 星期 : {3}\n│ 日期 : {4}\n│ 版本 : {5}\n│ 插件 : {6}\n│ 内存 : {7}\n│ 运行时间 : {8}\n│ 平台 : {9}\n╰────────────────```",
+      "menu": "```╭═══ KENTECH AI ═══⊷\n┃❃╭──────────────\n┃❃│ 前缀 : {0}\n┃❃│ 用户 : {1}\n┃❃│ 时间 : {2}\n┃❃│ 星期 : {3}\n┃❃│ 日期 : {4}\n┃❃│ 版本 : {5}\n┃❃│ 插件 : {6}\n┃❃│ 内存 : {7}\n┃❃│ 运行时间 : {8}\n┃❃│ 平台 : {9}\n┃❃╰───────────────\n╰═════════════════⊷```",
       "disabled": "已禁用"
     },
     "afk": {
@@ -262,13 +262,13 @@
     },
     "greetings": {
       "welcome_desc": "向新成员发送欢迎消息",
-      "welcome_example": "欢迎消息当前状态：*{0}*\n\n> *使用示例：*\n- welcome 嗨 &mention！欢迎来到 &name - 设置欢迎消息\n- welcome on | off - 启用/禁用\n- welcome delete - 删除消息\n\n> *占位符：*\n- &mention - 提及新成员\n- &name - 群组名称\n- &desc - 群组描述\n- &size - 成员数量\n- &pp - 成员头像\n\n> *媒体：* 回复图片/视频或在消息中包含 URL\n\n更多详情：https://levanter.site/",
+      "welcome_example": "欢迎消息当前状态：*{0}*\n\n> *使用示例：*\n- welcome 嗨 &mention！欢迎来到 &name - 设置欢迎消息\n- welcome on | off - 启用/禁用\n- welcome delete - 删除消息\n\n> *占位符：*\n- &mention - 提及新成员\n- &name - 群组名称\n- &desc - 群组描述\n- &size - 成员数量\n- &pp - 成员头像\n\n> *媒体：* 回复图片/视频或在消息中包含 URL\n\n更多详情：https://github.com/Investor45/kentechdigitalbot",
       "welcome_enable": "_欢迎消息已启用_",
       "welcome_disable": "_欢迎消息已禁用_",
       "welcome_delete": "_欢迎消息已删除_",
       "welcome_not_set": "_请先设置欢迎消息！_\n\n> *示例：*\nwelcome 嗨 &mention！欢迎来到 &name\n\n然后使用：welcome on",
       "goodbye_desc": "向离开的成员发送告别消息",
-      "goodbye_example": "告别消息当前状态：*{0}*\n\n> *使用示例：*\n- goodbye 再见 &mention！下次见 - 设置告别消息\n- goodbye on | off - 启用/禁用\n- goodbye delete - 删除消息\n\n> *占位符：*\n- &mention - 提及离开的成员\n- &name - 群组名称\n- &desc - 群组描述\n- &size - 成员数量\n- &pp - 成员头像\n\n> *媒体：* 回复图片/视频或在消息中包含 URL\n\n更多详情：https://levanter.site/",
+      "goodbye_example": "告别消息当前状态：*{0}*\n\n> *使用示例：*\n- goodbye 再见 &mention！下次见 - 设置告别消息\n- goodbye on | off - 启用/禁用\n- goodbye delete - 删除消息\n\n> *占位符：*\n- &mention - 提及离开的成员\n- &name - 群组名称\n- &desc - 群组描述\n- &size - 成员数量\n- &pp - 成员头像\n\n> *媒体：* 回复图片/视频或在消息中包含 URL\n\n更多详情：https://github.com/Investor45/kentechdigitalbot",
       "goodbye_enable": "_告别消息已启用_",
       "goodbye_disable": "_告别消息已禁用_",
       "goodbye_delete": "_告别消息已删除_",
@@ -467,7 +467,7 @@
       "usage": "示例：mention on | off | get\n（回复消息以针对特定用户。）",
       "desc": "配置和管理自动回复的提及功能。",
       "not_activated": "回复提及未激活。",
-      "current_status": "提及功能已{0}。详情请访问：https://levanter.site/",
+      "current_status": "提及功能已{0}。详情请访问：https://github.com/Investor45/kentechdigitalbot",
       "activated": "回复提及已激活。",
       "deactivated": "回复提及已停用。",
       "updated": "提及设置已更新。"
@@ -659,7 +659,7 @@
       "desc": "从文字创建二维码或从图片读取二维码！ 📲"
     },
     "screenshot": {
-      "usage": "示例：screenshot levanter.site",
+      "usage": "示例：screenshot kentech-ai.site",
       "desc": "截取任何网站的截图！ 📸"
     },
     "reddit": {
@@ -953,7 +953,7 @@
     "gauth": {
       "desc": "管理 Google 身份验证（验证、导入、登出、状态）。YouTube 可选，高级功能必需。",
       "usage": "*Google 授权命令：*\n\n- `.gauth auth` — 开始身份验证流程。\n- `.gauth code <url_or_code>` — 验证授权码。\n- `.gauth import` — 导入 `credentials.json`（回复文件）。\n- `.gauth status` — 检查当前身份验证状态。\n- `.gauth logout` — 清除此会话的凭据和令牌。\n\n*注意：* Google 授权对一般 YouTube 功能可选，但年龄限制视频和 Google Drive/日历/任务集成必需。",
-      "prompt": "*Google 身份验证设置指南：*\n\n1. *创建项目：* 访问 https://console.cloud.google.com/，点击『选择项目『>『新建项目『，命名为『Levanter『后点击『创建『。\n2. *启用 API：* 进入『API 和服务『>『库『，搜索并启用『Google Drive API『、『Google Calendar API『和『Google Tasks API『。\n3. *OAuth 同意：* 进入『API 和服务『>『OAuth 同意屏幕『，选择『外部『，填写必填字段，在『受众群体『部分将您的电子邮件添加到『测试用户『（必须）。\n4. *凭据：* 进入『API 和服务『>『凭据『，点击『创建凭据『>『OAuth 客户端 ID『，选择『桌面应用程序『，命名后点击『创建『。\n5. *下载：* 在新客户端 ID 旁边点击下载（JSON）图标，保存并通过回复文件使用 `.gauth import`。\n6. *授权：* 点击下方链接进行授权：\n{0}\n\n7. *完成：* 登录，接受『未验证应用『警告（点击『高级『>『转到 Levanter『），从重定向后的地址栏复制完整 URL，然后发送：\n`.gauth code <复制的URL>`",
+      "prompt": "*Google 身份验证设置指南：*\n\n1. *创建项目：* 访问 https://console.cloud.google.com/，点击『选择项目『>『新建项目『，命名为『KENTECH AI『后点击『创建『。\n2. *启用 API：* 进入『API 和服务『>『库『，搜索并启用『Google Drive API『、『Google Calendar API『和『Google Tasks API『。\n3. *OAuth 同意：* 进入『API 和服务『>『OAuth 同意屏幕『，选择『外部『，填写必填字段，在『受众群体『部分将您的电子邮件添加到『测试用户『（必须）。\n4. *凭据：* 进入『API 和服务『>『凭据『，点击『创建凭据『>『OAuth 客户端 ID『，选择『桌面应用程序『，命名后点击『创建『。\n5. *下载：* 在新客户端 ID 旁边点击下载（JSON）图标，保存并通过回复文件使用 `.gauth import`。\n6. *授权：* 点击下方链接进行授权：\n{0}\n\n7. *完成：* 登录，接受『未验证应用『警告（点击『高级『>『转到 KENTECH AI『），从重定向后的地址栏复制完整 URL，然后发送：\n`.gauth code <复制的URL>`",
       "success": "身份验证成功！",
       "import_success": "`credentials.json` 导入成功！现在使用 `.gauth auth` 进行授权。",
       "import_reply": "请回复 `credentials.json` 文件。",
@@ -968,7 +968,7 @@
       "uploading": "正在将媒体上传到 Drive...",
       "not_authorized": "未授权，请使用 \"backup auth\"。",
       "list": "*Google Drive 文件：*\n\n{0}",
-      "list_empty": "Levanter 文件夹中未找到文件。",
+      "list_empty": "KENTECH AI 文件夹中未找到文件。",
       "deleted": "文件删除成功！",
       "invalid_id": "请提供有效的文件 ID。",
       "error": "*错误：* {0}",

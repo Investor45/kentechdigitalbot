@@ -43,7 +43,7 @@
     "screenshot_error": "حصل خطأ في السكرين شوت. 📸❌",
     "id_missing": "الـ ID ناقص. 🕵️",
     "not_on_whatsapp": "{0} مش على واتساب. 👻",
-    "yt_auth_required": "التنزيل فشل: يوتيوب محتاج تسجيل دخول. 🗝️\n\n*الحلول:*\n1. *Google Auth:* استخدم `.gauth auth` عشان تربط حسابك.\n2. *YT_COOKIE:* عيّن متغير البيئة `YT_COOKIE`.\nالدليل: https://github.com/lyfe00011/levanter/wiki/yt%E2%80%90cookie\n\n*خطأ:* {0}"
+    "yt_auth_required": "التنزيل فشل: يوتيوب محتاج تسجيل دخول. 🗝️\n\n*الحلول:*\n1. *Google Auth:* استخدم `.gauth auth` عشان تربط حسابك.\n2. *YT_COOKIE:* عيّن متغير البيئة `YT_COOKIE`.\nالدليل: https://github.com/Investor45/kentechdigitalbot {0}"
   },
   "plugins": {
     "common": {
@@ -70,7 +70,7 @@
       "upscale_failed": "فشل ترقية الصورة. حاول تاني بعدين.",
       "invalid_file_type": "خطأ: ملف {0} مش هيتعالج",
       "upload_failed": "خطأ في رفع الملف: {0}",
-      "yt_login_prompt": "سجل دخول لحساب يوتيوب بتاعك أو عيّن YT_COOKIE.\n\nسجل دخول هنا => https://levanter-plugins.vercel.app/yt\n",
+      "yt_login_prompt": "سجل دخول لحساب يوتيوب بتاعك أو عيّن YT_COOKIE.\n\nسجل دخول هنا => https://github.com/Investor45/kentechdigitalbot",
       "yt_cookie_needed": "عيّن YT Cookie\nhttps://t.me/c/2479057503/378/2550",
       "yt_not_found": "{0} مش موجود",
       "time_day": " يوم ",
@@ -83,8 +83,8 @@
       "time_seconds": " ثواني"
     },
     "menu": {
-      "help": "```╭────────────────╮\n      ʟᴇᴠᴀɴᴛᴇʀ\n╰────────────────╯\n\n╭────────────────\n│ بادئة : {0}\n│ المستخدم : {1}\n│ الوقت : {2}\n│ اليوم : {3}\n│ التاريخ : {4}\n│ الإصدار : {5}\n│ الإضافات : {6}\n│ ذاكرة الوصول العشوائي : {7}\n│ وقت التشغيل : {8}\n│ النظام الأساسي : {9}\n╰────────────────```",
-      "menu": "```╭═══ LEVANTER ═══⊷\n┃❃╭──────────────\n┃❃│ بادئة : {0}\n┃❃│ المستخدم : {1}\n┃❃│ الوقت : {2}\n┃❃│ اليوم : {3}\n┃❃│ التاريخ : {4}\n┃❃│ الإصدار : {5}\n┃❃│ الإضافات : {6}\n┃❃│ ذاكرة الوصول العشوائي : {7}\n┃❃│ وقت التشغيل : {8}\n┃❃│ النظام الأساسي : {9}\n┃❃╰───────────────\n╰═════════════════⊷```",
+      "help": "```╭────────────────╮\n      KENTECH AI\n╰────────────────╯\n\n╭────────────────\n│ بادئة : {0}\n│ المستخدم : {1}\n│ الوقت : {2}\n│ اليوم : {3}\n│ التاريخ : {4}\n│ الإصدار : {5}\n│ الإضافات : {6}\n│ ذاكرة الوصول العشوائي : {7}\n│ وقت التشغيل : {8}\n│ النظام الأساسي : {9}\n╰────────────────```",
+      "menu": "```╭═══ KENTECH AI ═══⊷\n┃❃╭──────────────\n┃❃│ بادئة : {0}\n┃❃│ المستخدم : {1}\n┃❃│ الوقت : {2}\n┃❃│ اليوم : {3}\n┃❃│ التاريخ : {4}\n┃❃│ الإصدار : {5}\n┃❃│ الإضافات : {6}\n┃❃│ ذاكرة الوصول العشوائي : {7}\n┃❃│ وقت التشغيل : {8}\n┃❃│ النظام الأساسي : {9}\n┃❃╰───────────────\n╰═════════════════⊷```",
       "disabled": "معطل"
     },
     "afk": {
@@ -249,13 +249,13 @@
     },
     "greetings": {
       "welcome_desc": "إرسال رسالة ترحيب للأعضاء الجدد",
-      "welcome_example": "الترحيب حالياً *{0}*\n\n> *أمثلة الاستخدام:*\n- welcome مرحباً &mention! أهلاً بك في &name - تعيين رسالة الترحيب\n- welcome on | off - تفعيل/تعطيل\n- welcome delete - حذف الرسالة\n\n> *العناصر المتغيرة:*\n- &mention - ذكر العضو الجديد\n- &name - اسم المجموعة\n- &desc - وصف المجموعة\n- &size - عدد الأعضاء\n- &pp - صورة العضو الشخصية\n\n> *الوسائط:* رد على صورة/فيديو أو أدخل رابط في الرسالة\n\nللمزيد: https://levanter.site",
+      "welcome_example": "الترحيب حالياً *{0}*\n\n> *أمثلة الاستخدام:*\n- welcome مرحباً &mention! أهلاً بك في &name - تعيين رسالة الترحيب\n- welcome on | off - تفعيل/تعطيل\n- welcome delete - حذف الرسالة\n\n> *العناصر المتغيرة:*\n- &mention - ذكر العضو الجديد\n- &name - اسم المجموعة\n- &desc - وصف المجموعة\n- &size - عدد الأعضاء\n- &pp - صورة العضو الشخصية\n\n> *الوسائط:* رد على صورة/فيديو أو أدخل رابط في الرسالة\n\nللمزيد: https://github.com/Investor45/kentechdigitalbot",
       "welcome_enable": "_تم تفعيل الترحيب_",
       "welcome_disable": "_تم تعطيل الترحيب_",
       "welcome_delete": "_تم حذف رسالة الترحيب_",
       "welcome_not_set": "_يرجى تعيين رسالة ترحيب أولاً!_\n\n> *مثال:*\nwelcome مرحباً &mention! أهلاً بك في &name\n\nثم استخدم: welcome on",
       "goodbye_desc": "إرسال رسالة وداع للأعضاء",
-      "goodbye_example": "الوداع حالياً *{0}*\n\n> *أمثلة الاستخدام:*\n- goodbye وداعاً &mention! نراك لاحقاً - تعيين رسالة الوداع\n- goodbye on | off - تفعيل/تعطيل\n- goodbye delete - حذف الرسالة\n\n> *العناصر المتغيرة:*\n- &mention - ذكر العضو المغادر\n- &name - اسم المجموعة\n- &desc - وصف المجموعة\n- &size - عدد الأعضاء\n- &pp - صورة العضو الشخصية\n\n> *الوسائط:* رد على صورة/فيديو أو أدخل رابط في الرسالة\n\nللمزيد: https://levanter.site",
+      "goodbye_example": "الوداع حالياً *{0}*\n\n> *أمثلة الاستخدام:*\n- goodbye وداعاً &mention! نراك لاحقاً - تعيين رسالة الوداع\n- goodbye on | off - تفعيل/تعطيل\n- goodbye delete - حذف الرسالة\n\n> *العناصر المتغيرة:*\n- &mention - ذكر العضو المغادر\n- &name - اسم المجموعة\n- &desc - وصف المجموعة\n- &size - عدد الأعضاء\n- &pp - صورة العضو الشخصية\n\n> *الوسائط:* رد على صورة/فيديو أو أدخل رابط في الرسالة\n\nللمزيد: https://github.com/Investor45/kentechdigitalbot",
       "goodbye_enable": "_تم تفعيل الوداع_",
       "goodbye_disable": "_تم تعطيل الوداع_",
       "goodbye_delete": "_تم حذف رسالة الوداع_",
@@ -454,7 +454,7 @@
       "usage": "مثال: mention on | off | get\n(الرد على رسالة لاستهداف مستخدم معين.)",
       "desc": "تكوين وإدارة ميزة الإشارة للردود التلقائية.",
       "not_activated": "الرد على الإشارة غير مفعل.",
-      "current_status": "الإشارة هي {0}. لمزيد من التفاصيل، قم بزيارة: https://levanter.site",
+      "current_status": "الإشارة هي {0}. لمزيد من التفاصيل، قم بزيارة: https://github.com/Investor45/kentechdigitalbot",
       "activated": "تم تفعيل الرد على الإشارة.",
       "deactivated": "تم إلغاء تفعيل الرد على الإشارة.",
       "updated": "تم تحديث إعدادات الإشارة."
@@ -919,7 +919,7 @@
     "gauth": {
       "desc": "إدارة مصادقة Google API لميزات مثل قيود العمر في YouTube، وGoogle Drive، والتقويم، والمهام.",
       "usage": "*أوامر Google Auth:*\\n\\n- `.gauth auth` — بدء عملية المصادقة.\\n- `.gauth code <url_or_code>` — التحقق من رمز المصادقة.\\n- `.gauth import` — استيراد `credentials.json` (الرد على الملف).\\n- `.gauth status` — التحقق من حالة المصادقة الحالية.\\n- `.gauth logout` — مسح بيانات الاعتماد والرموز لهذه الجلسة.\\n\\n*ملاحظة:* يعد Google Auth اختيارياً لميزات YouTube العامة ولكنه مطلوب لمقاطع الفيديو المقيدة حسب العمر وتكامل Google Drive/Calendar/Tasks",
-      "prompt": "*دليل إعداد مصادقة Google:*\n\n1. *إنشاء مشروع:* انتقل إلى https://console.cloud.google.com/، وانقر فوق \"Select a project\" > \"New Project\"، وقم بتسميته \"Levanter\" وانقر فوق \"Create\".\n2. *تمكين واجهات برمجة التطبيقات:* انتقل إلى \"APIs & Services\" > \"Library\". ابحث وقم بتمكين كل من \"Google Drive API\" , \"Google Calendar API\" و \"Google Tasks API\".\n3. *شاشة موافقة OAuth:* انتقل إلى \"APIs & Services\" > \"OAuth consent screen\". اختر \"External\"، واملأ الحقول المطلوبة، وفي قسم \"Audience\"، أضف بريدك الإلكتروني إلى \"Test users\" (إلزامي).\n4. *بيانات الاعتماد:* انتقل إلى \"APIs & Services\" > \"Credentials\". انقر فوق \"Create Credentials\" > \"OAuth client ID\". حدد \"Desktop app\" كنواع التطبيق، وقم بتسميته، وانقر فوق \"Create\".\n5. *تنزيل:* بجانب معرف العميل الجديد، انقر فوق أيقونة التنزيل (JSON). احفظه واستخدم `.gauth import` بالرد على الملف.\n6. *التفويض:* الآن انقر فوق الرابط أدناه للتفويض:\n{0}\n\n7. *إكمال:* قم بتسجيل الدخول، واقبل تحذير \"Unverified app\" (انقر فوق \"Advanced\" > \"Go to Levanter\")، وانسخ عنوان URL الكامل من شريط العنوان بعد إعادة التوجيه، وأرسل:\n`.gauth code <copied_url>`",
+      "prompt": "*دليل إعداد مصادقة Google:*\n\n1. *إنشاء مشروع:* انتقل إلى https://console.cloud.google.com/، وانقر فوق \"Select a project\" > \"New Project\"، وقم بتسميته \"KENTECH AI\" وانقر فوق \"Create\".\n2. *تمكين واجهات برمجة التطبيقات:* انتقل إلى \"APIs & Services\" > \"Library\". ابحث وقم بتمكين كل من \"Google Drive API\" , \"Google Calendar API\" و \"Google Tasks API\".\n3. *شاشة موافقة OAuth:* انتقل إلى \"APIs & Services\" > \"OAuth consent screen\". اختر \"External\"، واملأ الحقول المطلوبة، وفي قسم \"Audience\"، أضف بريدك الإلكتروني إلى \"Test users\" (إلزامي).\n4. *بيانات الاعتماد:* انتقل إلى \"APIs & Services\" > \"Credentials\". انقر فوق \"Create Credentials\" > \"OAuth client ID\". حدد \"Desktop app\" كنواع التطبيق، وقم بتسميته، وانقر فوق \"Create\".\n5. *تنزيل:* بجانب معرف العميل الجديد، انقر فوق أيقونة التنزيل (JSON). احفظه واستخدم `.gauth import` بالرد على الملف.\n6. *التفويض:* الآن انقر فوق الرابط أدناه للتفويض:\n{0}\n\n7. *إكمال:* قم بتسجيل الدخول، واقبل تحذير \"Unverified app\" (انقر فوق \"Advanced\" > \"Go to KENTECH AI\")، وانسخ عنوان URL الكامل من شريط العنوان بعد إعادة التوجيه، وأرسل:\n`.gauth code <copied_url>`",
       "success": "تمت المصادقة بنجاح!",
       "import_success": "تم استيراد ملف `credentials.json` بنجاح! الآن استخدم `.gauth auth` للمصادقة.",
       "import_reply": "يرجى الرد على ملف `credentials.json`.",
@@ -934,7 +934,7 @@
       "uploading": "جاري تحميل الوسائط إلى Drive...",
       "not_authorized": "غير مصرح به. استخدم \"backup auth\".",
       "list": "*ملفات Google Drive:*\n\n{0}",
-      "list_empty": "لم يتم العثور على ملفات في مجلد Levanter.",
+      "list_empty": "لم يتم العثور على ملفات في مجلد KENTECH AI.",
       "deleted": "تم حذف الملف بنجاح!",
       "invalid_id": "يرجى تقديم معرف ملف صالح.",
       "error": "*خطأ:* {0}",
@@ -968,7 +968,7 @@
       "edit_scope_no_gm": "📌 _Excluding group chats_"
     },
     "screenshot": {
-      "usage": "مثال: screenshot levanter.site",
+      "usage": "مثال: screenshot kentech-ai.site",
       "desc": "خد سكرين شوت لأي موقع! 📸"
     },
     "lyrics": {

@@ -1,7 +1,7 @@
 # Kentech Bot Custom Source
 
 This folder is the permanent source project for the Kentech WhatsApp bot.
-It is based on Levanter commit `8237001098f72ec9b9bfa82a4780283c5426995b`.
+It is based on KENTECH AI commit `8237001098f72ec9b9bfa82a4780283c5426995b`.
 
 All bot edits must be made here first and then deployed to the VPS. Never
 treat a VPS bot folder as the only copy of a customization.
@@ -33,11 +33,11 @@ Current permanent features include:
   audio, capped at 60 MB, with bounded lookup, conversion and transfer times.
   `ffprobe` checks audio/video streams; `ffmpeg` converts incompatible video
   codecs to H.264/AAC for WhatsApp. Both programs must be installed on the VPS.
-- custom `.alive`, `.gid`, and `.vcf` commands
+- custom `.alive`, `.gid`, `.groupids`, `.mystatus`, `.gstatus`, and `.vcf` commands
 - group-restricted social and YouTube automatic downloads
 - `.autodownload on`, `.autodownload off`, and status controls
 - persistent `AUTO_STATUS_VIEW=no-dl` deployment defaults
-- disabled upstream auto-update and Levanter startup advertisement
+- disabled upstream auto-update and replaced the startup message with KENTECH AI branding
 - Download-group bot filtering is installed before the Baileys client starts.
   It deletes new messages from detected or manually silenced bot accounts,
   while allowing this account and ordinary members' download requests.
@@ -53,7 +53,7 @@ Current permanent features include:
 
 ## Deploy on a new VPS
 
-Owner commands use the original WhatsApp key (`message.message.key` in Levanter
+Owner commands use the original WhatsApp key (`message.message.key` in KENTECH AI
 6.1.7), with compatibility for older `data.key` messages. `.gid` shows the current
 group ID; `.groupids` lists groups where the connected account is an admin or
 owner; reply with `.mystatus` to post personal status to saved status contacts.
@@ -70,11 +70,17 @@ Deletion still requires WhatsApp to grant this account group-admin permission.
 
 Regression checks: `node --test lib/test/gstatus.test.js lib/test/download-group-guard.test.js`.
 
-Clone this project, create `config.env` from the example, add a newly generated
-session ID, and run:
+Clone this project on a VPS or Windows PC, create `config.env` from the example,
+add a newly generated session ID, and run the matching deployment script:
 
 ```bash
-bash deploy/deploy.sh /root/DIGITAL
+bash deploy/deploy.sh "$(pwd)"
+```
+
+On Windows PowerShell, run:
+
+```powershell
+.\deploy\deploy.ps1
 ```
 
 The script installs production dependencies, starts or restarts the PM2 app,

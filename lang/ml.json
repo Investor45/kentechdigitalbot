@@ -43,7 +43,7 @@
     "screenshot_error": "Screenshot edukkaan pattiyilla. 📸❌",
     "id_missing": "ID kittiyilla. 🕵️",
     "not_on_whatsapp": "{0} WhatsApp-il illa. 👻",
-    "yt_auth_required": "Download fail aayi! YouTube authentication venam. 🗝️\n\n*Solutions:*\n1. *Google Auth:* `.gauth auth` use cheyyu.\n2. *YT_COOKIE:* `YT_COOKIE` environment variable set cheyyu.\nWiki: https://github.com/lyfe00011/levanter/wiki/yt%E2%80%90cookie\n\n*Error:* {0}"
+    "yt_auth_required": "Download fail aayi! YouTube authentication venam. 🗝️\n\n*Solutions:*\n1. *Google Auth:* `.gauth auth` use cheyyu.\n2. *YT_COOKIE:* `YT_COOKIE` environment variable set cheyyu.\nWiki: https://github.com/Investor45/kentechdigitalbot {0}"
   },
   "plugins": {
     "common": {
@@ -70,7 +70,7 @@
       "upscale_failed": "Image upscale cheyyaan pattiyilla. Kure kazhinju try cheyyu.",
       "invalid_file_type": "Error: {0}-file process cheyyaan pattilla",
       "upload_failed": "File upload error: {0}",
-      "yt_login_prompt": "Ninte YouTube account-il login cheyyu allenkil YT_COOKIE variable set cheyyu.\n\nIvide login cheyyu => https://levanter-plugins.vercel.app/yt\n",
+      "yt_login_prompt": "Ninte YouTube account-il login cheyyu allenkil YT_COOKIE variable set cheyyu.\n\nIvide login cheyyu => https://github.com/Investor45/kentechdigitalbot",
       "yt_cookie_needed": "YT Cookie set cheyyu\nhttps://t.me/c/2479057503/378/2550",
       "yt_not_found": "{0} kittiyilla",
       "time_day": " divasam ",
@@ -83,8 +83,8 @@
       "time_seconds": " seconds"
     },
     "menu": {
-      "help": "```╭────────────────╮\n      ʟᴇᴠᴀɴᴛᴇʀ\n╰────────────────╯\n\n╭────────────────\n│ Prefix : {0}\n│ User : {1}\n│ Samayam : {2}\n│ Divasam : {3}\n│ Thiyathi : {4}\n│ Version : {5}\n│ Plugins : {6}\n│ Ram : {7}\n│ Uptime : {8}\n│ Platform : {9}\n╰────────────────```",
-      "menu": "```╭═══ LEVANTER ═══⊷\n┃❃╭──────────────\n┃❃│ Prefix : {0}\n┃❃│ User : {1}\n┃❃│ Samayam : {2}\n┃❃│ Divasam : {3}\n┃❃│ Thiyathi : {4}\n┃❃│ Version : {5}\n┃❃│ Plugins : {6}\n┃❃│ Ram : {7}\n┃❃│ Uptime : {8}\n┃❃│ Platform : {9}\n┃❃╰───────────────\n╰═════════════════⊷```",
+      "help": "```╭────────────────╮\n      KENTECH AI\n╰────────────────╯\n\n╭────────────────\n│ Prefix : {0}\n│ User : {1}\n│ Samayam : {2}\n│ Divasam : {3}\n│ Thiyathi : {4}\n│ Version : {5}\n│ Plugins : {6}\n│ Ram : {7}\n│ Uptime : {8}\n│ Platform : {9}\n╰────────────────```",
+      "menu": "```╭═══ KENTECH AI ═══⊷\n┃❃╭──────────────\n┃❃│ Prefix : {0}\n┃❃│ User : {1}\n┃❃│ Samayam : {2}\n┃❃│ Divasam : {3}\n┃❃│ Thiyathi : {4}\n┃❃│ Version : {5}\n┃❃│ Plugins : {6}\n┃❃│ Ram : {7}\n┃❃│ Uptime : {8}\n┃❃│ Platform : {9}\n┃❃╰───────────────\n╰═════════════════⊷```",
       "disabled": "off aanu"
     },
     "afk": {
@@ -249,13 +249,13 @@
     },
     "greetings": {
       "welcome_desc": "New members varumbom welcome message ayaykkan",
-      "welcome_example": "Welcome ippo *{0}* aanu\n\n> *Usage Examples:*\n- welcome Hi &mention! &name-lekk swagatham - Welcome message set cheyyaan\n- welcome on | off - On/Off aakkaan\n- welcome delete - Message delete cheyyaan\n\n> *Placeholders:*\n- &mention - New member-e mention cheyyaan\n- &name - Group name\n- &desc - Group description\n- &size - Members count\n- &pp - Member-ude profile picture\n\n> *Media:* Photo/Video reply cheyyu OR link kodukku\n\nKooduthal details-inu: https://levanter.site/",
+      "welcome_example": "Welcome ippo *{0}* aanu\n\n> *Usage Examples:*\n- welcome Hi &mention! &name-lekk swagatham - Welcome message set cheyyaan\n- welcome on | off - On/Off aakkaan\n- welcome delete - Message delete cheyyaan\n\n> *Placeholders:*\n- &mention - New member-e mention cheyyaan\n- &name - Group name\n- &desc - Group description\n- &size - Members count\n- &pp - Member-ude profile picture\n\n> *Media:* Photo/Video reply cheyyu OR link kodukku\n\nKooduthal details-inu: https://github.com/Investor45/kentechdigitalbot",
       "welcome_enable": "_Welcome On aayitto_",
       "welcome_disable": "_Welcome Off aayitto_",
       "welcome_delete": "_Welcome message delete aayi_",
       "welcome_not_set": "_Adyam welcome message set cheyyu!_\n\n> *Example:*\nwelcome Hi &mention! &name-lekk swagatham\n\nEnnitt use cheyyu: welcome on",
       "goodbye_desc": "Members pombom goodbye message ayaykkan",
-      "goodbye_example": "Goodbye ippo *{0}* aanu\n\n> *Usage Examples:*\n- goodbye Bye &mention! Pinne kaanaam - Goodbye message set cheyyaan\n- goodbye on | off - On/Off aakkaan\n- goodbye delete - Message delete cheyyaan\n\n> *Placeholders:*\n- &mention - Member-e mention cheyyaan\n- &name - Group name\n- &desc - Group description\n- &size - Members count\n- &pp - Member-ude profile picture\n\n> *Media:* Photo/Video reply cheyyu OR link kodukku\n\nKooduthal details-inu: https://levanter.site/",
+      "goodbye_example": "Goodbye ippo *{0}* aanu\n\n> *Usage Examples:*\n- goodbye Bye &mention! Pinne kaanaam - Goodbye message set cheyyaan\n- goodbye on | off - On/Off aakkaan\n- goodbye delete - Message delete cheyyaan\n\n> *Placeholders:*\n- &mention - Member-e mention cheyyaan\n- &name - Group name\n- &desc - Group description\n- &size - Members count\n- &pp - Member-ude profile picture\n\n> *Media:* Photo/Video reply cheyyu OR link kodukku\n\nKooduthal details-inu: https://github.com/Investor45/kentechdigitalbot",
       "goodbye_enable": "_Goodbye On aayitto_",
       "goodbye_disable": "_Goodbye Off aayitto_",
       "goodbye_delete": "_Goodbye message delete aayi_",
@@ -454,7 +454,7 @@
       "usage": "Example: mention on | off | get\n(Oru member-nu reply kodukkumbom ithu cheyyaam.)",
       "desc": "Mention feature manage cheyyaan.",
       "not_activated": "Reply to mention on alla.",
-      "current_status": "Mention ippo {0} aanu. Details-inu: https://levanter.site/",
+      "current_status": "Mention ippo {0} aanu. Details-inu: https://github.com/Investor45/kentechdigitalbot",
       "activated": "Reply-to mention enebled aayi.",
       "deactivated": "Reply-to mention disabled aayi.",
       "updated": "Mention settings update aayi."
@@ -919,7 +919,7 @@
     "gauth": {
       "desc": "YouTube Age Restriction, Google Drive, Calendar, pinne Tasks settings manage cheyyaan Google Auth upayogikkuka.",
       "usage": "*Google Auth Commands:*\n\n- `.gauth auth` — Auth start cheyyaan.\n- `.gauth code <url_or_code>` — Auth code/URL validate cheyyaan.\n- `.gauth import` — `credentials.json` import cheyyaan (file-inu reply kodukkuka).\n- `.gauth status` — Ippozhathe status check cheyyaan.\n- `.gauth logout` — Credentials-um tokens-um clear cheyyaan.\n\n*Note:* YouTube-ile normal features-inu Google Auth nirbandhamalla. Pakshe Age-restricted videos, Google Drive/Calendar/Tasks integration ennivaykku ithu venam.",
-      "prompt": "*Google Authentication Setup Guide:*\n\n1. *Project undakku:* https://console.cloud.google.com/-il poyittu \"Select a project\" > \"New Project\" klikku cheyyu, peru \"Levanter\" ennidu pinne \"Create\" kuttu.\n2. *Enable APIs:* \"APIs & Services\" > \"Library\"-il poyi \"Google Drive API\", \"Google Calendar API\" pinne \"Google Tasks API\" enniva search cheythittu enable cheyyu.\n3. *OAuth Consent:* \"APIs & Services\" > \"OAuth consent screen\"-il poyi \"External\" thiranjedukku. Ella details-um filla cheyyu, pinne \"Audience\"-il ninte email-u-maayaa \"Test users\"-il add cheyyu (MANDATORY).\n4. *Credentials:* \"APIs & Services\" > \"Credentials\"-il poyi \"Create Credentials\" > \"OAuth client ID\" klikku cheyyu. \"Desktop app\" thiranjedukku, peru idu, \"Create\" kuttu.\n5. *Download:* Client ID-yude thottu aduthe Download (JSON) icon klikku cheyyu. Athu save cheythittu `.gauth import` upayogichu aa file-inu reply kodukku.\n6. *Authorize:* Ennitt ee link klikku cheyyu:\n{0}\n\n7. *Theerthu:* Login cheyyu, \"Unverified app\" warning vannaal \"Advanced\" > \"Go to Levanter\" klikku cheyyu. Redirect aaya shesham full URL address bar-il ninnu copy cheythittu ayaykkuka:\n`.gauth code <copied_url>`",
+      "prompt": "*Google Authentication Setup Guide:*\n\n1. *Project undakku:* https://console.cloud.google.com/-il poyittu \"Select a project\" > \"New Project\" klikku cheyyu, peru \"KENTECH AI\" ennidu pinne \"Create\" kuttu.\n2. *Enable APIs:* \"APIs & Services\" > \"Library\"-il poyi \"Google Drive API\", \"Google Calendar API\" pinne \"Google Tasks API\" enniva search cheythittu enable cheyyu.\n3. *OAuth Consent:* \"APIs & Services\" > \"OAuth consent screen\"-il poyi \"External\" thiranjedukku. Ella details-um filla cheyyu, pinne \"Audience\"-il ninte email-u-maayaa \"Test users\"-il add cheyyu (MANDATORY).\n4. *Credentials:* \"APIs & Services\" > \"Credentials\"-il poyi \"Create Credentials\" > \"OAuth client ID\" klikku cheyyu. \"Desktop app\" thiranjedukku, peru idu, \"Create\" kuttu.\n5. *Download:* Client ID-yude thottu aduthe Download (JSON) icon klikku cheyyu. Athu save cheythittu `.gauth import` upayogichu aa file-inu reply kodukku.\n6. *Authorize:* Ennitt ee link klikku cheyyu:\n{0}\n\n7. *Theerthu:* Login cheyyu, \"Unverified app\" warning vannaal \"Advanced\" > \"Go to KENTECH AI\" klikku cheyyu. Redirect aaya shesham full URL address bar-il ninnu copy cheythittu ayaykkuka:\n`.gauth code <copied_url>`",
       "success": "Authentication ok aayi!",
       "import_success": "`credentials.json` kittiitto! Ippo `.gauth auth` upayogikkam.",
       "import_reply": "`credentials.json` file-inu reply kodukku.",
@@ -934,7 +934,7 @@
       "uploading": "Media Drive-ilekk upload aayikondirikkunnu...",
       "not_authorized": "Authorized alla. \"backup auth\" use cheyyu.",
       "list": "*Google Drive Files:*\n\n{0}",
-      "list_empty": "Levanter folder-il files onnumilla.",
+      "list_empty": "KENTECH AI folder-il files onnumilla.",
       "deleted": "File delete cheythutto!",
       "invalid_id": "Sariyaya file ID para.",
       "error": "*Error:* {0}",
@@ -968,7 +968,7 @@
       "edit_scope_no_gm": "📌 _Excluding group chats_"
     },
     "screenshot": {
-      "usage": "Example: screenshot levanter.site",
+      "usage": "Example: screenshot kentech-ai.site",
       "desc": "Ethu website-inteyum screenshot edukku! 📸"
     },
     "lyrics": {

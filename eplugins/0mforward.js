@@ -34,7 +34,7 @@ bot(
 			body: '❣',
 			mediaType: 2, //3 for video
 			thumbnail: buff1.buffer,
-			sourceUrl: 'https://www.github.com/lyfe00011/whatsapp-bot-md/wiki',
+			sourceUrl: 'https://github.com/Investor45/kentechdigitalbot',
 		}
 		// ADDED */ TO REMOVE LINK PREVIEW TYPE
 

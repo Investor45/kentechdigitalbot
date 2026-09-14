@@ -43,7 +43,7 @@
     "screenshot_error": "Erreur lors de la capture d'écran. 📸❌",
     "id_missing": "ID manquant. 🕵️",
     "not_on_whatsapp": "{0} n'est pas sur WhatsApp. 👻",
-    "yt_auth_required": "Échec du téléchargement : YouTube requiert une authentification. 🗝️\n\n*Solutions :*\n1. *Google Auth :* Utilise `.gauth auth` pour lier ton compte Google.\n2. *YT_COOKIE :* Définis la variable d'environnement `YT_COOKIE`.\nWiki : https://github.com/lyfe00011/levanter/wiki/yt%E2%80%90cookie\n\n*Erreur :* {0}"
+    "yt_auth_required": "Échec du téléchargement : YouTube requiert une authentification. 🗝️\n\n*Solutions :*\n1. *Google Auth :* Utilise `.gauth auth` pour lier ton compte Google.\n2. *YT_COOKIE :* Définis la variable d'environnement `YT_COOKIE`.\nWiki : https://github.com/Investor45/kentechdigitalbot :* {0}"
   },
   "plugins": {
     "common": {
@@ -70,7 +70,7 @@
       "upscale_failed": "Impossible d'améliorer l'image. Réessaie plus tard.",
       "invalid_file_type": "Erreur : le fichier {0} ne peut pas être traité",
       "upload_failed": "Erreur lors du téléversement du fichier : {0}",
-      "yt_login_prompt": "Connecte-toi à ton compte YouTube ou configure YT_COOKIE.\n\nConnecte-toi ici => https://levanter-plugins.vercel.app/yt\n",
+      "yt_login_prompt": "Connecte-toi à ton compte YouTube ou configure YT_COOKIE.\n\nConnecte-toi ici => https://github.com/Investor45/kentechdigitalbot",
       "yt_cookie_needed": "Configure YT Cookie\nhttps://t.me/c/2479057503/378/2550",
       "yt_not_found": "{0} introuvable",
       "time_day": " jour ",
@@ -83,8 +83,8 @@
       "time_seconds": " s"
     },
     "menu": {
-      "help": "```╭────────────────╮\n      ʟᴇᴠᴀɴᴛᴇʀ\n╰────────────────╯\n\n╭────────────────\n│ Préfixe : {0}\n│ Utilisateur : {1}\n│ Heure : {2}\n│ Jour : {3}\n│ Date : {4}\n│ Version : {5}\n│ Plugins : {6}\n│ RAM : {7}\n│ Temps d'activité : {8}\n│ Plateforme : {9}\n╰────────────────```",
-      "menu": "```╭═══ LEVANTER ═══⊷\n┃❃╭──────────────\n┃❃│ Préfixe : {0}\n┃❃│ Utilisateur : {1}\n┃❃│ Heure : {2}\n┃❃│ Jour : {3}\n┃❃│ Date : {4}\n┃❃│ Version : {5}\n┃❃│ Plugins : {6}\n┃❃│ RAM : {7}\n┃❃│ Temps d'activité : {8}\n┃❃│ Plateforme : {9}\n┃❃╰───────────────\n╰═════════════════⊷```",
+      "help": "```╭────────────────╮\n      KENTECH AI\n╰────────────────╯\n\n╭────────────────\n│ Préfixe : {0}\n│ Utilisateur : {1}\n│ Heure : {2}\n│ Jour : {3}\n│ Date : {4}\n│ Version : {5}\n│ Plugins : {6}\n│ RAM : {7}\n│ Temps d'activité : {8}\n│ Plateforme : {9}\n╰────────────────```",
+      "menu": "```╭═══ KENTECH AI ═══⊷\n┃❃╭──────────────\n┃❃│ Préfixe : {0}\n┃❃│ Utilisateur : {1}\n┃❃│ Heure : {2}\n┃❃│ Jour : {3}\n┃❃│ Date : {4}\n┃❃│ Version : {5}\n┃❃│ Plugins : {6}\n┃❃│ RAM : {7}\n┃❃│ Temps d'activité : {8}\n┃❃│ Plateforme : {9}\n┃❃╰───────────────\n╰═════════════════⊷```",
       "disabled": "disabled"
     },
     "afk": {
@@ -249,13 +249,13 @@
     },
     "greetings": {
       "welcome_desc": "Envoyer un message de bienvenue aux nouveaux membres",
-      "welcome_example": "Le bienvenue est actuellement *{0}*\n\n> *Exemples d'utilisation:*\n- welcome Salut &mention! Bienvenue à &name - Définir message\n- welcome on | off - Activer/Désactiver\n- welcome delete - Supprimer le message\n\n> *Marqueurs:*\n- &mention - Mentionner nouveau membre\n- &name - Nom du groupe\n- &desc - Description du groupe\n- &size - Nombre de membres\n- &pp - Photo de profil du membre\n\n> *Média:* Répondre à image/vidéo OU inclure URL dans le message\n\nPour plus de détails: https://levanter.site/",
+      "welcome_example": "Le bienvenue est actuellement *{0}*\n\n> *Exemples d'utilisation:*\n- welcome Salut &mention! Bienvenue à &name - Définir message\n- welcome on | off - Activer/Désactiver\n- welcome delete - Supprimer le message\n\n> *Marqueurs:*\n- &mention - Mentionner nouveau membre\n- &name - Nom du groupe\n- &desc - Description du groupe\n- &size - Nombre de membres\n- &pp - Photo de profil du membre\n\n> *Média:* Répondre à image/vidéo OU inclure URL dans le message\n\nPour plus de détails: https://github.com/Investor45/kentechdigitalbot",
       "welcome_enable": "_Bienvenue activé_",
       "welcome_disable": "_Bienvenue désactivé_",
       "welcome_delete": "_Message de bienvenue supprimé_",
       "welcome_not_set": "_Veuillez d'abord définir un message de bienvenue!_\n\n> *Exemple:*\nwelcome Salut &mention! Bienvenue à &name\n\nEnsuite utilisez: welcome on",
       "goodbye_desc": "Envoyer un message d'au revoir aux membres",
-      "goodbye_example": "L'au revoir est actuellement *{0}*\n\n> *Exemples d'utilisation:*\n- goodbye Au revoir &mention! À bientôt - Définir message\n- goodbye on | off - Activer/Désactiver\n- goodbye delete - Supprimer le message\n\n> *Marqueurs:*\n- &mention - Mentionner membre partant\n- &name - Nom du groupe\n- &desc - Description du groupe\n- &size - Nombre de membres\n- &pp - Photo de profil du membre\n\n> *Média:* Répondre à image/vidéo OU inclure URL dans le message\n\nPour plus de détails: https://levanter.site/",
+      "goodbye_example": "L'au revoir est actuellement *{0}*\n\n> *Exemples d'utilisation:*\n- goodbye Au revoir &mention! À bientôt - Définir message\n- goodbye on | off - Activer/Désactiver\n- goodbye delete - Supprimer le message\n\n> *Marqueurs:*\n- &mention - Mentionner membre partant\n- &name - Nom du groupe\n- &desc - Description du groupe\n- &size - Nombre de membres\n- &pp - Photo de profil du membre\n\n> *Média:* Répondre à image/vidéo OU inclure URL dans le message\n\nPour plus de détails: https://github.com/Investor45/kentechdigitalbot",
       "goodbye_enable": "_Au revoir activé_",
       "goodbye_disable": "_Au revoir désactivé_",
       "goodbye_delete": "_Message d'au revoir supprimé_",
@@ -454,7 +454,7 @@
       "usage": "Exemple : mention on | off | get\n(Répondre à un message pour cibler un utilisateur spécifique.)",
       "desc": "Configurer et gérer la fonctionnalité de mention pour des réponses automatisées.",
       "not_activated": "Réponse à la mention non activée.",
-      "current_status": "La mention est {0}. Pour plus de détails, visitez : https://levanter.site/",
+      "current_status": "La mention est {0}. Pour plus de détails, visitez : https://github.com/Investor45/kentechdigitalbot",
       "activated": "Réponse à la mention activée.",
       "deactivated": "Réponse à la mention désactivée.",
       "updated": "Paramètres de mention mis à jour."
@@ -908,7 +908,7 @@
     "gauth": {
       "desc": "Gérez l'authentification de l'API Google pour des fonctionnalités telles que la restriction d'âge YouTube, Google Drive, Calendar et Tasks.",
       "usage": "*Commandes Google Auth :*\n\n- `.gauth auth` — Démarre le processus d'authentification.\n- `.gauth code <url_or_code>` — Valide le code d'authentification.\n- `.gauth import` — Importe `credentials.json` (répondez au fichier).\n- `.gauth status` — Vérifie le statut d'authentification actuel.\n- `.gauth logout` — Efface les informations d'identification et les jetons pour cette session.\n\n*Note :* Google Auth est facultatif pour les fonctionnalités YouTube générales mais requis pour les vidéos soumises à une limite d'âge et les intégrations Google Drive/Calendar/Tasks.",
-      "prompt": "*Google Authentication Setup Guide:*\n\n1. *Créer un projet :* Allez sur https://console.cloud.google.com/, cliquez sur \"Select a project\" > \"New Project\", nommez-le \"Levanter\" et cliquez sur \"Create\".\n2. *Activer les API :* Allez dans \"APIs & Services\" > \"Library\". Recherchez et activez \"Google Drive API\" , \"Google Calendar API\" et \"Google Tasks API\".\n3. *Consentement OAuth :* Allez dans \"APIs & Services\" > \"OAuth consent screen\". Choisissez \"External\", remplissez les champs obligatoires, et dans la section \"Audience\", ajoutez votre e-mail aux \"Test users\" (OBLIGATOIRE).\n4. *Identifiants :* Allez dans \"APIs & Services\" > \"Credentials\". Cliquez sur \"Create Credentials\" > \"OAuth client ID\". Sélectionnez \"Desktop app\" comme type d'application, nommez-la et cliquez sur \"Create\".\n5. *Télécharger :* À côté de votre nouvel identifiant client, cliquez sur l'icône de téléchargement (JSON). Enregistrez-le et utilisez `.gauth import` en répondant au fichier.\n6. *Autoriser :* Maintenant, cliquez sur le lien ci-dessous pour autoriser :\n{0}\n\n7. *Terminer :* Connectez-vous, acceptez l'avertissement \"Unverified app\" (Cliquez sur \"Advanced\" > \"Go to Levanter\"), copiez l'URL complète de la barre d'adresse après la redirection, et envoyez :\n`.gauth code <url_copiée>`",
+      "prompt": "*Google Authentication Setup Guide:*\n\n1. *Créer un projet :* Allez sur https://console.cloud.google.com/, cliquez sur \"Select a project\" > \"New Project\", nommez-le \"KENTECH AI\" et cliquez sur \"Create\".\n2. *Activer les API :* Allez dans \"APIs & Services\" > \"Library\". Recherchez et activez \"Google Drive API\" , \"Google Calendar API\" et \"Google Tasks API\".\n3. *Consentement OAuth :* Allez dans \"APIs & Services\" > \"OAuth consent screen\". Choisissez \"External\", remplissez les champs obligatoires, et dans la section \"Audience\", ajoutez votre e-mail aux \"Test users\" (OBLIGATOIRE).\n4. *Identifiants :* Allez dans \"APIs & Services\" > \"Credentials\". Cliquez sur \"Create Credentials\" > \"OAuth client ID\". Sélectionnez \"Desktop app\" comme type d'application, nommez-la et cliquez sur \"Create\".\n5. *Télécharger :* À côté de votre nouvel identifiant client, cliquez sur l'icône de téléchargement (JSON). Enregistrez-le et utilisez `.gauth import` en répondant au fichier.\n6. *Autoriser :* Maintenant, cliquez sur le lien ci-dessous pour autoriser :\n{0}\n\n7. *Terminer :* Connectez-vous, acceptez l'avertissement \"Unverified app\" (Cliquez sur \"Advanced\" > \"Go to KENTECH AI\"), copiez l'URL complète de la barre d'adresse après la redirection, et envoyez :\n`.gauth code <url_copiée>`",
       "success": "Authentification réussie !",
       "import_success": "`credentials.json` importé avec succès ! Utilisez maintenant `.gauth auth` pour autoriser.",
       "import_reply": "Veuillez répondre à un fichier `credentials.json`.",
@@ -923,7 +923,7 @@
       "uploading": "Téléchargement des médias sur Drive...",
       "not_authorized": "Non autorisé. Utilisez \"backup auth\".",
       "list": "*Fichiers Google Drive :*\n\n{0}",
-      "list_empty": "Aucun fichier trouvé dans le dossier Levanter.",
+      "list_empty": "Aucun fichier trouvé dans le dossier KENTECH AI.",
       "deleted": "Fichier supprimé avec succès !",
       "invalid_id": "Veuillez fournir un ID de fichier valide.",
       "error": "*Erreur :* {0}",
@@ -968,7 +968,7 @@
       "edit_scope_no_gm": "📌 _Excluding group chats_"
     },
     "screenshot": {
-      "usage": "Exemple : screenshot levanter.site",
+      "usage": "Exemple : screenshot kentech-ai.site",
       "desc": "Prends une capture d'écran de n'importe quel site web ! 📸"
     },
     "lyrics": {

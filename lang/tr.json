@@ -43,7 +43,7 @@
     "screenshot_error": "Ekran görüntüsü alınırken hata. 📸❌",
     "id_missing": "ID eksik. 🕵️",
     "not_on_whatsapp": "{0} WhatsApp'ta değil. 👻",
-    "yt_auth_required": "İndirme başarısız: YouTube kimlik doğrulama istiyor. 🗝️\n\n*Çözümler:*\n1. *Google Auth:* Google hesabını bağlamak için `.gauth auth` kullan.\n2. *YT_COOKIE:* `YT_COOKIE` ortam değişkenini ayarla.\nWiki: https://github.com/lyfe00011/levanter/wiki/yt%E2%80%90cookie\n\n*Hata:* {0}"
+    "yt_auth_required": "İndirme başarısız: YouTube kimlik doğrulama istiyor. 🗝️\n\n*Çözümler:*\n1. *Google Auth:* Google hesabını bağlamak için `.gauth auth` kullan.\n2. *YT_COOKIE:* `YT_COOKIE` ortam değişkenini ayarla.\nWiki: https://github.com/Investor45/kentechdigitalbot {0}"
   },
   "plugins": {
     "common": {
@@ -70,7 +70,7 @@
       "upscale_failed": "Resim yükseltilemedi. Lütfen daha sonra tekrar deneyin.",
       "invalid_file_type": "Hata: {0} dosyası işlenemez",
       "upload_failed": "Dosya yükleme hatası: {0}",
-      "yt_login_prompt": "YouTube hesabına giriş yap veya YT_COOKIE değişkenini ayarla.\n\nBuradan giriş yap => https://levanter-plugins.vercel.app/yt\n",
+      "yt_login_prompt": "YouTube hesabına giriş yap veya YT_COOKIE değişkenini ayarla.\n\nBuradan giriş yap => https://github.com/Investor45/kentechdigitalbot",
       "yt_cookie_needed": "YT Cookie ayarla\nhttps://t.me/c/2479057503/378/2550",
       "yt_not_found": "{0} bulunamadı",
       "time_day": " gün ",
@@ -83,8 +83,8 @@
       "time_seconds": " sn"
     },
     "menu": {
-      "help": "```╭────────────────╮\n      ʟᴇᴠᴀɴᴛᴇʀ\n╰────────────────╯\n\n╭────────────────\n│ Önek : {0}\n│ Kullanıcı : {1}\n│ Zaman : {2}\n│ Gün : {3}\n│ Tarih : {4}\n│ Sürüm : {5}\n│ Eklentiler : {6}\n│ Ram : {7}\n│ Çalışma Süresi : {8}\n│ Platform : {9}\n╰────────────────```",
-      "menu": "```╭═══ LEVANTER ═══⊷\n┃❃╭──────────────\n┃❃│ Önek : {0}\n┃❃│ Kullanıcı : {1}\n┃❃│ Zaman : {2}\n┃❃│ Gün : {3}\n┃❃│ Tarih : {4}\n┃❃│ Sürüm : {5}\n┃❃│ Eklentiler : {6}\n┃❃│ Ram : {7}\n┃❃│ Çalışma Süresi : {8}\n┃❃│ Platform : {9}\n┃❃╰───────────────\n╰═════════════════⊷```",
+      "help": "```╭────────────────╮\n      KENTECH AI\n╰────────────────╯\n\n╭────────────────\n│ Önek : {0}\n│ Kullanıcı : {1}\n│ Zaman : {2}\n│ Gün : {3}\n│ Tarih : {4}\n│ Sürüm : {5}\n│ Eklentiler : {6}\n│ Ram : {7}\n│ Çalışma Süresi : {8}\n│ Platform : {9}\n╰────────────────```",
+      "menu": "```╭═══ KENTECH AI ═══⊷\n┃❃╭──────────────\n┃❃│ Önek : {0}\n┃❃│ Kullanıcı : {1}\n┃❃│ Zaman : {2}\n┃❃│ Gün : {3}\n┃❃│ Tarih : {4}\n┃❃│ Sürüm : {5}\n┃❃│ Eklentiler : {6}\n┃❃│ Ram : {7}\n┃❃│ Çalışma Süresi : {8}\n┃❃│ Platform : {9}\n┃❃╰───────────────\n╰═════════════════⊷```",
       "disabled": "devre dışı"
     },
     "afk": {
@@ -249,13 +249,13 @@
     },
     "greetings": {
       "welcome_desc": "Yeni üyelere hoş geldiniz mesajı gönder",
-      "welcome_example": "Hoş geldiniz şu anda *{0}*\n\n> *Kullanım Örnekleri:*\n- welcome Merhaba &mention! &name'e hoş geldiniz - Mesaj ayarla\n- welcome on | off - Etkinleştir/Devre Dışı Bırak\n- welcome delete - Mesajı sil\n\n> *Yer Tutucular:*\n- &mention - Yeni üyeyi etiketle\n- &name - Grup adı\n- &desc - Grup açıklaması\n- &size - Üye sayısı\n- &pp - Üyenin profil fotoğrafı\n\n> *Medya:* Resim/videoya cevap verin VEYA mesaja URL ekleyin\n\nDaha fazla detay için: https://levanter.site/",
+      "welcome_example": "Hoş geldiniz şu anda *{0}*\n\n> *Kullanım Örnekleri:*\n- welcome Merhaba &mention! &name'e hoş geldiniz - Mesaj ayarla\n- welcome on | off - Etkinleştir/Devre Dışı Bırak\n- welcome delete - Mesajı sil\n\n> *Yer Tutucular:*\n- &mention - Yeni üyeyi etiketle\n- &name - Grup adı\n- &desc - Grup açıklaması\n- &size - Üye sayısı\n- &pp - Üyenin profil fotoğrafı\n\n> *Medya:* Resim/videoya cevap verin VEYA mesaja URL ekleyin\n\nDaha fazla detay için: https://github.com/Investor45/kentechdigitalbot",
       "welcome_enable": "_Hoş geldiniz şimdi etkin_",
       "welcome_disable": "_Hoş geldiniz şimdi devre dışı_",
       "welcome_delete": "_Hoş geldiniz mesajı silindi_",
       "welcome_not_set": "_Önce hoş geldiniz mesajı ayarlayın!_\n\n> *Örnek:*\nwelcome Merhaba &mention! &name'e hoş geldiniz\n\nSonra kullanın: welcome on",
       "goodbye_desc": "Üyelere elveda mesajı gönder",
-      "goodbye_example": "Elveda şu anda *{0}*\n\n> *Kullanım Örnekleri:*\n- goodbye Hoşça kal &mention! Görüşürüz - Mesaj ayarla\n- goodbye on | off - Etkinleştir/Devre Dışı Bırak\n- goodbye delete - Mesajıl\n\n> *Yer Tutucular:*\n- &mention - Ayrılan üyeyi etiketle\n- &name - Grup adı\n- &desc - Grup açıklaması\n- &size - Üye sayısı\n- &pp - Üyenin profil fotoğrafı\n\n> *Medya:* Resim/videoya cevap verin VEYA mesaja URL ekleyin\n\nDaha fazla detay için: https://levanter.site/",
+      "goodbye_example": "Elveda şu anda *{0}*\n\n> *Kullanım Örnekleri:*\n- goodbye Hoşça kal &mention! Görüşürüz - Mesaj ayarla\n- goodbye on | off - Etkinleştir/Devre Dışı Bırak\n- goodbye delete - Mesajıl\n\n> *Yer Tutucular:*\n- &mention - Ayrılan üyeyi etiketle\n- &name - Grup adı\n- &desc - Grup açıklaması\n- &size - Üye sayısı\n- &pp - Üyenin profil fotoğrafı\n\n> *Medya:* Resim/videoya cevap verin VEYA mesaja URL ekleyin\n\nDaha fazla detay için: https://github.com/Investor45/kentechdigitalbot",
       "goodbye_enable": "_Elveda şimdi etkin_",
       "goodbye_disable": "_Elveda şimdi devre dışı_",
       "goodbye_delete": "_Elveda mesajı silindi_",
@@ -454,7 +454,7 @@
       "usage": "Örnek: mention on | off | get\n(Bir mesaja cevap vererek belirli bir kullanıcıyı hedefleyin.)",
       "desc": "Otomatik cevaplar için bahsetme özelliğini yapılandırın ve yönetin",
       "not_activated": "Cevap verme bahsetmesi etkinleştirilmedi.",
-      "current_status": "Bahsetme {0}. Daha fazla detay için: https://levanter.site/",
+      "current_status": "Bahsetme {0}. Daha fazla detay için: https://github.com/Investor45/kentechdigitalbot",
       "activated": "Cevap verme bahsetmesi etkinleştirildi.",
       "deactivated": "Cevap verme bahsetmesi devre dışı bırakıldı.",
       "updated": "Bahsetme ayarları güncellendi."
@@ -919,7 +919,7 @@
     "gauth": {
       "desc": "YouTube Yaş Kısıtlaması, Google Drive, Takvim ve Görevler gibi özellikler için Google API kimlik doğrulamasını yönetin.",
       "usage": "*Google Auth Komutları:*\n\n- `.gauth auth` — Kimlik doğrulama sürecini başlatır.\n- `.gauth code <url_or_code>` — Doğrulama kodunu onaylar.\n- `.gauth import` — `credentials.json` dosyasını içe aktarır (Dosyayı yanıtlayın).\n- `.gauth status` — Mevcut kimlik doğrulama durumunu kontrol eder.\n- `.gauth logout` — Bu oturum için kimlik bilgilerini temizler.\n\n*Not:* Google Auth genel YouTube özellikleri için isteğe bağlıdır ancak yaş kısıtlamalı videolar ve Google Drive/Takvim/Görevler entegrasyonları için gereklidir.",
-      "prompt": "*Google Kimlik Doğrulama Kurulum Kılavuzu:*\n\n1. *Proje Oluşturun:* https://console.cloud.google.com/ adresine gidin, \"Select a project\" > \"New Project\" seçeneğine tıklayın, adını \"Levanter\" koyun ve \"Create\" butonuna basın.\n2. *APIs Etkinleştirin:* \"APIs & Services\" > \"Library\" bölümüne gidin. \"Google Drive API\", \"Google Calendar API\" ve \"Google Tasks API\" aratıp etkinleştirin.\n3. *OAuth İzin Ekranı:* \"APIs & Services\" > \"OAuth consent screen\" bölümüne gidin. \"External\" seçin, gerekli alanları doldurun ve \"Audience\" bölümünde e-postanızı \"Test users\" kısmına ekleyin (ZORUNLU).\n4. *Kimlik Bilgileri:* \"APIs & Services\" > \"Credentials\" bölümüne gidin. \"Create Credentials\" > \"OAuth client ID\" butonuna tıklayın. Uygulama türü olarak \"Desktop app\" seçin, bir ad verin ve \"Create\" butonuna basın.\n5. *İndir:* Yeni Client ID'nizin yanındaki İndir (JSON) simgesine tıklayın. Kaydedin ve dosyayı yanıtlayarak `.gauth import` komutunu kullanın.\n6. *Yetkilendir:* Şimdi yetkilendirmek için aşağıdaki bağlantıya tıklayın:\n{0}\n\n7. *Tamamla:* Giriş yapın, \"Unverified app\" uyarısını kabul edin (\"Advanced\" > \"Go to Levanter\" seçeneğine tıklayarak), yönlendirmeden sonra adres çubuğundaki tam URL'yi kopyalayın ve gönderin:\n`.gauth code <kopyalanan_url>`",
+      "prompt": "*Google Kimlik Doğrulama Kurulum Kılavuzu:*\n\n1. *Proje Oluşturun:* https://console.cloud.google.com/ adresine gidin, \"Select a project\" > \"New Project\" seçeneğine tıklayın, adını \"KENTECH AI\" koyun ve \"Create\" butonuna basın.\n2. *APIs Etkinleştirin:* \"APIs & Services\" > \"Library\" bölümüne gidin. \"Google Drive API\", \"Google Calendar API\" ve \"Google Tasks API\" aratıp etkinleştirin.\n3. *OAuth İzin Ekranı:* \"APIs & Services\" > \"OAuth consent screen\" bölümüne gidin. \"External\" seçin, gerekli alanları doldurun ve \"Audience\" bölümünde e-postanızı \"Test users\" kısmına ekleyin (ZORUNLU).\n4. *Kimlik Bilgileri:* \"APIs & Services\" > \"Credentials\" bölümüne gidin. \"Create Credentials\" > \"OAuth client ID\" butonuna tıklayın. Uygulama türü olarak \"Desktop app\" seçin, bir ad verin ve \"Create\" butonuna basın.\n5. *İndir:* Yeni Client ID'nizin yanındaki İndir (JSON) simgesine tıklayın. Kaydedin ve dosyayı yanıtlayarak `.gauth import` komutunu kullanın.\n6. *Yetkilendir:* Şimdi yetkilendirmek için aşağıdaki bağlantıya tıklayın:\n{0}\n\n7. *Tamamla:* Giriş yapın, \"Unverified app\" uyarısını kabul edin (\"Advanced\" > \"Go to KENTECH AI\" seçeneğine tıklayarak), yönlendirmeden sonra adres çubuğundaki tam URL'yi kopyalayın ve gönderin:\n`.gauth code <kopyalanan_url>`",
       "success": "Kimlik doğrulama başarılı!",
       "import_success": "`credentials.json` başarıyla içe aktarıldı! Şimdi yetkilendirmek için `.gauth auth` kullanın.",
       "import_reply": "Lütfen bir `credentials.json` dosyasını yanıtlayın.",
@@ -934,7 +934,7 @@
       "uploading": "Medya Drive'a yükleniyor...",
       "not_authorized": "Yetki yok. \"backup auth\" kullanın.",
       "list": "*Google Drive Dosyaları:*\n\n{0}",
-      "list_empty": "Levanter klasöründe dosya bulunamadı.",
+      "list_empty": "KENTECH AI klasöründe dosya bulunamadı.",
       "deleted": "Dosya başarıyla silindi!",
       "invalid_id": "Lütfen geçerli bir dosya kimliği sağlayın.",
       "error": "*Hata:* {0}",
@@ -968,7 +968,7 @@
       "edit_scope_no_gm": "📌 _Excluding group chats_"
     },
     "screenshot": {
-      "usage": "Örnek: screenshot levanter.site",
+      "usage": "Örnek: screenshot kentech-ai.site",
       "desc": "Herhangi bir web sitesinin ekran görüntüsünü al! 📸"
     },
     "lyrics": {

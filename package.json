@@ -1,14 +1,14 @@
 {
-  "name": "levanter",
+  "name": "kentech-ai-whatsapp-bot",
   "version": "6.0.3",
-  "description": "Levanter — a powerful multi-session WhatsApp bot built on Baileys, with a plugin system, group moderation, media tools, and an API for sending and receiving messages via webhooks.",
+  "description": "KENTECH AI self-hosted WhatsApp bot with group moderation, media tools, status commands, plugins and API support.",
   "keywords": [
     "whatsapp",
     "whatsapp-bot",
     "whatsapp-api",
     "whatsapp-automation",
     "baileys",
-    "levanter",
+    "kentech-ai",
     "wa-bot",
     "chatbot",
     "bot",
@@ -24,9 +24,9 @@
   ],
   "main": "index.js",
   "scripts": {
-    "start": "pm2 start . --attach --name levanter",
-    "docker": "pm2-runtime start . --name levanter",
-    "stop": "pm2 stop levanter",
+    "start": "pm2 start . --attach --name kentech-ai",
+    "docker": "pm2-runtime start . --name kentech-ai",
+    "stop": "pm2 stop kentech-ai",
     "postinstall": "node -e \"try { require('sharp') } catch (e) { process.exit(1); }\" || yarn add --ignore-engines sharp@0.34.5"
   },
   "author": "",
@@ -49,7 +49,6 @@
     "google-tts-api": "^2.0.2",
     "googleapis": "^126.0.1",
     "googlevideo": "^4.0.4",
-    "heroku-client": "^3.1.0",
     "jimp": "^0.16.1",
     "jsdom": "^27.2.0",
     "link-preview-js": "^3.0.4",

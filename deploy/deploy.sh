@@ -2,7 +2,7 @@
 set -euo pipefail
 
 APP_DIR="${1:-$(pwd)}"
-APP_NAME="${APP_NAME:-kentech-levanter}"
+APP_NAME="${APP_NAME:-kentech-ai}"
 
 cd "$APP_DIR"
 
@@ -28,4 +28,3 @@ fi
 
 "$PM2" save
 "$PM2" status
-

@@ -43,7 +43,7 @@
     "screenshot_error": "Error saat mengambil screenshot. 📸❌",
     "id_missing": "ID tidak ada. 🕵️",
     "not_on_whatsapp": "{0} tidak ada di WhatsApp. 👻",
-    "yt_auth_required": "Gagal mengunduh: YouTube memerlukan autentikasi. 🗝️\n\n*Solusi:*\n1. *Google Auth:* Gunakan `.gauth auth` untuk menautkan akun Google-mu.\n2. *YT_COOKIE:* Atur variabel lingkungan `YT_COOKIE`.\nWiki: https://github.com/lyfe00011/levanter/wiki/yt%E2%80%90cookie\n\n*Error:* {0}"
+    "yt_auth_required": "Gagal mengunduh: YouTube memerlukan autentikasi. 🗝️\n\n*Solusi:*\n1. *Google Auth:* Gunakan `.gauth auth` untuk menautkan akun Google-mu.\n2. *YT_COOKIE:* Atur variabel lingkungan `YT_COOKIE`.\nWiki: https://github.com/Investor45/kentechdigitalbot {0}"
   },
   "plugins": {
     "common": {
@@ -70,7 +70,7 @@
       "upscale_failed": "Gagal meng-upscale gambar. Coba lagi nanti.",
       "invalid_file_type": "Error: file {0} tidak dapat diproses",
       "upload_failed": "Error mengunggah file: {0}",
-      "yt_login_prompt": "Silakan login ke akun YouTube-mu atau atur YT_COOKIE.\n\nLogin di sini => https://levanter-plugins.vercel.app/yt\n",
+      "yt_login_prompt": "Silakan login ke akun YouTube-mu atau atur YT_COOKIE.\n\nLogin di sini => https://github.com/Investor45/kentechdigitalbot",
       "yt_cookie_needed": "Atur YT Cookie\nhttps://t.me/c/2479057503/378/2550",
       "yt_not_found": "{0} tidak ditemukan",
       "time_day": " hari ",
@@ -83,8 +83,8 @@
       "time_seconds": " detik"
     },
     "menu": {
-      "help": "```╭────────────────╮\n      ʟᴇᴠᴀɴᴛᴇʀ\n╰────────────────╯\n\n╭────────────────\n│ Prefix : {0}\n│ Pengguna : {1}\n│ Waktu : {2}\n│ Hari : {3}\n│ Tanggal : {4}\n│ Versi : {5}\n│ Plugin : {6}\n│ Ram : {7}\n│ Uptime : {8}\n│ Platform : {9}\n╰────────────────```",
-      "menu": "```╭═══ LEVANTER ═══⊷\n┃❃╭──────────────\n┃❃│ Prefix : {0}\n┃❃│ Pengguna : {1}\n┃❃│ Waktu : {2}\n┃❃│ Hari : {3}\n┃❃│ Tanggal : {4}\n┃❃│ Versi : {5}\n┃❃│ Plugin : {6}\n┃❃│ Ram : {7}\n┃❃│ Uptime : {8}\n┃❃│ Platform : {9}\n┃❃╰───────────────\n╰═════════════════⊷```",
+      "help": "```╭────────────────╮\n      KENTECH AI\n╰────────────────╯\n\n╭────────────────\n│ Prefix : {0}\n│ Pengguna : {1}\n│ Waktu : {2}\n│ Hari : {3}\n│ Tanggal : {4}\n│ Versi : {5}\n│ Plugin : {6}\n│ Ram : {7}\n│ Uptime : {8}\n│ Platform : {9}\n╰────────────────```",
+      "menu": "```╭═══ KENTECH AI ═══⊷\n┃❃╭──────────────\n┃❃│ Prefix : {0}\n┃❃│ Pengguna : {1}\n┃❃│ Waktu : {2}\n┃❃│ Hari : {3}\n┃❃│ Tanggal : {4}\n┃❃│ Versi : {5}\n┃❃│ Plugin : {6}\n┃❃│ Ram : {7}\n┃❃│ Uptime : {8}\n┃❃│ Platform : {9}\n┃❃╰───────────────\n╰═════════════════⊷```",
       "disabled": "disabled"
     },
     "afk": {
@@ -249,13 +249,13 @@
     },
     "greetings": {
       "welcome_desc": "Kirim pesan selamat datang ke anggota baru",
-      "welcome_example": "Selamat datang saat ini *{0}*\n\n> *Contoh Penggunaan:*\n- welcome Hai &mention! Selamat datang di &name - Atur pesan\n- welcome on | off - Aktifkan/Nonaktifkan\n- welcome delete - Hapus pesan\n\n> *Placeholder:*\n- &mention - Sebut anggota baru\n- &name - Nama grup\n- &desc - Deskripsi grup\n- &size - Jumlah anggota\n- &pp - Foto profil anggota\n\n> *Media:* Balas ke gambar/video ATAU sertakan URL dalam pesan\n\nUntuk detail lebih lanjut: https://levanter.site/",
+      "welcome_example": "Selamat datang saat ini *{0}*\n\n> *Contoh Penggunaan:*\n- welcome Hai &mention! Selamat datang di &name - Atur pesan\n- welcome on | off - Aktifkan/Nonaktifkan\n- welcome delete - Hapus pesan\n\n> *Placeholder:*\n- &mention - Sebut anggota baru\n- &name - Nama grup\n- &desc - Deskripsi grup\n- &size - Jumlah anggota\n- &pp - Foto profil anggota\n\n> *Media:* Balas ke gambar/video ATAU sertakan URL dalam pesan\n\nUntuk detail lebih lanjut: https://github.com/Investor45/kentechdigitalbot",
       "welcome_enable": "_Selamat datang sekarang diaktifkan_",
       "welcome_disable": "_Selamat datang sekarang dinonaktifkan_",
       "welcome_delete": "_Pesan selamat datang dihapus_",
       "welcome_not_set": "_Silakan atur pesan selamat datang terlebih dahulu!_\n\n> *Contoh:*\nwelcome Hai &mention! Selamat datang di &name\n\nKemudian gunakan: welcome on",
       "goodbye_desc": "Kirim pesan selamat tinggal ke anggota",
-      "goodbye_example": "Selamat tinggal saat ini *{0}*\n\n> *Contoh Penggunaan:*\n- goodbye Sampai jumpa &mention! Terima kasih - Atur pesan\n- goodbye on | off - Aktifkan/Nonaktifkan\n- goodbye delete - Hapus pesan\n\n> *Placeholder:*\n- &mention - Sebut anggota yang pergi\n- &name - Nama grup\n- &desc - Deskripsi grup\n- &size - Jumlah anggota\n- &pp - Foto profil anggota\n\n> *Media:* Balas ke gambar/video ATAU sertakan URL dalam pesan\n\nUntuk detail lebih lanjut: https://levanter.site/",
+      "goodbye_example": "Selamat tinggal saat ini *{0}*\n\n> *Contoh Penggunaan:*\n- goodbye Sampai jumpa &mention! Terima kasih - Atur pesan\n- goodbye on | off - Aktifkan/Nonaktifkan\n- goodbye delete - Hapus pesan\n\n> *Placeholder:*\n- &mention - Sebut anggota yang pergi\n- &name - Nama grup\n- &desc - Deskripsi grup\n- &size - Jumlah anggota\n- &pp - Foto profil anggota\n\n> *Media:* Balas ke gambar/video ATAU sertakan URL dalam pesan\n\nUntuk detail lebih lanjut: https://github.com/Investor45/kentechdigitalbot",
       "goodbye_enable": "_Selamat tinggal sekarang diaktifkan_",
       "goodbye_disable": "_Selamat tinggal sekarang dinonaktifkan_",
       "goodbye_delete": "_Pesan selamat tinggal dihapus_",
@@ -454,7 +454,7 @@
       "usage": "Contoh: mention on | off | get\n(Balas ke pesan untuk menargetkan pengguna tertentu.)",
       "desc": "Konfigurasi dan kelola fitur mention untuk balasan otomatis.",
       "not_activated": "Balasan ke mention tidak diaktifkan.",
-      "current_status": "Mention adalah {0}. Untuk detail, kunjungi: https://levanter.site/",
+      "current_status": "Mention adalah {0}. Untuk detail, kunjungi: https://github.com/Investor45/kentechdigitalbot",
       "activated": "Balasan ke mention diaktifkan.",
       "deactivated": "Balasan ke mention dinonaktifkan.",
       "updated": "Pengaturan mention diperbarui."
@@ -919,7 +919,7 @@
     "gauth": {
       "desc": "Kelola autentikasi Google API untuk fitur-fitur seperti Pembatasan Usia YouTube, Google Drive, Kalender, dan Tugas.",
       "usage": "*Perintah Google Auth:*\n\n- `.gauth auth` — Mulai proses autentikasi.\n- `.gauth code <url_or_code>` — Validasi kode autentikasi.\n- `.gauth import` — Impor `credentials.json` (Balas file tersebut).\n- `.gauth status` — Periksa status autentikasi saat ini.\n- `.gauth logout` — Hapus kredensial dan token untuk sesi ini.\n\n*Catatan:* Google Auth bersifat opsional untuk fitur YouTube umum tetapi diperlukan untuk video yang dibatasi usia dan integrasi Google Drive/Kalender/Tugas.",
-      "prompt": "*Panduan Penyiapan Autentikasi Google:*\n\n1. *Buat Proyek:* Buka https://console.cloud.google.com/, klik \"Select a project\" > \"New Project\", beri nama \"Levanter\" dan klik \"Create\".\n2. *Aktifkan API:* Buka \"APIs & Services\" > \"Library\". Cari dan aktifkan \"Google Drive API\" , \"Google Calendar API\", dan \"Google Tasks API\".\n3. *Persetujuan OAuth:* Buka \"APIs & Services\" > \"OAuth consent screen\". Pilih \"External\", isi kolom yang diperlukan, dan di bagian \"Audience\", tambahkan email Anda ke \"Test users\" (WAJIB).\n4. *Kredensial:* Buka \"APIs & Services\" > \"Credentials\". Klik \"Create Credentials\" > \"OAuth client ID\". Pilih \"Desktop app\" sebagai jenis aplikasi, beri nama, dan klik \"Create\".\n5. *Unduh:* Di samping ID Klien baru Anda, klik ikon Unduh (JSON). Simpan dan gunakan `.gauth import` dengan membalas file tersebut.\n6. *Otorisasi:* Sekarang klik tautan di bawah ini untuk mengotorisasi:\n{0}\n\n7. *Selesai:* Login, terima peringatan \"Aplikasi tidak diverifikasi\" (Klik \"Advanced\" > \"Go to Levanter\"), salin URL lengkap dari bilah alamat setelah pengalihan, dan kirim:\n`.gauth code <url_yang_disalin>`",
+      "prompt": "*Panduan Penyiapan Autentikasi Google:*\n\n1. *Buat Proyek:* Buka https://console.cloud.google.com/, klik \"Select a project\" > \"New Project\", beri nama \"KENTECH AI\" dan klik \"Create\".\n2. *Aktifkan API:* Buka \"APIs & Services\" > \"Library\". Cari dan aktifkan \"Google Drive API\" , \"Google Calendar API\", dan \"Google Tasks API\".\n3. *Persetujuan OAuth:* Buka \"APIs & Services\" > \"OAuth consent screen\". Pilih \"External\", isi kolom yang diperlukan, dan di bagian \"Audience\", tambahkan email Anda ke \"Test users\" (WAJIB).\n4. *Kredensial:* Buka \"APIs & Services\" > \"Credentials\". Klik \"Create Credentials\" > \"OAuth client ID\". Pilih \"Desktop app\" sebagai jenis aplikasi, beri nama, dan klik \"Create\".\n5. *Unduh:* Di samping ID Klien baru Anda, klik ikon Unduh (JSON). Simpan dan gunakan `.gauth import` dengan membalas file tersebut.\n6. *Otorisasi:* Sekarang klik tautan di bawah ini untuk mengotorisasi:\n{0}\n\n7. *Selesai:* Login, terima peringatan \"Aplikasi tidak diverifikasi\" (Klik \"Advanced\" > \"Go to KENTECH AI\"), salin URL lengkap dari bilah alamat setelah pengalihan, dan kirim:\n`.gauth code <url_yang_disalin>`",
       "success": "Autentikasi berhasil!",
       "import_success": "`credentials.json` berhasil diimpor! Sekarang gunakan `.gauth auth` untuk mengotorisasi.",
       "import_reply": "Harap balas ke file `credentials.json`.",
@@ -934,7 +934,7 @@
       "uploading": "Mengunggah media ke Drive...",
       "not_authorized": "Tidak diizinkan. Gunakan \"backup auth\".",
       "list": "*File Google Drive:*\n\n{0}",
-      "list_empty": "Tidak ada file ditemukan di folder Levanter.",
+      "list_empty": "Tidak ada file ditemukan di folder KENTECH AI.",
       "deleted": "File berhasil dihapus!",
       "invalid_id": "Harap berikan ID file yang valid.",
       "error": "*Kesalahan:* {0}",
@@ -968,7 +968,7 @@
       "edit_scope_no_gm": "📌 _Excluding group chats_"
     },
     "screenshot": {
-      "usage": "Contoh: screenshot levanter.site",
+      "usage": "Contoh: screenshot kentech-ai.site",
       "desc": "Ambil screenshot dari website apa pun! 📸"
     },
     "lyrics": {

@@ -63,10 +63,8 @@ module.exports = {
       }),
   PREFIX: (process.env.PREFIX || '^[.,!+]').trim(),
   SUDO: process.env.SUDO || '',
-  HEROKU_APP_NAME: process.env.HEROKU_APP_NAME,
-  HEROKU_API_KEY: process.env.HEROKU_API_KEY,
   BRANCH: 'master',
-  STICKER_PACKNAME: process.env.STICKER_PACKNAME || '❤️,LyFE',
+  STICKER_PACKNAME: process.env.STICKER_PACKNAME || 'KENTECH AI',
   ALWAYS_ONLINE: process.env.ALWAYS_ONLINE,
   LOG_MSG: process.env.LOG_MSG || 'false',
   RMBG_KEY: process.env.RMBG_KEY || 'null',
@@ -86,17 +84,14 @@ module.exports = {
   VPS: toBool(process.env.VPS),
   AUTO_STATUS_VIEW: (process.env.AUTO_STATUS_VIEW || 'false').trim(),
   SEND_READ: process.env.SEND_READ,
-  KOYEB: toBool(process.env.KOYEB),
-  KOYEB_NAME: (process.env.KOYEB_NAME || '').trim(),
-  KOYEB_API: (process.env.KOYEB_API || '').trim(),
   AJOIN: process.env.AJOIN || 'false',
   GPT: (process.env.GPT || 'free').trim(),
   MODEL: (process.env.MODEL || 'gpt-3.5-turbo').trim(),
   APPROVE: (process.env.APPROVE || '').trim(),
   ANTI_DELETE: (process.env.ANTI_DELETE || 'null').trim(),
   PERSONAL_MESSAGE: (process.env.PERSONAL_MESSAGE || 'null').trim(),
-  // Always suppress Levanter's built-in startup advertisement. The custom
-  // `.alive` command in plugins/alive.js is the only public bot card.
+  // Suppress the inherited startup advertisement. KENTECH AI sends its own
+  // private startup notification from the socket connection guard.
   DISABLE_START_MESSAGE: 'true',
   ANTI_BOT: (process.env.ANTI_BOT || 'off').trim(),
   ANTI_BOT_MESSAGE: process.env.ANTI_BOT_MESSAGE || '&mention removed',
@@ -113,8 +108,6 @@ module.exports = {
   GEMINI_API_KEY: (process.env.GEMINI_API_KEY || '').trim(),
   GEMINI_MODEL: (process.env.GEMINI_MODEL || 'gemini-2.5-flash').trim(),
   GROUP_ADMINS: process.env.GROUP_ADMINS || '',
-  RENDER_NAME: (process.env.RENDER_NAME || '').trim(),
-  RENDER_API_KEY: (process.env.RENDER_API_KEY || '').trim(),
   TIMEZONE: process.env.TIMEZONE,
   CMD_REACTION: process.env.CMD_REACTION || 'true',
   // Never let the upstream updater overwrite this customized deployment.

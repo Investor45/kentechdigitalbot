@@ -291,7 +291,7 @@ function isSavedContact(message) {
     if (contact && (contact.name || contact.verifiedName || contact.shortName)) return true
   }
 
-  // Some Levanter/Baileys builds attach the resolved address-book contact to
+  // Some KENTECH AI/Baileys builds attach the resolved address-book contact to
   // the serialized message instead of exposing the socket store.
   const contact = message.contact || (message.data && message.data.contact)
   if (contact && (contact.name || contact.verifiedName || contact.shortName)) return true
@@ -412,7 +412,7 @@ async function salesAssistant(message) {
 
 async function paymentScreenshotReceived(message) {
   if (message.isGroup || message.fromMe) return
-  // Levanter 6.0.6 also invokes this listener for the product-selection text.
+  // KENTECH AI 6.0.6 also invokes this listener for the product-selection text.
   // Ignore that specific text, but allow an uploaded image to have a caption.
   const mediaText = String(message.text || '').trim()
   if (mediaText && findProduct(mediaText.toLowerCase())) return

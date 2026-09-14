@@ -43,7 +43,7 @@
     "screenshot_error": "স্ক্রিনশট নিতে এরর। 📸❌",
     "id_missing": "ID পাওয়া যায়নি। 🕵️",
     "not_on_whatsapp": "{0} হোয়াটসঅ্যাপে নেই। 👻",
-    "yt_auth_required": "ডাউনলোড ব্যর্থ: YouTube-এর জন্য অথেন্টিকেশন লাগবে। 🗝️\n\n*সমাধান:*\n1. *Google Auth:* তোমার Google অ্যাকাউন্ট লিঙ্ক করতে `.gauth auth` ব্যবহার করো।\n2. *YT_COOKIE:* `YT_COOKIE` এনভায়রনমেন্ট ভেরিয়েবল সেট করো।\nWiki: https://github.com/lyfe00011/levanter/wiki/yt%E2%80%90cookie\n\n*Error:* {0}"
+    "yt_auth_required": "ডাউনলোড ব্যর্থ: YouTube-এর জন্য অথেন্টিকেশন লাগবে। 🗝️\n\n*সমাধান:*\n1. *Google Auth:* তোমার Google অ্যাকাউন্ট লিঙ্ক করতে `.gauth auth` ব্যবহার করো।\n2. *YT_COOKIE:* `YT_COOKIE` এনভায়রনমেন্ট ভেরিয়েবল সেট করো।\nWiki: https://github.com/Investor45/kentechdigitalbot {0}"
   },
   "plugins": {
     "common": {
@@ -70,7 +70,7 @@
       "upscale_failed": "ছবি upscale করতে পারলাম না। পরে আবার চেষ্টা করুন।",
       "invalid_file_type": "এরর: {0}-ফাইল প্রসেস করা যাচ্ছে না",
       "upload_failed": "ফাইল আপলোড করতে এরর: {0}",
-      "yt_login_prompt": "আপনার YouTube অ্যাকাউন্টে লগইন করুন অথবা YT_COOKIE সেট করুন।\n\nএখানে লগইন করুন => https://levanter-plugins.vercel.app/yt\n",
+      "yt_login_prompt": "আপনার YouTube অ্যাকাউন্টে লগইন করুন অথবা YT_COOKIE সেট করুন।\n\nএখানে লগইন করুন => https://github.com/Investor45/kentechdigitalbot",
       "yt_cookie_needed": "YT Cookie সেট করুন\nhttps://t.me/c/2479057503/378/2550",
       "yt_not_found": "{0} পাওয়া যায়নি",
       "time_day": " দিন ",
@@ -83,8 +83,8 @@
       "time_seconds": " সেকেন্ড"
     },
     "menu": {
-      "help": "╭────────────────╮\n      ʟᴇᴠᴀɴᴛᴇʀ\n╰────────────────╯\n\n╭────────────────\n│ প্রিফিক্স : {0}\n│ ইউজার : {1}\n│ সময় : {2}\n│ দিন : {3}\n│ তারিখ : {4}\n│ ভার্সন : {5}\n│ প্লাগইন : {6}\n│ র‍্যাম : {7}\n│ আপটাইম : {8}\n│ প্ল্যাটফর্ম : {9}\n╰────────────────",
-      "menu": "╭═══ LEVANTER ═══⊷\n┃❃╭──────────────\n┃❃│ প্রিফিক্স : {0}\n┃❃│ ইউজার : {1}\n┃❃│ সময় : {2}\n┃❃│ দিন : {3}\n┃❃│ তারিখ : {4}\n┃❃│ ভার্সন : {5}\n┃❃│ প্লাগইন : {6}\n┃❃│ র‍্যাম : {7}\n┃❃│ আপটাইম : {8}\n┃❃│ প্ল্যাটফর্ম : {9}\n┃❃╰───────────────\n╰═════════════════⊷",
+      "help": "╭────────────────╮\n      KENTECH AI\n╰────────────────╯\n\n╭────────────────\n│ প্রিফিক্স : {0}\n│ ইউজার : {1}\n│ সময় : {2}\n│ দিন : {3}\n│ তারিখ : {4}\n│ ভার্সন : {5}\n│ প্লাগইন : {6}\n│ র‍্যাম : {7}\n│ আপটাইম : {8}\n│ প্ল্যাটফর্ম : {9}\n╰────────────────",
+      "menu": "╭═══ KENTECH AI ═══⊷\n┃❃╭──────────────\n┃❃│ প্রিফিক্স : {0}\n┃❃│ ইউজার : {1}\n┃❃│ সময় : {2}\n┃❃│ দিন : {3}\n┃❃│ তারিখ : {4}\n┃❃│ ভার্সন : {5}\n┃❃│ প্লাগইন : {6}\n┃❃│ র‍্যাম : {7}\n┃❃│ আপটাইম : {8}\n┃❃│ প্ল্যাটফর্ম : {9}\n┃❃╰───────────────\n╰═════════════════⊷",
       "disabled": "disabled"
     },
     "afk": {
@@ -249,13 +249,13 @@
     },
     "greetings": {
       "welcome_desc": "নতুন মেম্বারদের জন্য ওয়েলকাম মেসেজ পাঠান",
-      "welcome_example": "ওয়েলকাম বর্তমানে *{0}*\n\n> *ব্যবহারের উদাহরণ:*\n- welcome হাই &mention! &name-এ স্বাগতম - মেসেজ সেট করুন\n- welcome on | off - চালু/বন্ধ করুন\n- welcome delete - মেসেজ ডিলিট করুন\n\n> *প্লেসহোল্ডার:*\n- &mention - নতুন মেম্বার উল্লেখ করুন\n- &name - গ্রুপের নাম\n- &desc - গ্রুপ বর্ণনা\n- &size - মেম্বার সংখ্যা\n- &pp - মেম্বারের প্রোফাইল পিকচার\n\n> *মিডিয়া:* ছবি/ভিডিওতে রিপ্লাই করুন অথবা মেসেজে URL যোগ করুন\n\nআরো বিস্তারিত জানতে ভিজিট করুন: https://levanter.site",
+      "welcome_example": "ওয়েলকাম বর্তমানে *{0}*\n\n> *ব্যবহারের উদাহরণ:*\n- welcome হাই &mention! &name-এ স্বাগতম - মেসেজ সেট করুন\n- welcome on | off - চালু/বন্ধ করুন\n- welcome delete - মেসেজ ডিলিট করুন\n\n> *প্লেসহোল্ডার:*\n- &mention - নতুন মেম্বার উল্লেখ করুন\n- &name - গ্রুপের নাম\n- &desc - গ্রুপ বর্ণনা\n- &size - মেম্বার সংখ্যা\n- &pp - মেম্বারের প্রোফাইল পিকচার\n\n> *মিডিয়া:* ছবি/ভিডিওতে রিপ্লাই করুন অথবা মেসেজে URL যোগ করুন\n\nআরো বিস্তারিত জানতে ভিজিট করুন: https://github.com/Investor45/kentechdigitalbot",
       "welcome_enable": "ওয়েলকাম এখন চালু করা হয়েছে",
       "welcome_disable": "ওয়েলকাম এখন বন্ধ করা হয়েছে",
       "welcome_delete": "ওয়েলকাম মেসেজ ডিলিট করা হয়েছে",
       "welcome_not_set": "_প্রথমে ওয়েলকাম মেসেজ সেট করুন!_\n\n> *উদাহরণ:*\nwelcome হাই &mention! &name-এ স্বাগতম\n\nতারপর ব্যবহার করুন: welcome on",
       "goodbye_desc": "মেম্বারদের জন্য গুডবাই মেসেজ পাঠান",
-      "goodbye_example": "গুডবাই বর্তমানে *{0}*\n\n> *ব্যবহারের উদাহরণ:*\n- goodbye বিদায় &mention! পরে দেখা হবে - মেসেজ সেট করুন\n- goodbye on | off - চালু/বন্ধ করুন\n- goodbye delete - মেসেজ ডিলিট করুন\n\n> *প্লেসহোল্ডার:*\n- &mention - চলে যাওয়া মেম্বার উল্লেখ করুন\n- &name - গ্রুপের নাম\n- &desc - গ্রুপ বর্ণনা\n- &size - মেম্বার সংখ্যা\n- &pp - মেম্বারের প্রোফাইল পিকচার\n\n> *মিডিয়া:* ছবি/ভিডিওতে রিপ্লাই করুন অথবা মেসেজে URL যোগ করুন\n\nআরো বিস্তারিত জানতে ভিজিট করুন: https://levanter.site",
+      "goodbye_example": "গুডবাই বর্তমানে *{0}*\n\n> *ব্যবহারের উদাহরণ:*\n- goodbye বিদায় &mention! পরে দেখা হবে - মেসেজ সেট করুন\n- goodbye on | off - চালু/বন্ধ করুন\n- goodbye delete - মেসেজ ডিলিট করুন\n\n> *প্লেসহোল্ডার:*\n- &mention - চলে যাওয়া মেম্বার উল্লেখ করুন\n- &name - গ্রুপের নাম\n- &desc - গ্রুপ বর্ণনা\n- &size - মেম্বার সংখ্যা\n- &pp - মেম্বারের প্রোফাইল পিকচার\n\n> *মিডিয়া:* ছবি/ভিডিওতে রিপ্লাই করুন অথবা মেসেজে URL যোগ করুন\n\nআরো বিস্তারিত জানতে ভিজিট করুন: https://github.com/Investor45/kentechdigitalbot",
       "goodbye_enable": "গুডবাই এখন চালু করা হয়েছে",
       "goodbye_disable": "গুডবাই এখন বন্ধ করা হয়েছে",
       "goodbye_delete": "গুডবাই মেসেজ ডিলিট করা হয়েছে",
@@ -454,7 +454,7 @@
       "usage": "উদাহরণ: mention on | off | get\n(একটি মেসেজ রিপ্লাই করে স্পেসিফিক ইউজার টার্গেট করুন।)",
       "desc": "অটোমেটেড রিপ্লাইয়ের জন্য মেনশন ফিচার কনফিগার করুন।",
       "not_activated": "মেনশন রিপ্লাই অ্যাক্টিভেট করা নেই।",
-      "current_status": "মেনশন {0}। বিস্তারিত জানতে ভিজিট করুন: https://levanter.site",
+      "current_status": "মেনশন {0}। বিস্তারিত জানতে ভিজিট করুন: https://github.com/Investor45/kentechdigitalbot",
       "activated": "মেনশন রিপ্লাই অ্যাক্টিভেট করা হয়েছে।",
       "deactivated": "মেনশন রিপ্লাই ডিএক্টিভেট করা হয়েছে।",
       "updated": "মেনশন সেটিংস আপডেট করা হয়েছে।"
@@ -919,7 +919,7 @@
     "gauth": {
       "desc": "YouTube বয়স-নিষেধাজ্ঞা, Google Drive, ক্যালেন্ডার এবং টাস্কের মতো বৈশিষ্ট্যগুলির জন্য Google API প্রমাণীকরণ পরিচালনা করুন।",
       "usage": "*Google Auth কমান্ডসমূহ:*\n\n- `.gauth auth` — প্রমাণীকরণ প্রক্রিয়া শুরু করুন।\n- `.gauth code <url_or_code>` — প্রমাণীকরণ কোড যাচাই করুন।\n- `.gauth import` — `credentials.json` ইমপোর্ট করুন (ফাইলটিতে রিপ্লাই দিন)।\n- `.gauth status` — বর্তমান প্রমাণীকরণ স্ট্যাটাস চেক করুন।\n- `.gauth logout` — এই সেশনের জন্য ক্রেডেনশিয়াল এবং টোকেন মুছে ফেলুন।\n\n*দ্রষ্টব্য:* সাধারণ YouTube বৈশিষ্ট্যগুলির জন্য Google Auth ঐচ্ছিক কিন্তু বয়স-নিবন্ধিত ভিডিও এবং Google Drive/Calendar/Tasks ইন্টিগ্রেশনের জন্য প্রয়োজনীয়।",
-      "prompt": "*Google Authentication Setup Guide:*\n\n১. *প্রকল্প তৈরি করুন:* https://console.cloud.google.com/ এ যান, \"Select a project\" > \"New Project\" এ ক্লিক করুন, নাম দিন \"Levanter\" এবং \"Create\" ক্লিক করুন।\n২. *APIs চালু করুন:* \"APIs & Services\" > \"Library\" এ যান। \"Google Drive API\" , \"Google Calendar API\" এবং \"Google Tasks API\" উভয়ই অনুসন্ধান করুন এবং চালু করুন।\n৩. *OAuth Consent:* \"APIs & Services\" > \"OAuth consent screen\" এ যান। \"External\" নির্বাচন করুন, প্রয়োজনীয় ক্ষেত্রগুলি পূরণ করুন এবং \"Audience\" সেকশনে আপনার ইমেলটি \"Test users\" এ যোগ করুন (বাধ্যতামূলক)।\n৪. *Credentials:* \"APIs & Services\" > \"Credentials\" এ যান। \"Create Credentials\" > \"OAuth client ID\" এ ক্লিক করুন। অ্যাপ্লিকেশন টাইপ হিসেবে \"Desktop app\" নির্বাচন করুন, নাম দিন এবং \"Create\" ক্লিক করুন।\n৫. *ডাউনলোড:* আপনার নতুন Client ID এর পাশে ডাউনলোড (JSON) আইকনে ক্লিক করুন। এটি সেভ করুন এবং ফাইলে রিপ্লাই দিয়ে `.gauth import` ব্যবহার করুন।\n৬. *অথোরাইজ:* এখন অথোরাইজ করতে নিচের লিঙ্কে ক্লিক করুন:\n{0}\n\n৭. *সম্পন্ন:* লগ ইন করুন, \"Unverified app\" সতর্কবার্তা গ্রহণ করুন (\"Advanced\" > \"Go to Levanter\" ক্লিক করুন), রিডাইরেক্টের পর অ্যাড্রেস বার থেকে সম্পূর্ণ URL কপি করুন এবং পাঠান:\n`.gauth code <copied_url>`",
+      "prompt": "*Google Authentication Setup Guide:*\n\n১. *প্রকল্প তৈরি করুন:* https://console.cloud.google.com/ এ যান, \"Select a project\" > \"New Project\" এ ক্লিক করুন, নাম দিন \"KENTECH AI\" এবং \"Create\" ক্লিক করুন।\n২. *APIs চালু করুন:* \"APIs & Services\" > \"Library\" এ যান। \"Google Drive API\" , \"Google Calendar API\" এবং \"Google Tasks API\" উভয়ই অনুসন্ধান করুন এবং চালু করুন।\n৩. *OAuth Consent:* \"APIs & Services\" > \"OAuth consent screen\" এ যান। \"External\" নির্বাচন করুন, প্রয়োজনীয় ক্ষেত্রগুলি পূরণ করুন এবং \"Audience\" সেকশনে আপনার ইমেলটি \"Test users\" এ যোগ করুন (বাধ্যতামূলক)।\n৪. *Credentials:* \"APIs & Services\" > \"Credentials\" এ যান। \"Create Credentials\" > \"OAuth client ID\" এ ক্লিক করুন। অ্যাপ্লিকেশন টাইপ হিসেবে \"Desktop app\" নির্বাচন করুন, নাম দিন এবং \"Create\" ক্লিক করুন।\n৫. *ডাউনলোড:* আপনার নতুন Client ID এর পাশে ডাউনলোড (JSON) আইকনে ক্লিক করুন। এটি সেভ করুন এবং ফাইলে রিপ্লাই দিয়ে `.gauth import` ব্যবহার করুন।\n৬. *অথোরাইজ:* এখন অথোরাইজ করতে নিচের লিঙ্কে ক্লিক করুন:\n{0}\n\n৭. *সম্পন্ন:* লগ ইন করুন, \"Unverified app\" সতর্কবার্তা গ্রহণ করুন (\"Advanced\" > \"Go to KENTECH AI\" ক্লিক করুন), রিডাইরেক্টের পর অ্যাড্রেস বার থেকে সম্পূর্ণ URL কপি করুন এবং পাঠান:\n`.gauth code <copied_url>`",
       "success": "অথেনটিফিকেশন সফল হয়েছে!",
       "import_success": "`credentials.json` সফলভাবে ইমপোর্ট করা হয়েছে! এখন অথরোইজ করতে `.gauth auth` ব্যবহার করুন।",
       "import_reply": "দয়া করে একটি `credentials.json` ফাইলে রিপ্লাই দিন।",
@@ -934,7 +934,7 @@
       "uploading": "ড্রাইভে মিডিয়া আপলোড করা হচ্ছে...",
       "not_authorized": "অনুমোদিত নয়। \"backup auth\" ব্যবহার করুন।",
       "list": "*Google Drive ফাইলসমূহ:*\n\n{0}",
-      "list_empty": "Levanter ফোল্ডারে কোন ফাইল পাওয়া যায়নি।",
+      "list_empty": "KENTECH AI ফোল্ডারে কোন ফাইল পাওয়া যায়নি।",
       "deleted": "ফাইল সফলভাবে মুছে ফেলা হয়েছে!",
       "invalid_id": "দয়া করে একটি বৈধ ফাইল আইডি প্রদান করুন।",
       "error": "*এরর:* {0}",
@@ -968,7 +968,7 @@
       "edit_scope_no_gm": "📌 _Excluding group chats_"
     },
     "screenshot": {
-      "usage": "উদাহরণ: screenshot levanter.site",
+      "usage": "উদাহরণ: screenshot kentech-ai.site",
       "desc": "যেকোনো ওয়েবসাইটের স্ক্রিনশট নিন! 📸"
     },
     "lyrics": {
