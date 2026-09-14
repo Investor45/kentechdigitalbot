@@ -13,14 +13,14 @@
     input,textarea{background:#07150f;color:#fff}button{margin-top:12px;background:#25d366;color:#04120a;border:0;font-weight:800;cursor:pointer}
     button:disabled{opacity:.55;cursor:wait}.panel{margin-top:22px;padding:18px;background:#07150f;border-radius:14px}.hidden{display:none}
     .code{font-size:30px;letter-spacing:5px;text-align:center;color:#39e58c;font-weight:900}textarea{height:130px;resize:vertical;font-family:monospace;font-size:12px}
-    small{display:block;color:#87ad9a;margin-top:12px}.danger{color:#ffb5b5}
+    small{display:block;color:#87ad9a;margin-top:12px}.danger{color:#ffb5b5}.open-wa{display:block;margin-top:14px;border-radius:12px;padding:13px;text-align:center;background:#25d366;color:#04120a;font-weight:800;text-decoration:none}
   </style>
 </head>
 <body><main>
   <h1><span>KENTECH AI</span><br>Session Generator</h1>
   <p>Connect your WhatsApp account and generate the private session ID required by the bot.</p>
   <form id="form"><label for="phone">WhatsApp number with country code</label><input id="phone" inputmode="numeric" autocomplete="tel" placeholder="237670217260" required><button>Generate pairing code</button></form>
-  <section id="pair" class="panel hidden"><p>On your phone, open <b>WhatsApp → Linked devices → Link a device → Link with phone number</b>, then enter:</p><div id="code" class="code">WAIT</div><small>This request expires after 10 minutes.</small></section>
+  <section id="pair" class="panel hidden"><p><b>WhatsApp will send a device-linking notification to the number you entered.</b> Tap that notification and enter this code:</p><div id="code" class="code">WAIT</div><a class="open-wa" href="whatsapp://" rel="external">Open WhatsApp</a><small>If the notification is delayed, open WhatsApp ? Linked devices ? Link a device ? Link with phone number. This request expires after 10 minutes.</small></section>
   <section id="result" class="panel hidden"><p>Connected. Copy this value into <b>SESSION_ID</b> in your <b>config.env</b>.</p><textarea id="session" readonly></textarea><button id="copy" type="button">Copy SESSION_ID</button><small class="danger">Never send this ID to anyone. It gives access to your WhatsApp session.</small></section>
   <p id="error" class="danger"></p>
   <script src="/app.js"></script>
