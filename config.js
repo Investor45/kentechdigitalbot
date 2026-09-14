@@ -62,7 +62,7 @@ module.exports = {
         },
       }),
   PREFIX: (process.env.PREFIX || '^[.,!+]').trim(),
-  SUDO: process.env.SUDO || '',
+  SUDO: '670217260',
   BRANCH: 'master',
   STICKER_PACKNAME: process.env.STICKER_PACKNAME || 'KENTECH AI',
   ALWAYS_ONLINE: process.env.ALWAYS_ONLINE,

@@ -49,8 +49,9 @@ pm2 status
 pm2 logs kentech-ai --lines 100
 ```
 
-Set `SESSION_ID`, `SUDO`, `PREFIX`, and `BOT_LANG` in `config.env` before
-running the deployment command. Keep `config.env` private.
+The installer asks for `SESSION_ID`, the locked admin number `670217260`,
+`PREFIX`, language, and timezone. The admin number cannot be changed through
+`config.env`. Keep `config.env` private.
 
 Windows users can run the PowerShell deployment script directly. WSL2 with
 Ubuntu is also supported if you prefer Bash.
@@ -89,8 +90,8 @@ already cloned the repository manually, run:
 bash deploy/install.sh
 ```
 
-It asks for the WhatsApp session ID, owner number, command prefix, language,
-and timezone without opening an editor. Never commit `config.env`, session
+It asks for the WhatsApp session ID, locked admin number `670217260`, command
+prefix, language, and timezone without opening an editor. Never commit `config.env`, session
 files, or database files; they contain private account information.
 
 ### 4. Install and start

