@@ -48,8 +48,14 @@ async function gstatus(message, match) {
   if (!isOwner(message)) return
   if (!repliedContent(message)) return message.send('Reply to an image, video, or text with .gstatus.')
   if (typeof message.groupStatus !== 'function') return message.send('Group status is not supported by this bot build.')
-  const targets = String(match || '').trim()
-    ? String(match).trim().split(/[\s,]+/).filter(jid => jid.endsWith('@g.us'))
+  // Read the full command as well: some dispatcher paths pass only one capture.
+  const command = String(message.text || '').trim().match(/^[.,!+]?gstatus(?:\s+|\/)([\s\S]*)$/i)
+  const argument = String(command?.[1] || match || '').trim()
+  const tokens = argument.split(/[\s,;]+/).filter(Boolean)
+  const invalid = tokens.filter(jid => !/^\d+(?:-\d+)?(?:@g\.us)?$/.test(jid))
+  if (invalid.length) return message.send('Invalid group ID. Use .gstatus 123@g.us,456@g.us (numeric IDs also work). Copy the IDs from .groupids.')
+  const targets = argument
+    ? tokens.map(jid => jid.endsWith('@g.us') ? jid : `${jid}@g.us`)
     : (message.isGroup ? [message.jid] : [])
   if (!targets.length) return message.send('Use .gstatus inside a group, or pass group JIDs.')
   let posted = 0
@@ -57,7 +63,8 @@ async function gstatus(message, match) {
     try {
       await message.groupStatus(message, jid)
       posted++
-    } catch (_) {
+    } catch (error) {
+      process.stderr.write(`[gstatus] Group post failed: ${error?.name || 'Error'}\n`)
       await message.send(`Could not post the group status to ${jid}. WhatsApp may require admin permission for that group.`)
     }
   }
