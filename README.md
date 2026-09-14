@@ -43,9 +43,7 @@ sudo apt install -y nodejs
 sudo npm install -g yarn pm2
 git clone -b kentech-custom https://github.com/Investor45/kentechdigitalbot.git kentech-ai
 cd kentech-ai
-cp config.env.example config.env
-nano config.env
-bash deploy/deploy.sh "$(pwd)"
+bash deploy/install.sh
 pm2 save
 pm2 status
 pm2 logs kentech-ai --lines 100
@@ -84,23 +82,16 @@ cd kentech-ai
 
 ### 3. Configure the bot
 
+The guided installer asks for these values directly in the terminal. If you
+already cloned the repository manually, run:
+
 ```bash
-cp config.env.example config.env
-nano config.env
+bash deploy/install.sh
 ```
 
-At minimum, set your WhatsApp session and owner number:
-
-```env
-SESSION_ID=your_session_id
-SUDO=237600000000
-PREFIX=.
-BOT_LANG=en
-TZ=Africa/Lagos
-```
-
-Never commit `config.env`, session files, or database files. They contain private
-account information.
+It asks for the WhatsApp session ID, owner number, command prefix, language,
+and timezone without opening an editor. Never commit `config.env`, session
+files, or database files; they contain private account information.
 
 ### 4. Install and start
 
