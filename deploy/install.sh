@@ -4,6 +4,24 @@ set -euo pipefail
 REPO_URL="${KENTECH_REPO_URL:-https://github.com/Investor45/kentechdigitalbot.git}"
 BRANCH="${KENTECH_BRANCH:-kentech-custom}"
 APP_DIR="${KENTECH_DIR:-$HOME/kentech-ai}"
+CYAN='\033[1;36m'
+GREEN='\033[1;32m'
+YELLOW='\033[1;33m'
+RESET='\033[0m'
+
+clear 2>/dev/null || true
+printf "${CYAN}\n"
+cat <<'BANNER'
+ _  __ _____ _   _ _____ _____ ____ _   _   ___ ___
+| |/ /| ____| \ | |_   _| ____/ ___| | | | |_ _/ _ \\
+| ' / |  _| |  \| | | | |  _|| |   | |_| |  | | | | |
+| . \ | |___| |\  | | | | |__ | |___|  _  |  | | |_| |
+|_|\_\|_____|_| \_| |_| |_____|\____|_| |_| |___\___/
+
+            KENTECH AI
+          Universal Installer
+BANNER
+printf "${RESET}\n"
 
 if [[ "$(uname -s)" != "Linux" ]]; then
   echo "This installer is for an Ubuntu/Debian VPS. Use deploy.ps1 on Windows." >&2
@@ -15,8 +33,11 @@ if ! command -v apt-get >/dev/null 2>&1; then
   exit 1
 fi
 
+printf "${YELLOW}[1/5] Installing system packages...${RESET}\n"
 sudo apt-get update
 sudo apt-get install -y git curl ffmpeg
+
+printf "${YELLOW}[2/5] Checking Node.js, Yarn, and PM2...${RESET}\n"
 
 if ! command -v node >/dev/null 2>&1 || [[ "$(node -p 'process.versions.node.split(".")[0]')" -lt 20 ]]; then
   curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
@@ -30,6 +51,7 @@ if ! command -v pm2 >/dev/null 2>&1; then
   sudo npm install -g pm2
 fi
 
+printf "${YELLOW}[3/5] Preparing bot directory: %s${RESET}\n" "$APP_DIR"
 if [[ -d "$APP_DIR/.git" ]]; then
   git -C "$APP_DIR" fetch origin "$BRANCH"
   git -C "$APP_DIR" checkout "$BRANCH"
@@ -64,7 +86,7 @@ if [[ ! -t 0 ]]; then
   exit 0
 fi
 
-echo "KENTECH AI setup"
+printf "${GREEN}[4/5] KENTECH AI setup${RESET}\n"
 echo "Answer the questions below. No editor will be opened."
 readonly ADMIN_NUMBER="670217260"
 while :; do
@@ -92,6 +114,6 @@ set_env PREFIX "$prefix"
 set_env BOT_LANG "$bot_lang"
 set_env TIMEZONE "$timezone"
 chmod 600 config.env
-echo "Configuration saved to $APP_DIR/config.env"
+printf "${GREEN}[5/5] Configuration saved to %s${RESET}\n" "$APP_DIR/config.env"
 
 bash deploy/deploy.sh "$APP_DIR"
