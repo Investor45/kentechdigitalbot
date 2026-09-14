@@ -1,5 +1,5 @@
 const { bot } = require('../lib/')
-const { isOwner } = require('../lib/owner-commands')
+const { isOwner, registerOwnerCommand } = require('../lib/owner-commands')
 
 function repliedContent(message) {
   const reply = message.reply_message
@@ -65,9 +65,5 @@ async function gstatus(message, match) {
 }
 
 for (const [name, handler] of [['mystatus', mystatus], ['groupids', groupids], ['gstatus', gstatus]]) {
-  bot({ pattern: `${name} ?(.*)`, type: 'whatsapp' }, handler)
-  bot({ on: 'text', type: `${name}CustomOwner` }, message => {
-    const match = String(message.text || '').trim().match(/^[.,!+]?([a-z]+)(?:\s+|\/|$)(.*)$/i)
-    if (match?.[1].toLowerCase() === name) return handler(message, match[2])
-  })
+  registerOwnerCommand(bot, name, handler, `Owner ${name} command`)
 }
