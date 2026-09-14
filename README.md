@@ -27,7 +27,7 @@ and webhook support.
 On a fresh Ubuntu/Debian VPS, run this one-line installer as a sudo-capable user:
 
 ```bash
-bash <(curl -fsSL https://tinyurl.com/28p59d78)
+bash <(curl -fsSL https://tinyurl.com/2bbkrpfu)
 ```
 
 The installer installs Node.js, FFmpeg, Yarn, and PM2; clones KENTECH AI; asks
