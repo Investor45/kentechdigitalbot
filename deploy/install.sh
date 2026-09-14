@@ -12,14 +12,12 @@ RESET='\033[0m'
 clear 2>/dev/null || true
 printf "${CYAN}\n"
 cat <<'BANNER'
- _  __ _____ _   _ _____ _____ ____ _   _   ___ ___
-| |/ /| ____| \ | |_   _| ____/ ___| | | | |_ _/ _ \\
-| ' / |  _| |  \| | | | |  _|| |   | |_| |  | | | | |
-| . \ | |___| |\  | | | | |__ | |___|  _  |  | | |_| |
-|_|\_\|_____|_| \_| |_| |_____|\____|_| |_| |___\___/
-
-            KENTECH AI
-          Universal Installer
++------------------------------------------------------------------+
+|                         KENTECH AI                              |
+|                  WHATSAPP BOT INSTALLER                        |
+|                                                                  |
+|              Simple setup for VPS and Ubuntu                    |
++------------------------------------------------------------------+
 BANNER
 printf "${RESET}\n"
 
@@ -117,3 +115,7 @@ chmod 600 config.env
 printf "${GREEN}[5/5] Configuration saved to %s${RESET}\n" "$APP_DIR/config.env"
 
 bash deploy/deploy.sh "$APP_DIR"
+printf "${GREEN}\n+===============================================================\n"
+printf "  KENTECH AI is installed and running.\n"
+printf "  Check status with: pm2 status\n"
+printf "===============================================================\n${RESET}\n"
