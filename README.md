@@ -150,8 +150,16 @@ behind HTTPS before exposing it publicly.
 
 ## Support
 
-Open an issue in this repository with the command used, the expected result, and
-sanitized logs. Remove phone numbers, session IDs, API keys and passwords first.
+[Contact KENTECH AI on WhatsApp](https://wa.me/237670217260?text=Hello%20sir%2C%20I%20saw%20your%20WhatsApp%20bot%20on%20GitHub%20and%20I%20am%20interested%20in%20getting%20it%20on%20WhatsApp.%20What%20are%20the%20procedures%3F)
+
+The link opens a WhatsApp chat with this message already filled in:
+
+> Hello sir, I saw your WhatsApp bot on GitHub and I am interested in getting it
+> on WhatsApp. What are the procedures?
+
+Users can also open an issue in this repository with the command used, the
+expected result, and sanitized logs. Remove phone numbers, session IDs, API keys
+and passwords first.
 
 ## License
 
