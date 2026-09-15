@@ -50,6 +50,7 @@
     "google-tts-api": "^2.0.2",
     "googleapis": "^126.0.1",
     "googlevideo": "^4.0.4",
+    "heroku-client": "^3.1.0",
     "jimp": "^0.16.1",
     "jsdom": "^27.2.0",
     "link-preview-js": "^3.0.4",

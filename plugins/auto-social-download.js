@@ -20,6 +20,23 @@ function loadGroups() {
 
 const enabledGroups = loadGroups()
 const activeGroups = new Set()
+const handledMessages = new Map()
+const MESSAGE_DEDUPE_TTL = 10 * 60 * 1000
+
+function claimMessage(message, jid) {
+  const key = message.message?.key || message.data?.key || {}
+  const id = String(key.id || message.id || '')
+  if (!id) return true
+  const now = Date.now()
+  for (const [entry, time] of handledMessages) {
+    if (now - time > MESSAGE_DEDUPE_TTL) handledMessages.delete(entry)
+  }
+  const entry = `${jid}:${id}`
+  if (handledMessages.has(entry)) return false
+  handledMessages.set(entry, now)
+  return true
+}
+
 function saveGroups() {
   fs.writeFileSync(STATE_FILE, JSON.stringify([...enabledGroups].sort(), null, 2))
 }
@@ -73,6 +90,7 @@ async function handleLink(message) {
   let platform
   try { platform = platformFor(url) } catch (_) { return }
   if (!platform) return
+  if (!claimMessage(message, jid)) return
 
   activeGroups.add(jid)
   try {
