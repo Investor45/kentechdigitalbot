@@ -79,6 +79,38 @@ set_env() {
   mv "$temp_file" config.env
 }
 
+read_hidden_line() {
+  local prompt="$1"
+  local target="$2"
+  local tty_state value
+  tty_state="$(stty -g </dev/tty)"
+  printf '%s' "$prompt" >/dev/tty
+  stty -echo -icanon min 1 time 0 </dev/tty
+  if ! IFS= read -r value </dev/tty; then
+    stty "$tty_state" </dev/tty
+    printf '\n' >/dev/tty
+    return 1
+  fi
+  stty "$tty_state" </dev/tty
+  printf '\n' >/dev/tty
+  printf -v "$target" '%s' "$value"
+}
+
+valid_session_id() {
+  printf '%s' "$1" | node -e '
+    let value = ""
+    process.stdin.on("data", chunk => { value += chunk })
+    process.stdin.on("end", () => {
+      try {
+        const { decodeSession } = require("./lib/session-bundle")
+        if (!decodeSession(value)) throw new Error("Unsupported session format")
+      } catch (_) {
+        process.exitCode = 1
+      }
+    })
+  '
+}
+
 if [[ ! -t 0 ]]; then
   echo "Created $APP_DIR/config.env. Run this installer from an interactive terminal to enter bot settings." >&2
   exit 0
@@ -93,10 +125,9 @@ while :; do
   echo "Username must be 2-40 letters, numbers, spaces, dots, underscores, or hyphens."
 done
 while :; do
-  read -r -s -p "WhatsApp SESSION_ID (hidden): " session_id
-  echo
-  [[ -n "$session_id" ]] && break
-  echo "SESSION_ID is required."
+  read_hidden_line "WhatsApp SESSION_ID (hidden): " session_id || exit 1
+  if valid_session_id "$session_id"; then break; fi
+  echo "SESSION_ID is incomplete or invalid. Copy the full value from KENTECH_SESSION_ID.txt."
 done
 while :; do
   read -r -p "Your WhatsApp number with country code: " sudo_number

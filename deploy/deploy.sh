@@ -17,7 +17,23 @@ if [[ ! -f config.env ]]; then
 fi
 
 yarn install --frozen-lockfile --production=false
-node --check index.js
+
+required_runtime_files=(
+  index.js
+  lib/index.js
+  lib/client.js
+  lib/download-group-guard.js
+  lib/yt-auth.js
+  lib/db/amenu.js
+)
+
+for runtime_file in "${required_runtime_files[@]}"; do
+  if [[ ! -f "$runtime_file" ]]; then
+    echo "Required runtime file is missing: $APP_DIR/$runtime_file" >&2
+    exit 1
+  fi
+  node --check "$runtime_file"
+done
 
 PM2="$APP_DIR/node_modules/.bin/pm2"
 if "$PM2" describe "$APP_NAME" >/dev/null 2>&1; then
