@@ -2,7 +2,7 @@
 set -euo pipefail
 
 APP_DIR="${1:-$(pwd)}"
-APP_NAME="${APP_NAME:-kentech-ai}"
+APP_NAME="${APP_NAME:-}"
 
 cd "$APP_DIR"
 
@@ -14,6 +14,11 @@ fi
 if [[ ! -f config.env ]]; then
   echo "Create $APP_DIR/config.env from config.env.example before deployment." >&2
   exit 1
+fi
+
+if [[ -z "$APP_NAME" ]]; then
+  APP_NAME="$(sed -n 's/^BOT_NAME="\(.*\)"$/\1/p' config.env | head -n 1)"
+  APP_NAME="${APP_NAME:-kentech-ai}"
 fi
 
 yarn install --frozen-lockfile --production=false

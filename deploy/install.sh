@@ -97,22 +97,8 @@ read_hidden_line() {
 }
 
 valid_session_id() {
-  printf '%s' "$1" | node -e '
-    let value = ""
-    process.stdin.on("data", chunk => { value += chunk })
-    process.stdin.on("end", () => {
-      try {
-        value = value.trim()
-        if (!value || /\s/.test(value) || value.length > 250000) throw new Error("Invalid session format")
-        if (value.startsWith("KENTECH_")) {
-          const { decodeSession } = require("./lib/session-bundle")
-          if (!decodeSession(value)) throw new Error("Unsupported session format")
-        }
-      } catch (_) {
-        process.exitCode = 1
-      }
-    })
-  '
+  local value="${1:-}"
+  [[ -n "$value" && "$value" != *[[:space:]]* && ${#value} -le 250000 ]]
 }
 
 if [[ ! -t 0 ]]; then
@@ -131,7 +117,7 @@ done
 while :; do
   read_hidden_line "WhatsApp SESSION_ID (hidden): " session_id || exit 1
   if valid_session_id "$session_id"; then break; fi
-  echo "SESSION_ID is incomplete or invalid. Paste the complete KENTECH or Levanter session ID."
+  echo "SESSION_ID is empty, contains spaces, or is too long. Paste the complete ID on one line."
 done
 while :; do
   read -r -p "Your WhatsApp number with country code: " sudo_number
@@ -153,7 +139,7 @@ set_env PREFIX "$prefix"
 chmod 600 config.env
 printf "${GREEN}[5/5] Configuration saved to %s${RESET}\n" "$APP_DIR/config.env"
 
-bash deploy/deploy.sh "$APP_DIR"
+APP_NAME="$bot_name" bash deploy/deploy.sh "$APP_DIR"
 printf "${GREEN}\n+===============================================================\n"
 printf "  KENTECH AI is installed and running.\n"
 printf "  Check status with: pm2 status\n"

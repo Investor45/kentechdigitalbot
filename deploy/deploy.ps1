@@ -1,6 +1,6 @@
 param(
   [string]$AppDir = (Get-Location).Path,
-  [string]$AppName = 'kentech-ai'
+  [string]$AppName = ''
 )
 
 $ErrorActionPreference = 'Stop'
@@ -12,6 +12,14 @@ if (-not (Test-Path 'package.json')) {
 if (-not (Test-Path 'config.env')) {
   throw "Create config.env from config.env.example before deployment."
 }
+
+if (-not $AppName) {
+  $botNameLine = Get-Content 'config.env' | Where-Object { $_ -match '^BOT_NAME=' } | Select-Object -First 1
+  if ($botNameLine -match '^BOT_NAME="?(.*?)"?$' -and $matches[1].Trim()) {
+    $AppName = $matches[1].Trim()
+  }
+}
+$AppName = if ($AppName) { $AppName } else { 'kentech-ai' }
 
 corepack yarn install --frozen-lockfile --production=false
 node --check index.js

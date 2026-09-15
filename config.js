@@ -89,7 +89,7 @@ module.exports = {
   MENTION: process.env.MENTION || '',
   MAX_UPLOAD: process.env.MAX_UPLOAD || 230,
   REJECT_CALL: process.env.REJECT_CALL,
-  VPS: toBool(process.env.VPS),
+  VPS: process.env.VPS === undefined ? true : toBool(process.env.VPS),
   AUTO_STATUS_VIEW: (process.env.AUTO_STATUS_VIEW || 'false').trim(),
   SEND_READ: process.env.SEND_READ,
   AJOIN: process.env.AJOIN || 'false',
