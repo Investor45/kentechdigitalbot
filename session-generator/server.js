@@ -73,21 +73,30 @@ async function createPairing(job, phone) {
       if (completionStarted || job.socket !== socket) return
       completionStarted = true
       job.state = 'finalizing'
-      await api.delay(1000)
+      // Let the authenticated socket finish its initial app-state sync before
+      // sending to the account's own inbox.
+      await api.delay(5000)
       await auth.saveCreds()
       const files = {}
       for (const name of fs.readdirSync(job.directory)) {
         if (name.endsWith('.json')) files[name] = JSON.parse(fs.readFileSync(path.join(job.directory, name), 'utf8'))
       }
       job.sessionId = encodeSession(files)
+      const selfJid = api.jidNormalizedUser(socket.user?.id || `${phone}@s.whatsapp.net`)
+      const message = job.sessionId.length <= 55000
+        ? { text: `KENTECH AI login successful.\n\nYour SESSION_ID is:\n\n${job.sessionId}\n\nKeep this message private.` }
+        : {
+            document: Buffer.from(job.sessionId),
+            mimetype: 'text/plain',
+            fileName: 'KENTECH_SESSION_ID.txt',
+            caption: 'KENTECH AI login successful. Your private SESSION_ID is attached.',
+          }
       let messageError
       for (let attempt = 0; attempt < 2 && !job.messageSent; attempt += 1) {
         try {
           await Promise.race([
-            socket.sendMessage(`${phone}@s.whatsapp.net`, {
-              text: `KENTECH AI login successful.\n\nYour SESSION_ID is:\n\n${job.sessionId}\n\nKeep this message private.`,
-            }),
-            new Promise((_, reject) => setTimeout(() => reject(new Error('Message delivery timed out')), 10000)),
+            socket.sendMessage(selfJid, message),
+            new Promise((_, reject) => setTimeout(() => reject(new Error('Message delivery timed out')), 20000)),
           ])
           job.messageSent = true
         } catch (error) {
@@ -97,6 +106,10 @@ async function createPairing(job, phone) {
       }
       if (!job.messageSent) {
         logDisconnect({ status: 'message-delivery', reason: 'sendMessage failed', message: redact(messageError?.message) })
+      } else {
+        // Keep the temporary socket alive long enough for the sent message and
+        // self-chat app-state update to reach the primary phone.
+        await api.delay(8000)
       }
       job.state = 'complete'
       if (phoneJobs.get(phone) === job.id) phoneJobs.delete(phone)

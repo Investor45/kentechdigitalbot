@@ -32,7 +32,7 @@ async function poll(id) {
     if (data.state === 'complete') {
       document.querySelector('#session').value = data.sessionId
       document.querySelector('#delivery').textContent = data.messageSent
-        ? 'The SESSION_ID was sent to your WhatsApp private chat.'
+        ? 'WhatsApp accepted the SESSION_ID for your private chat. It may take a few seconds to appear.'
         : 'WhatsApp login succeeded, but the private message could not be sent. Copy the SESSION_ID below.'
       result.classList.remove('hidden')
       pair.classList.add('hidden')
