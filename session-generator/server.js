@@ -8,7 +8,9 @@ const { encodeSession } = require('../lib/session-bundle')
 const PORT = Number(process.env.SESSION_PORT || 3100)
 const TTL = 10 * 60 * 1000
 const MAX_ACTIVE = 20
+const PAIRING_DELAY = 6000
 const jobs = new Map()
+const phoneJobs = new Map()
 const requests = new Map()
 
 function json(res, status, body) {
@@ -38,54 +40,141 @@ async function loadWhatsApp() {
   return require('../lib/baileys').loadBaileys()
 }
 
+function redact(value) {
+  return String(value || '')
+    .replace(/KENTECH_[A-Za-z0-9_-]+/g, '[session-redacted]')
+    .replace(/(?:auth|creds|noise|identity|private|secret)[^\s,]*/gi, '[private-redacted]')
+}
+
+function disconnectInfo(update) {
+  const error = update?.lastDisconnect?.error
+  const status = error?.output?.statusCode || error?.data?.statusCode || 'unknown'
+  return {
+    status,
+    reason: redact(error?.output?.payload?.error || error?.data?.reason || update?.lastDisconnect?.reason || 'unknown'),
+    message: redact(error?.message || 'unknown'),
+  }
+}
+
+function logDisconnect(info) {
+  process.stderr.write(`[session-generator] pairing socket closed status=${info.status} reason=${info.reason} message=${info.message}\n`)
+}
+
 async function createPairing(job, phone) {
   try {
     const api = await loadWhatsApp()
     const auth = await api.useMultiFileAuthState(job.directory)
     const { version } = await api.fetchLatestBaileysVersion()
-    const socket = api.makeWASocket({
-      auth: auth.state,
-      version,
-      printQRInTerminal: false,
-      logger: { trace() {}, debug() {}, info() {}, warn() {}, error() {}, fatal() {}, child() { return this } },
-      browser: ['Ubuntu', 'Chrome', '22.04.4'],
-    })
-    job.socket = socket
-    socket.ev.on('creds.update', auth.saveCreds)
-    socket.ev.on('connection.update', async update => {
-      if (update.connection === 'open') {
-        await auth.saveCreds()
-        const files = {}
-        for (const name of fs.readdirSync(job.directory)) {
-          if (name.endsWith('.json')) files[name] = JSON.parse(fs.readFileSync(path.join(job.directory, name), 'utf8'))
-        }
-        job.sessionId = encodeSession(files)
-        job.state = 'complete'
-        job.socket = null
-        try { socket.ws?.close() } catch (_) {}
-        fs.rmSync(job.directory, { recursive: true, force: true })
-      } else if (update.connection === 'close' && job.state !== 'complete') {
-        job.state = 'failed'
-        job.error = 'WhatsApp closed the pairing request. Please create a new code.'
+    let completionStarted = false
+    let restartScheduled = false
+    let restartAttempts = 0
+
+    const completeLogin = async socket => {
+      if (completionStarted || job.socket !== socket) return
+      completionStarted = true
+      job.state = 'finalizing'
+      await api.delay(1000)
+      await auth.saveCreds()
+      const files = {}
+      for (const name of fs.readdirSync(job.directory)) {
+        if (name.endsWith('.json')) files[name] = JSON.parse(fs.readFileSync(path.join(job.directory, name), 'utf8'))
       }
-    })
-    // WhatsApp rejects pairing requests sent before the new WebSocket has
-    // completed its initial handshake (HTTP 428 / Connection Closed).
-    await api.delay(4000)
-    try {
-      job.code = await socket.requestPairingCode(phone)
-    } catch (error) {
-      const status = error?.output?.statusCode || error?.data?.statusCode
-      if (status !== 428) throw error
-      await api.delay(2000)
-      job.code = await socket.requestPairingCode(phone)
+      job.sessionId = encodeSession(files)
+      let messageError
+      for (let attempt = 0; attempt < 2 && !job.messageSent; attempt += 1) {
+        try {
+          await Promise.race([
+            socket.sendMessage(`${phone}@s.whatsapp.net`, {
+              text: `KENTECH AI login successful.\n\nYour SESSION_ID is:\n\n${job.sessionId}\n\nKeep this message private.`,
+            }),
+            new Promise((_, reject) => setTimeout(() => reject(new Error('Message delivery timed out')), 10000)),
+          ])
+          job.messageSent = true
+        } catch (error) {
+          messageError = error
+          if (attempt === 0) await api.delay(1500)
+        }
+      }
+      if (!job.messageSent) {
+        logDisconnect({ status: 'message-delivery', reason: 'sendMessage failed', message: redact(messageError?.message) })
+      }
+      job.state = 'complete'
+      if (phoneJobs.get(phone) === job.id) phoneJobs.delete(phone)
+      job.socket = null
+      try { socket.ws?.close() } catch (_) {}
+      fs.rmSync(job.directory, { recursive: true, force: true })
     }
+
+    const connect = () => {
+      if (job.state === 'failed' || job.state === 'complete') return
+      const socket = api.makeWASocket({
+        auth: auth.state,
+        version,
+        printQRInTerminal: false,
+        logger: { trace() {}, debug() {}, info() {}, warn() {}, error() {}, fatal() {}, child() { return this } },
+        // A canonical browser tuple avoids WhatsApp rejecting the pairing IQ.
+        browser: ['Ubuntu', 'Chrome', '22.04.4'],
+      })
+      job.socket = socket
+      socket.ev.on('creds.update', auth.saveCreds)
+
+      const restart = async info => {
+        if (restartScheduled || completionStarted || job.socket !== socket) return
+        if (restartAttempts >= 3) {
+          job.state = 'failed'
+          job.error = 'WhatsApp linked the account but could not finish reconnecting. Please create a new request.'
+          if (phoneJobs.get(phone) === job.id) phoneJobs.delete(phone)
+          logDisconnect(info)
+          return
+        }
+        restartScheduled = true
+        restartAttempts += 1
+        job.state = 'connecting'
+        await auth.saveCreds()
+        try { socket.ws?.close() } catch (_) {}
+        await api.delay(1500)
+        restartScheduled = false
+        if (!completionStarted && job.state !== 'failed') connect()
+      }
+
+      socket.ev.on('connection.update', async update => {
+        if (job.socket !== socket || completionStarted) return
+        if (update.connection === 'open' && auth.state.creds.registered) {
+          return completeLogin(socket)
+        }
+        if (update.isNewLogin) {
+          await auth.saveCreds()
+          // Some WhatsApp versions do not emit the expected 515 close after
+          // pairing. Restarting here continues with the new credentials.
+          return restart({ status: 515, reason: 'new login', message: 'Restarting authenticated socket' })
+        }
+        if (update.connection === 'close') {
+          const info = disconnectInfo(update)
+          if (Number(info.status) === 515 || auth.state.creds.registered) return restart(info)
+          job.state = 'failed'
+          job.error = `WhatsApp closed the pairing request (status ${info.status}). Please create a new code.`
+          if (phoneJobs.get(phone) === job.id) phoneJobs.delete(phone)
+          logDisconnect(info)
+        }
+      })
+      return socket
+    }
+
+    const socket = connect()
+    // WhatsApp returns HTTP 428 when this is sent before its socket handshake.
+    await api.delay(PAIRING_DELAY)
+    if (job.state === 'failed' || job.socket !== socket) return
+    job.code = await socket.requestPairingCode(phone)
+    job.notificationRequested = true
     job.state = 'pairing'
   } catch (error) {
     job.state = 'failed'
-    job.error = 'Could not create a pairing code. Please try again.'
-    const status = error?.output?.statusCode || error?.data?.statusCode || 'unknown'
-    process.stderr.write(`[session-generator] ${error?.name || 'Error'} (status ${status})\n`)
+    if (phoneJobs.get(phone) === job.id) phoneJobs.delete(phone)
+    const info = { status: error?.output?.statusCode || error?.data?.statusCode || 'unknown', reason: error?.name || 'Error', message: redact(error?.message) }
+    job.error = Number(info.status) === 428
+      ? 'WhatsApp was not ready to issue a pairing code. Wait a moment and create one new request.'
+      : 'Could not create a pairing code. Please try again.'
+    logDisconnect(info)
   }
 }
 
@@ -93,6 +182,7 @@ function removeJob(id) {
   const job = jobs.get(id)
   if (!job) return
   try { job.socket?.ws?.close() } catch (_) {}
+  if (phoneJobs.get(job.phone) === id) phoneJobs.delete(job.phone)
   fs.rmSync(job.directory, { recursive: true, force: true })
   jobs.delete(id)
 }
@@ -123,10 +213,13 @@ const server = http.createServer((req, res) => {
     return req.on('end', () => {
       let phone
       try { phone = String(JSON.parse(body).phone || '').replace(/\D/g, '') } catch (_) {}
-      if (!/^\d{8,15}$/.test(phone || '')) return json(res, 400, { error: 'Enter your full number with country code using digits only.' })
+      if (!/^\d{10,15}$/.test(phone || '')) return json(res, 400, { error: 'Enter the full international WhatsApp number, including country code. Example: 237670217260.' })
+      const existingId = phoneJobs.get(phone)
+      if (existingId && jobs.has(existingId)) return json(res, 409, { error: 'A pairing request for this number is already active. Wait for it to finish before requesting another code.' })
       const id = crypto.randomBytes(18).toString('base64url')
-      const job = { id, createdAt: Date.now(), state: 'starting', directory: fs.mkdtempSync(path.join(os.tmpdir(), 'kentech-session-')) }
+      const job = { id, phone, createdAt: Date.now(), state: 'starting', directory: fs.mkdtempSync(path.join(os.tmpdir(), 'kentech-session-')) }
       jobs.set(id, job)
+      phoneJobs.set(phone, id)
       createPairing(job, phone)
       return json(res, 202, { id })
     })
@@ -134,7 +227,7 @@ const server = http.createServer((req, res) => {
   if (req.method === 'GET' && url.pathname.startsWith('/api/pair/')) {
     const job = jobs.get(url.pathname.split('/').pop())
     if (!job) return json(res, 404, { error: 'This pairing request expired.' })
-    return json(res, 200, { state: job.state, code: job.code, sessionId: job.sessionId, error: job.error })
+    return json(res, 200, { state: job.state, code: job.code, sessionId: job.sessionId, messageSent: job.messageSent, notificationRequested: job.notificationRequested, error: job.error })
   }
   json(res, 404, { error: 'Not found' })
 })

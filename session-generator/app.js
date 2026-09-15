@@ -16,7 +16,9 @@ form.addEventListener('submit', async event => {
     pair.classList.remove('hidden')
     poll(data.id)
   } catch (cause) {
-    error.textContent = cause.message || 'Could not start pairing.'
+    error.textContent = cause instanceof TypeError && cause.message === 'Failed to fetch'
+      ? 'The session generator is offline or its API is not connected. Start the generator and make sure /api/ is forwarded to it.'
+      : cause.message || 'Could not start pairing.'
     button.disabled = false
   }
 })
@@ -26,9 +28,12 @@ async function poll(id) {
     const response = await fetch(`/api/pair/${encodeURIComponent(id)}`)
     const data = await response.json()
     if (!response.ok || data.state === 'failed') throw new Error(data.error)
-    if (data.code) document.querySelector('#code').textContent = data.code.match(/.{1,4}/g)?.join('-') || data.code
+    if (data.code) document.querySelector('#code').textContent = data.code
     if (data.state === 'complete') {
       document.querySelector('#session').value = data.sessionId
+      document.querySelector('#delivery').textContent = data.messageSent
+        ? 'The SESSION_ID was sent to your WhatsApp private chat.'
+        : 'WhatsApp login succeeded, but the private message could not be sent. Copy the SESSION_ID below.'
       result.classList.remove('hidden')
       pair.classList.add('hidden')
       button.disabled = false
