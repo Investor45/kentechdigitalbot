@@ -141,9 +141,7 @@ async function control(message, match) {
 }
 
 bot({ pattern: 'autodownload ?(.*)', fromMe: true, type: 'download' }, control)
-bot({ on: 'text', fromMe: false, type: 'autoSocialDownload' }, handleLink)
-bot({ on: 'text', fromMe: true, type: 'autoSocialDownloadOwner' }, handleLink)
-for (const on of ['image', 'video', 'document']) {
-  bot({ on, fromMe: false, type: `autoSocialDownload:${on}` }, handleLink)
-  bot({ on, fromMe: true, type: `autoSocialDownloadOwner:${on}` }, handleLink)
-}
+// The command loader supports the general message event for media captions;
+// video and document are not supported registration event names.
+bot({ on: 'message', fromMe: false, type: 'autoSocialDownload' }, handleLink)
+bot({ on: 'message', fromMe: true, type: 'autoSocialDownloadOwner' }, handleLink)
