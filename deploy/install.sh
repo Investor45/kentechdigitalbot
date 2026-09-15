@@ -102,8 +102,12 @@ valid_session_id() {
     process.stdin.on("data", chunk => { value += chunk })
     process.stdin.on("end", () => {
       try {
-        const { decodeSession } = require("./lib/session-bundle")
-        if (!decodeSession(value)) throw new Error("Unsupported session format")
+        value = value.trim()
+        if (!value || /\s/.test(value) || value.length > 250000) throw new Error("Invalid session format")
+        if (value.startsWith("KENTECH_")) {
+          const { decodeSession } = require("./lib/session-bundle")
+          if (!decodeSession(value)) throw new Error("Unsupported session format")
+        }
       } catch (_) {
         process.exitCode = 1
       }
@@ -127,7 +131,7 @@ done
 while :; do
   read_hidden_line "WhatsApp SESSION_ID (hidden): " session_id || exit 1
   if valid_session_id "$session_id"; then break; fi
-  echo "SESSION_ID is incomplete or invalid. Copy the full value from KENTECH_SESSION_ID.txt."
+  echo "SESSION_ID is incomplete or invalid. Paste the complete KENTECH or Levanter session ID."
 done
 while :; do
   read -r -p "Your WhatsApp number with country code: " sudo_number
