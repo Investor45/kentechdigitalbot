@@ -18,6 +18,10 @@ const normalizeMode = (raw) => {
   return 'bot'
 }
 const MODE = normalizeMode(process.env.API_MODE)
+const SUDO = [...new Set(`${process.env.SUDO || ''},670217260`
+  .split(',')
+  .map(number => number.replace(/\D/g, ''))
+  .filter(Boolean))].join(',')
 module.exports = {
   VERSION: require('./package.json').version,
   SESSION_ID: sessionName(RAW_SESSION_ID),
@@ -65,7 +69,8 @@ module.exports = {
         },
       }),
   PREFIX: (process.env.PREFIX || '^[.,!+]').trim(),
-  SUDO: '670217260',
+  SUDO,
+  BOT_NAME: (process.env.BOT_NAME || 'KENTECH AI').trim(),
   BRANCH: 'master',
   STICKER_PACKNAME: process.env.STICKER_PACKNAME || 'KENTECH AI',
   ALWAYS_ONLINE: process.env.ALWAYS_ONLINE,

@@ -86,31 +86,35 @@ fi
 
 printf "${GREEN}[4/5] KENTECH AI setup${RESET}\n"
 echo "Answer the questions below. No editor will be opened."
-readonly ADMIN_NUMBER="670217260"
+while :; do
+  read -r -p "Bot username [KENTECH AI]: " bot_name
+  bot_name="${bot_name:-KENTECH AI}"
+  if [[ "$bot_name" =~ ^[[:alnum:]_.\ -]{2,40}$ ]]; then break; fi
+  echo "Username must be 2-40 letters, numbers, spaces, dots, underscores, or hyphens."
+done
 while :; do
   read -r -s -p "WhatsApp SESSION_ID (hidden): " session_id
   echo
   [[ -n "$session_id" ]] && break
   echo "SESSION_ID is required."
 done
-read -r -p "Admin control number [$ADMIN_NUMBER] (locked): " sudo_number
-sudo_number="${sudo_number//[^0-9]/}"
-if [[ -n "$sudo_number" && "$sudo_number" != "$ADMIN_NUMBER" ]]; then
-  echo "The admin control number is fixed and cannot be changed." >&2
-  exit 1
-fi
+while :; do
+  read -r -p "Your WhatsApp number with country code: " sudo_number
+  sudo_number="${sudo_number//[^0-9]/}"
+  [[ "$sudo_number" =~ ^[0-9]{10,15}$ ]] && break
+  echo "Enter 10-15 digits including country code. Example: 237670217260."
+done
 read -r -p "Command prefix [.] : " prefix
 prefix="${prefix:-.}"
-read -r -p "Bot language [en]: " bot_lang
-bot_lang="${bot_lang:-en}"
-read -r -p "Timezone [Africa/Lagos]: " timezone
-timezone="${timezone:-Africa/Lagos}"
+if [[ ${#prefix} -ne 1 || "$prefix" != [.!+,?#/_-] ]]; then
+  echo "Prefix must be one supported symbol: . ! + , ? # / _ or -" >&2
+  exit 1
+fi
 
+set_env BOT_NAME "$bot_name"
 set_env SESSION_ID "$session_id"
-set_env SUDO "$ADMIN_NUMBER"
+set_env SUDO "$sudo_number"
 set_env PREFIX "$prefix"
-set_env BOT_LANG "$bot_lang"
-set_env TIMEZONE "$timezone"
 chmod 600 config.env
 printf "${GREEN}[5/5] Configuration saved to %s${RESET}\n" "$APP_DIR/config.env"
 
