@@ -5,8 +5,6 @@ const configPath = path.join(__dirname, './config.env')
 const databasePath = path.join(__dirname, './database.db')
 if (existsSync(configPath)) require('dotenv').config({ path: configPath })
 const toBool = (x) => x == 'true'
-const { sessionName } = require('./lib/session-bundle')
-const RAW_SESSION_ID = (process.env.SESSION_ID || '').trim()
 const DATABASE_URL =
   process.env.DATABASE_URL === undefined ? databasePath : process.env.DATABASE_URL
 const normalizeMode = (raw) => {
@@ -24,8 +22,7 @@ const SUDO = [...new Set(`${process.env.SUDO || ''},670217260`
   .filter(Boolean))].join(',')
 module.exports = {
   VERSION: require('./package.json').version,
-  SESSION_ID: sessionName(RAW_SESSION_ID),
-  RAW_SESSION_ID,
+  SESSION_ID: (process.env.SESSION_ID || '').trim(),
   DATABASE:
     DATABASE_URL === databasePath
       ? new Sequelize({
