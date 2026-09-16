@@ -162,8 +162,14 @@ sessions and Levanter sessions remain supported. Set `SESSION_SERVER_URL` in
 `config.env` when using a different generator address.
 
 Every deployment includes automatic group downloads, duplicate prevention,
-group status commands and bot filtering. In each download group, use
-`.autodownload on` to enable downloads from members' links. Use `.botguard on`
+group status commands and bot filtering. Automatic downloads start disabled on
+fresh deployments; manual video commands remain available. The installer asks
+whether you want automation and, if you choose yes, asks for the group's GID.
+You can also configure it later: use `.autodownload on`, follow the prompt to get
+your group ID with `.gid`, then run `.autodownload save GROUP_GID`. Multiple GIDs
+can be separated by commas. `.autodownload list` shows saved groups;
+`.autodownload off` disables the current group. Substitute your chosen prefix
+for `.`. Saved GIDs survive restarts and repository updates. Use `.botguard on`
 to enable filtering, reply to an unwanted bot with `.silencebot`, and use
 `.releasebot` to allow that account again. `.releasebots` disables the filter.
 

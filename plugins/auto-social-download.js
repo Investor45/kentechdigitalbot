@@ -4,6 +4,7 @@ const { bot, facebook, instagram } = require('../lib/')
 const { downloadTikTok, tiktokUrl } = require('../lib/tiktok-download')
 const { getGuard } = require('../lib/download-group-guard')
 const { downloadYouTube, youtubeId } = require('../lib/youtube-download')
+const { parseGroupIds } = require('../lib/download-groups')
 
 const STATE_FILE = path.join(__dirname, '..', 'auto-download-groups.json')
 const URL_PATTERN = /https?:\/\/[^\s]+/i
@@ -38,7 +39,9 @@ function claimMessage(message, jid) {
 }
 
 function saveGroups() {
-  fs.writeFileSync(STATE_FILE, JSON.stringify([...enabledGroups].sort(), null, 2))
+  const temp = STATE_FILE + '.tmp'
+  fs.writeFileSync(temp, JSON.stringify([...enabledGroups].sort(), null, 2))
+  fs.renameSync(temp, STATE_FILE)
 }
 
 function platformFor(url) {
@@ -81,10 +84,11 @@ async function handleLink(message) {
   const jid = String(message.jid || message.data?.key?.remoteJid || '')
   const isGroup = Boolean(message.isGroup || jid.endsWith('@g.us'))
   if (!isGroup || !enabledGroups.has(jid) || activeGroups.has(jid)) return
-  if (getGuard().shouldBlock(message.data || {}, message.client)) return
+  if (getGuard().shouldBlock(message.message || message.data || {}, message.client)) return
   // Explicit downloader commands are handled by their command plugins.
   const text = String(message.text || message.caption || '').trim()
-  if (/^[.,!+](?:video|ytv|song|yts|tiktok)\b/i.test(text)) return
+  const prefix = String(process.env.PREFIX || '.').trim() || '.'
+  if (text.startsWith(prefix) && /^[a-z]/i.test(text.slice(prefix.length))) return
   const url = tiktokUrl(text) || text.match(URL_PATTERN)?.[0]
   if (!url) return
   let platform
@@ -124,20 +128,36 @@ async function handleLink(message) {
 }
 
 async function control(message, match) {
-  if (!message.isGroup) return message.send('Use this command inside a group.')
+  const prefix = String(process.env.PREFIX || '.').trim() || '.'
   const jid = String(message.jid || '')
-  const action = String(match || '').trim().toLowerCase()
-  if (action === 'on' || action === 'enable') {
-    enabledGroups.add(jid)
-    saveGroups()
-    return message.send(`Automatic video downloads enabled for this group.\n${jid}`)
+  const [action = '', ...args] = String(match || '').trim().split(/\s+/)
+  const mode = action.toLowerCase()
+  if (mode === 'list') return message.send(`Saved download groups:\n${[...enabledGroups].join('\n') || 'None'}`)
+  if (['on', 'enable', 'save'].includes(mode)) {
+    if (!args.length) return message.send(`Choose the group to automate. Send ${prefix}gid inside that group, then save its ID with:\n${prefix}autodownload save GROUP_GID\n${message.isGroup ? `This group's GID: ${jid}` : ''}`)
+    let ids
+    try { ids = parseGroupIds(args.join(' ')) } catch (error) { return message.send(error.message) }
+    const previous = new Set(enabledGroups)
+    ids.forEach(id => enabledGroups.add(id))
+    try { saveGroups() } catch (_) {
+      enabledGroups.clear(); previous.forEach(id => enabledGroups.add(id))
+      return message.send('Could not save download groups. Please try again.')
+    }
+    return message.send(`Automatic downloads enabled. Saved GIDs:\n${ids.join('\n')}`)
   }
-  if (action === 'off' || action === 'disable') {
-    enabledGroups.delete(jid)
-    saveGroups()
-    return message.send('Automatic video downloads disabled for this group.')
+  if (mode === 'off' || mode === 'disable') {
+    let ids
+    try { ids = args.length ? parseGroupIds(args.join(' ')) : message.isGroup ? [jid] : [] } catch (error) { return message.send(error.message) }
+    if (!ids.length) return message.send(`Use ${prefix}autodownload off GROUP_GID, or run it inside the group.`)
+    const previous = new Set(enabledGroups)
+    ids.forEach(id => enabledGroups.delete(id))
+    try { saveGroups() } catch (_) {
+      enabledGroups.clear(); previous.forEach(id => enabledGroups.add(id))
+      return message.send('Could not save download groups. Please try again.')
+    }
+    return message.send(`Automatic downloads disabled:\n${ids.join('\n')}`)
   }
-  return message.send(`Auto-download is ${enabledGroups.has(jid) ? 'enabled' : 'disabled'} for this group.\nUse .autodownload on or .autodownload off`)
+  return message.send(`Auto-download is ${enabledGroups.has(jid) ? 'enabled' : 'disabled'} for this group.\nManual video commands remain available.\n${prefix}autodownload on — set up a group\n${prefix}autodownload save GROUP_GID — save and enable\n${prefix}autodownload off — disable this group\n${prefix}autodownload list — view saved GIDs`)
 }
 
 bot({ pattern: 'autodownload ?(.*)', fromMe: true, type: 'download' }, control)

@@ -22,3 +22,5 @@ download-group-guard.json
 download-group-guard-status.json
 *.tar.gz
 .kentech-session-vault/
+auto-download-groups.json
+auto-download-groups.json.tmp

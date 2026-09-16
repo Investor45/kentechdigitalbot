@@ -29,6 +29,7 @@ required_runtime_files=(
   lib/client.js
   lib/kentech-runtime.js
   lib/short-session.js
+  lib/download-groups.js
   lib/import-session-bundle.js
   lib/download-group-guard.js
   lib/yt-auth.js

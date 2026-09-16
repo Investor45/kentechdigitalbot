@@ -51,6 +51,10 @@ fi
 
 printf "${YELLOW}[3/5] Preparing bot directory: %s${RESET}\n" "$APP_DIR"
 if [[ -d "$APP_DIR/.git" ]]; then
+  if [[ -n "$(git -C "$APP_DIR" status --porcelain)" ]]; then
+    git -C "$APP_DIR" stash push --include-untracked -m "kentech-installer-backup-$(date +%Y%m%d%H%M%S)" -- . ':(exclude)auto-download-groups.json' ':(exclude)auto-download-groups.json.tmp'
+    echo "Local edits were preserved in Git stash. Run git stash list to review them after deployment."
+  fi
   git -C "$APP_DIR" fetch origin "$BRANCH"
   git -C "$APP_DIR" checkout "$BRANCH"
   git -C "$APP_DIR" pull --ff-only origin "$BRANCH"
@@ -110,7 +114,7 @@ valid_session_id() {
   '
 }
 
-if [[ ! -t 0 ]]; then
+if ! (stty -g </dev/tty >/dev/null 2>&1) 2>/dev/null; then
   echo "Created $APP_DIR/config.env. Run this installer from an interactive terminal to enter bot settings." >&2
   exit 0
 fi
@@ -118,7 +122,7 @@ fi
 printf "${GREEN}[4/5] KENTECH AI setup${RESET}\n"
 echo "Answer the questions below. No editor will be opened."
 while :; do
-  read -r -p "Bot username [KENTECH AI]: " bot_name
+  read -r -p "Bot username [KENTECH AI]: " bot_name </dev/tty
   bot_name="${bot_name:-KENTECH AI}"
   if [[ "$bot_name" =~ ^[[:alnum:]_.\ -]{2,40}$ ]]; then break; fi
   echo "Username must be 2-40 letters, numbers, spaces, dots, underscores, or hyphens."
@@ -128,17 +132,42 @@ while :; do
   if valid_session_id "$session_id"; then break; fi
   echo "SESSION_ID is empty, contains spaces, or is too long. Paste the complete ID on one line."
 done
+set_env SESSION_ID "$session_id"
+chmod 600 config.env
 while :; do
-  read -r -p "Your WhatsApp number with country code: " sudo_number
+  read -r -p "Your WhatsApp number with country code: " sudo_number </dev/tty
   sudo_number="${sudo_number//[^0-9]/}"
   [[ "$sudo_number" =~ ^[0-9]{10,15}$ ]] && break
   echo "Enter 10-15 digits including country code. Example: 237670217260."
 done
-read -r -p "Command prefix [.] : " prefix
+read -r -p "Command prefix [.] : " prefix </dev/tty
 prefix="${prefix:-.}"
 if [[ ${#prefix} -ne 1 || "$prefix" != [.!+,?#/_-] ]]; then
   echo "Prefix must be one supported symbol: . ! + , ? # / _ or -" >&2
   exit 1
+fi
+
+read -r -p "Configure automatic group video downloads now? [y/N]: " auto_download </dev/tty
+if [[ "${auto_download,,}" == y || "${auto_download,,}" == yes ]]; then
+  echo "Get the GID with ${prefix}gid inside your group. You can save multiple GIDs separated by commas."
+  while :; do
+    read -r -p "Download group GID(s): " download_gids </dev/tty
+    if node -e '
+      const fs = require("fs")
+      try {
+        const ids = require("./lib/download-groups").parseGroupIds(process.argv[1])
+        const file = "auto-download-groups.json"
+        const previous = fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, "utf8")) : []
+        if (!Array.isArray(previous)) throw new Error("Existing download groups must be a list")
+        const temp = `${file}.${process.pid}.tmp`
+        fs.writeFileSync(temp, JSON.stringify([...new Set([...previous, ...ids])].sort(), null, 2))
+        fs.renameSync(temp, file)
+        console.log("Saved download groups:", ids.join(", "))
+      } catch (error) { console.error(error.message); process.exitCode = 1 }
+    ' "$download_gids"; then break; fi
+  done
+else
+  echo "Manual downloads are available. Set up automation later with ${prefix}autodownload on."
 fi
 
 set_env BOT_NAME "$bot_name"

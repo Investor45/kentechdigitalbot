@@ -68,7 +68,7 @@ module.exports = {
   PREFIX: (process.env.PREFIX || '^[.,!+]').trim(),
   SUDO,
   BOT_NAME: (process.env.BOT_NAME || 'KENTECH AI').trim(),
-  BRANCH: 'master',
+  BRANCH: 'kentech-custom',
   STICKER_PACKNAME: process.env.STICKER_PACKNAME || 'KENTECH AI',
   ALWAYS_ONLINE: process.env.ALWAYS_ONLINE,
   LOG_MSG: process.env.LOG_MSG || 'false',
