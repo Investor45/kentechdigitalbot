@@ -4,6 +4,7 @@ const os = require('node:os')
 const path = require('node:path')
 const crypto = require('node:crypto')
 const { encodeSession } = require('../lib/session-bundle')
+const { readSessionFiles } = require('../lib/session-files')
 
 const PORT = Number(process.env.SESSION_PORT || 3100)
 const TTL = 10 * 60 * 1000
@@ -77,10 +78,7 @@ async function createPairing(job, phone) {
       // sending to the account's own inbox.
       await api.delay(5000)
       await auth.saveCreds()
-      const files = {}
-      for (const name of fs.readdirSync(job.directory)) {
-        if (name.endsWith('.json')) files[name] = JSON.parse(fs.readFileSync(path.join(job.directory, name), 'utf8'))
-      }
+      const files = await readSessionFiles(job.directory)
       job.sessionId = encodeSession(files)
       const selfJid = api.jidNormalizedUser(socket.user?.id || `${phone}@s.whatsapp.net`)
       const message = job.sessionId.length <= 55000
@@ -153,7 +151,13 @@ async function createPairing(job, phone) {
       socket.ev.on('connection.update', async update => {
         if (job.socket !== socket || completionStarted) return
         if (update.connection === 'open' && auth.state.creds.registered) {
-          return completeLogin(socket)
+          return completeLogin(socket).catch(error => {
+            job.state = 'failed'
+            job.error = 'WhatsApp linked, but the session could not finish saving. Please generate a new code.'
+            if (phoneJobs.get(phone) === job.id) phoneJobs.delete(phone)
+            logDisconnect({ status: 'finalizing', reason: error.name, message: redact(error.message) })
+            try { socket.ws?.close() } catch (_) {}
+          })
         }
         if (update.isNewLogin) {
           await auth.saveCreds()
