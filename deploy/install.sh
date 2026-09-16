@@ -97,8 +97,16 @@ read_hidden_line() {
 }
 
 valid_session_id() {
-  local value="${1:-}"
-  [[ -n "$value" && "$value" != *[[:space:]]* && ${#value} -le 250000 ]]
+  printf '%s' "${1:-}" | node -e '
+    let value = ""
+    process.stdin.on("data", chunk => { value += chunk })
+    process.stdin.on("end", () => {
+      try {
+        if (!value || /\s/.test(value) || value.length > 250000) throw new Error("Invalid session")
+        if (value.startsWith("KENTECH_")) require("./lib/session-bundle").decodeSession(value)
+      } catch (_) { process.exitCode = 1 }
+    })
+  '
 }
 
 if [[ ! -t 0 ]]; then
