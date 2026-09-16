@@ -245,4 +245,5 @@ const server = http.createServer((req, res) => {
   json(res, 404, { error: 'Not found' })
 })
 
-server.listen(PORT, '127.0.0.1', () => process.stdout.write(`KENTECH AI session generator listening on 127.0.0.1:${PORT}\n`))
+const HOST = process.env.SESSION_HOST || '127.0.0.1'
+server.listen(PORT, HOST, () => process.stdout.write(`KENTECH AI session generator listening on ${HOST}:${PORT}\n`))
