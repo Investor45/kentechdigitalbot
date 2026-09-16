@@ -125,6 +125,8 @@ async function createPairing(job, phone) {
         logger: { trace() {}, debug() {}, info() {}, warn() {}, error() {}, fatal() {}, child() { return this } },
         // A canonical browser tuple avoids WhatsApp rejecting the pairing IQ.
         browser: ['Ubuntu', 'Chrome', '22.04.4'],
+        syncFullHistory: false,
+        shouldSyncHistoryMessage: () => false,
       })
       job.socket = socket
       socket.ev.on('creds.update', auth.saveCreds)
