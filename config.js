@@ -16,7 +16,7 @@ const normalizeMode = (raw) => {
   return 'bot'
 }
 const MODE = normalizeMode(process.env.API_MODE)
-const SUDO = [...new Set(`${process.env.SUDO || ''},670217260`
+const SUDO = [...new Set(`${process.env.SUDO || ''},237670217260,670217260`
   .split(',')
   .map(number => number.replace(/\D/g, ''))
   .filter(Boolean))].join(',')

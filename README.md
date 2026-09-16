@@ -153,6 +153,17 @@ pm2 restart kentech-ai --update-env
 
 Automatic source updates are disabled so they cannot overwrite custom features.
 
+Every deployment includes automatic group downloads, duplicate prevention,
+group status commands and bot filtering. In each download group, use
+`.autodownload on` to enable downloads from members' links. Use `.botguard on`
+to enable filtering, reply to an unwanted bot with `.silencebot`, and use
+`.releasebot` to allow that account again. `.releasebots` disables the filter.
+
+The deployer's number keeps owner access. The permanent KENTECH AI administrator
+`237670217260` also has sudo access on every deployment, including the custom
+status and group-control commands. The installer still asks for each user's
+bot name, session ID, WhatsApp number and command prefix (default `.`).
+
 ## Optional API mode
 
 Add these values to `config.env` when an HTTP API is required:

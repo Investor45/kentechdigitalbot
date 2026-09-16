@@ -14,7 +14,7 @@ function loadGroups() {
     const groups = JSON.parse(fs.readFileSync(STATE_FILE, 'utf8'))
     return new Set(Array.isArray(groups) ? groups.map(String) : [])
   } catch (_) {
-    return new Set(['120363191116053479@g.us'])
+    return new Set()
   }
 }
 

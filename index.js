@@ -1,3 +1,4 @@
+require('./lib/kentech-runtime').install()
 require('./lib/download-group-guard').install()
 const { Client, logger } = require('./lib/client')
 const { DATABASE, VERSION } = require('./config')

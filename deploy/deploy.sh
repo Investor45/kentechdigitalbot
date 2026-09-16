@@ -27,6 +27,7 @@ required_runtime_files=(
   index.js
   lib/index.js
   lib/client.js
+  lib/kentech-runtime.js
   lib/download-group-guard.js
   lib/yt-auth.js
   lib/db/amenu.js
