@@ -22,6 +22,7 @@
   <form id="form"><label for="phone">WhatsApp number with country code</label><input id="phone" inputmode="numeric" autocomplete="tel" minlength="10" maxlength="15" pattern="[0-9+ ]{10,16}" placeholder="237670217260" required><button>Generate pairing code</button></form>
   <section id="pair" class="panel hidden"><p><b>Open WhatsApp on your phone now.</b> Go to WhatsApp &gt; Linked devices &gt; Link a device &gt; Link with phone number, then enter these 8 characters exactly as shown:</p><div id="code" class="code">WAIT</div><a class="open-wa" href="whatsapp://" rel="external">Open WhatsApp</a><small>Enter the code without spaces or a hyphen. Start the phone-number linking step manually. This request expires after 10 minutes.</small></section>
   <section id="result" class="panel hidden"><p id="delivery">Connected. Your SESSION_ID is ready.</p><textarea id="session" readonly></textarea><button id="copy" type="button">Copy SESSION_ID</button><small class="danger">Never send this ID to anyone. It gives access to your WhatsApp session.</small></section>
+  <details class="panel"><summary>Shorten a session you already received</summary><label for="long-session">Paste your complete KENTECH_ session ID</label><textarea id="long-session" autocomplete="off" spellcheck="false"></textarea><button id="shorten" type="button">Create short SESSION_ID</button><small>The short ID gives the same account access. Keep it private.</small></details>
   <p id="error" class="danger"></p>
   <script src="/app.js"></script>
 </main></body></html>

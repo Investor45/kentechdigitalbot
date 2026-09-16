@@ -153,6 +153,14 @@ pm2 restart kentech-ai --update-env
 
 Automatic source updates are disabled so they cannot overwrite custom features.
 
+The KENTECH generator now issues 28-character IDs beginning with `KTECH_`.
+Authentication is encrypted in the generator's persistent session store. A new
+deployment retrieves and decrypts it using the short ID; subsequent restarts use
+the bot's local database. Keep the ID private, keep the session store backed up,
+and keep the generator available for new deployments. Older long `KENTECH_`
+sessions and Levanter sessions remain supported. Set `SESSION_SERVER_URL` in
+`config.env` when using a different generator address.
+
 Every deployment includes automatic group downloads, duplicate prevention,
 group status commands and bot filtering. In each download group, use
 `.autodownload on` to enable downloads from members' links. Use `.botguard on`

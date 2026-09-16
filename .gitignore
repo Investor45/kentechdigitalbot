@@ -21,3 +21,4 @@ registered-contacts.json
 download-group-guard.json
 download-group-guard-status.json
 *.tar.gz
+.kentech-session-vault/

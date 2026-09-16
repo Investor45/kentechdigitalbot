@@ -3,7 +3,8 @@ const fs = require('node:fs')
 const os = require('node:os')
 const path = require('node:path')
 const crypto = require('node:crypto')
-const { encodeSession } = require('../lib/session-bundle')
+const { storeSession } = require('../lib/short-session')
+const { decodeSession } = require('../lib/session-bundle')
 const { readSessionFiles } = require('../lib/session-files')
 
 const PORT = Number(process.env.SESSION_PORT || 3100)
@@ -13,6 +14,7 @@ const PAIRING_DELAY = 6000
 const jobs = new Map()
 const phoneJobs = new Map()
 const requests = new Map()
+const STORE = process.env.SESSION_STORE_DIR || path.join(os.homedir(), '.kentech-session-vault')
 
 function json(res, status, body) {
   res.writeHead(status, {
@@ -79,7 +81,7 @@ async function createPairing(job, phone) {
       await api.delay(5000)
       await auth.saveCreds()
       const files = await readSessionFiles(job.directory)
-      job.sessionId = encodeSession(files)
+      job.sessionId = await storeSession(STORE, files)
       const selfJid = api.jidNormalizedUser(socket.user?.id || `${phone}@s.whatsapp.net`)
       const message = job.sessionId.length <= 55000
         ? { text: `KENTECH AI login successful.\n\nYour SESSION_ID is:\n\n${job.sessionId}\n\nKeep this message private.` }
@@ -222,6 +224,26 @@ const server = http.createServer((req, res) => {
   if (req.method === 'GET' && url.pathname === '/app.js') {
     res.writeHead(200, { 'content-type': 'text/javascript; charset=utf-8', 'cache-control': 'no-store' })
     return res.end(script)
+  }
+  if (req.method === 'GET' && /^\/api\/session\/[a-f0-9]{64}$/.test(url.pathname)) {
+    try {
+      const record = JSON.parse(fs.readFileSync(path.join(STORE, url.pathname.split('/').pop() + '.json'), 'utf8'))
+      return json(res, 200, record)
+    } catch (_) { return json(res, 404, { error: 'Session not found' }) }
+  }
+  if (req.method === 'POST' && url.pathname === '/api/shorten') {
+    if (!allowed(clientIp(req))) return json(res, 429, { error: 'Too many requests. Please wait.' })
+    let body = ''
+    req.on('data', chunk => { if ((body += chunk).length > 251000) req.destroy() })
+    return req.on('end', async () => {
+      try {
+        const value = String(JSON.parse(body).sessionId || '').trim()
+        const files = decodeSession(value)
+        if (!files) throw new Error('Unsupported session')
+        const sessionId = await storeSession(STORE, files)
+        return json(res, 200, { sessionId })
+      } catch (_) { return json(res, 400, { error: 'Paste the complete long KENTECH_ session ID.' }) }
+    })
   }
   if (req.method === 'POST' && url.pathname === '/api/pair') {
     if (jobs.size >= MAX_ACTIVE) return json(res, 503, { error: 'The generator is busy. Please try again shortly.' })

@@ -50,7 +50,36 @@ async function poll(id) {
   }
 }
 
+document.querySelector('#shorten').addEventListener('click', async event => {
+  const convert = event.currentTarget
+  convert.disabled = true
+  error.textContent = ''
+  try {
+    const response = await fetch('/api/shorten', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ sessionId: document.querySelector('#long-session').value }) })
+    const data = await response.json()
+    if (!response.ok) throw new Error(data.error)
+    document.querySelector('#session').value = data.sessionId
+    document.querySelector('#long-session').value = ''
+    document.querySelector('#delivery').textContent = 'Your short SESSION_ID is ready. Use it in the bot installer.'
+    result.classList.remove('hidden')
+    result.scrollIntoView({ behavior: 'smooth' })
+  } catch (cause) { error.textContent = cause.message || 'Could not shorten this session.' }
+  finally { convert.disabled = false }
+})
+
 document.querySelector('#copy').addEventListener('click', async () => {
-  await navigator.clipboard.writeText(document.querySelector('#session').value)
-  document.querySelector('#copy').textContent = 'Copied'
+  const field = document.querySelector('#session')
+  try {
+    if (navigator.clipboard) await navigator.clipboard.writeText(field.value)
+    else {
+      field.focus()
+      field.select()
+      if (!document.execCommand('copy')) throw new Error('Copy manually')
+    }
+    document.querySelector('#copy').textContent = 'Copied'
+  } catch (_) {
+    field.focus()
+    field.select()
+    document.querySelector('#copy').textContent = 'Select and copy SESSION_ID'
+  }
 })

@@ -104,6 +104,7 @@ valid_session_id() {
       try {
         if (!value || /\s/.test(value) || value.length > 250000) throw new Error("Invalid session")
         if (value.startsWith("KENTECH_")) require("./lib/session-bundle").decodeSession(value)
+        if (value.startsWith("KTECH_") && !require("./lib/short-session").SHORT_SESSION.test(value)) throw new Error("Invalid short session")
       } catch (_) { process.exitCode = 1 }
     })
   '
