@@ -145,3 +145,7 @@ bot({ pattern: 'autodownload ?(.*)', fromMe: true, type: 'download' }, control)
 // video and document are not supported registration event names.
 bot({ on: 'message', fromMe: false, type: 'autoSocialDownload' }, handleLink)
 bot({ on: 'message', fromMe: true, type: 'autoSocialDownloadOwner' }, handleLink)
+// Some runtime versions dispatch plain links only through their text event.
+// The shared message-key claim prevents duplicate downloads across both events.
+bot({ on: 'text', fromMe: false, type: 'autoSocialDownloadText' }, handleLink)
+bot({ on: 'text', fromMe: true, type: 'autoSocialDownloadTextOwner' }, handleLink)
