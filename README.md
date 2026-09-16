@@ -210,3 +210,5 @@ and passwords first.
 
 This project is distributed under the MIT license. Third-party packages retain
 their respective licenses and notices.
+
+Use `.update` (or your configured prefix, such as `,update`) as the bot owner or administrator to install new features from the KENTECH GitHub branch and restart the current bot. Sessions, configuration, databases and saved download groups stay in place. Local code edits are backed up in Git stash rather than reapplied over the latest features. The bot reports when it is already current. Updates require a KENTECH Git checkout running under PM2; automatic background source updates remain disabled.
