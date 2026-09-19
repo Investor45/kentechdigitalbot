@@ -7,7 +7,7 @@ const databasePath = path.join(__dirname, './database.db')
 if (existsSync(configPath)) require('dotenv').config({ path: configPath })
 const toBool = (x) => x == 'true'
 const DATABASE_URL =
-  process.env.DATABASE_URL === undefined ? databasePath : process.env.DATABASE_URL
+  !process.env.DATABASE_URL || !process.env.DATABASE_URL.trim() ? databasePath : process.env.DATABASE_URL.trim()
 const normalizeMode = (raw) => {
   const m = String(raw || 'false')
     .trim()
