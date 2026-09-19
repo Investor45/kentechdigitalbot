@@ -21,7 +21,7 @@ if [[ -n "$(git status --porcelain --untracked-files=normal)" ]]; then
 fi
 git merge --ff-only "$latest"
 yarn install --frozen-lockfile --production=false
-for file in index.js lib/client.js lib/baileys.js lib/import-session-bundle.js lib/owner-commands.js; do
+for file in index.js lib/client.js lib/baileys.js lib/import-session-bundle.js lib/owner-commands.js lib/deployment-notify.js; do
   node --check "$file"
 done
 echo "KENTECH_UPDATED"
