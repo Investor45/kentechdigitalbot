@@ -27,8 +27,9 @@ else
   node deploy/instance-tools.js init "$APP_DIR" "$bot_name"
 fi
 cd "$APP_DIR"
-read -r -s -p 'WhatsApp SESSION_ID (hidden; same session on redeploy): ' session_id </dev/tty
+read -r -p 'WhatsApp SESSION_ID (visible; verify before pressing Enter): ' session_id </dev/tty
 printf '\n' >/dev/tty
+[[ -n "$session_id" ]] || { echo 'SESSION_ID is required; deployment was not started.' >&2; exit 1; }
 read -r -p 'Owner number with country code: ' sudo_number </dev/tty
 [[ "$sudo_number" =~ ^[0-9]{10,15}$ ]] || { echo 'Invalid owner number.' >&2; exit 1; }
 read -r -p 'Command prefix [,]: ' prefix </dev/tty
