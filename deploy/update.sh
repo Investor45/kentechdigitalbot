@@ -17,7 +17,9 @@ if ! git merge-base --is-ancestor "$previous" "$latest"; then
 fi
 # Preserve edits for recovery, including files newly added upstream.
 if [[ -n "$(git status --porcelain --untracked-files=normal)" ]]; then
-  git stash push --include-untracked -m "KENTECH WhatsApp update backup $(date -u +%Y%m%d-%H%M%S)" -- . ':!auto-download-groups.json' ':!auto-download-groups.json.tmp' ':!download-group-guard.json' ':!download-group-guard-status.json' ':!sales-assistant-state.json' ':!registered-contacts.json'
+  # Ignored runtime state is excluded automatically by Git. Avoid explicit
+  # pathspec exclusions because they fail when an ignored file is present.
+  git stash push --include-untracked -m "KENTECH WhatsApp update backup $(date -u +%Y%m%d-%H%M%S)" -- .
 fi
 git merge --ff-only "$latest"
 yarn install --frozen-lockfile --production=false
