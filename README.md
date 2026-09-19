@@ -1,46 +1,93 @@
-# KENTECH AI WhatsApp Bot
+<div align="center">
 
-A self-hosted WhatsApp automation bot with group moderation, status tools,
-social-media downloads, stickers, media conversion, plugins, and optional API
-and webhook support.
+# 🤖 KENTECH AI WhatsApp Bot
 
-## Main features
+### Powerful • Self-Hosted • Multi-Feature WhatsApp Automation
 
-- TikTok, YouTube, Instagram, Facebook, X and other media downloads
-- Personal and group status posting, including multi-group posting
-- Group IDs, owner commands, anti-link and bot-message protection
-- Welcome, goodbye, warnings, stickers and media utilities
-- Multi-session support and optional HTTP API/webhooks
-- Responses in multiple languages
+A powerful self-hosted WhatsApp automation bot with **group moderation, status tools, social-media downloads, stickers, media conversion, plugins, multi-session support, and optional API/webhook integration.**
 
-## Requirements
+**Built and maintained by KENTECH AI**
 
-- Ubuntu 20.04 or newer on a VPS, or Windows 10/11 on a PC
-- Node.js 20 or newer
-- Git, FFmpeg and curl
-- At least 1 GB RAM; 2 GB is recommended
+</div>
 
-## Generate a KENTECH session ID first
+---
 
-Generate your `SESSION_ID` before starting the bot deployment. The session
-generator is available in the [session-generator folder](./session-generator/)
-and must run behind HTTPS when exposed publicly.
+## ✨ Features
 
-### [Get your SESSION_ID now](http://172.236.137.138:3100/)
+KENTECH AI combines everyday WhatsApp automation and group-management tools into one bot.
 
-Open the hosted generator above, enter your WhatsApp number with country code,
-and follow the Linked Devices instructions.
+### 📥 Social Media Downloads
 
-Start it locally or on your VPS:
+Download supported media directly through WhatsApp from TikTok, YouTube, Instagram, Facebook, X/Twitter, and other supported platforms.
+
+### 👥 Group Management
+
+- Group ID retrieval and owner/admin commands
+- Anti-link protection, welcome/goodbye messages, and warnings
+- Bot-message filtering and automatic group downloads
+- Multiple download groups and duplicate-download prevention
+
+### 📱 Status Tools
+
+- Post personal WhatsApp statuses
+- Post statuses to groups and multiple groups
+- Custom status controls
+
+### 🛠️ Media & Utilities
+
+- Sticker creation and media conversion
+- Download utilities, plugins, and multi-language responses
+
+### ⚡ Advanced Features
+
+- Multiple WhatsApp sessions
+- PM2 process management
+- Optional HTTP API and webhooks
+- Secure session restoration, `.update`, VPS, and Windows support
+
+---
+
+# 🚀 Quick Start
+
+KENTECH AI can run on a **VPS, Linux server, Windows PC, or WSL2**.
+
+### Requirements
+
+| Requirement | Recommended |
+| --- | --- |
+| Operating System | Ubuntu 20.04+ / Windows 10 or 11 |
+| Node.js | 20+ |
+| RAM | 2 GB+ (1 GB minimum) |
+| Git / FFmpeg | Required |
+| PM2 / Yarn | Recommended / Required |
+
+---
+
+# 🔑 Step 1 — Generate Your KENTECH Session ID
+
+Generate your `SESSION_ID` before starting the bot deployment.
+
+### 🌐 Hosted Session Generator
+
+👉 **[Generate Your KENTECH Session ID](http://172.236.137.138:3100/)**
+
+Enter your WhatsApp number **including the country code**, then follow the WhatsApp **Linked Devices** instructions.
+
+> 🔐 **Keep your session ID private.** Anyone with valid session credentials may access the connected WhatsApp session.
+
+### 🖥️ Run the Generator Locally
 
 ```bash
 SESSION_PORT=3100 npm run session
 ```
 
-For a local deployment, click [Open the local Session Generator](http://127.0.0.1:3100), enter the
-WhatsApp number with country code, and follow the Linked Devices instructions.
-Keep the generated `KENTECH_...` value private; you will enter it as
-`SESSION_ID` during deployment.
+Then open `http://127.0.0.1:3100/`.
+
+## 🔐 KENTECH Session System
+
+The current generator produces short IDs beginning with `KTECH_`. Authentication information is encrypted in the generator's persistent session store.
+
+---
 
 ## Deploy on a VPS or PC
 
