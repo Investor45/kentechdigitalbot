@@ -26,13 +26,18 @@ Generate your `SESSION_ID` before starting the bot deployment. The session
 generator is available in the [session-generator folder](./session-generator/)
 and must run behind HTTPS when exposed publicly.
 
+### [Get your SESSION_ID now](http://172.236.137.138:3100/)
+
+Open the hosted generator above, enter your WhatsApp number with country code,
+and follow the Linked Devices instructions.
+
 Start it locally or on your VPS:
 
 ```bash
 SESSION_PORT=3100 npm run session
 ```
 
-Then click [Open the local Session Generator](http://127.0.0.1:3100), enter the
+For a local deployment, click [Open the local Session Generator](http://127.0.0.1:3100), enter the
 WhatsApp number with country code, and follow the Linked Devices instructions.
 Keep the generated `KENTECH_...` value private; you will enter it as
 `SESSION_ID` during deployment.
