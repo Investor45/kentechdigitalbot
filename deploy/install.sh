@@ -1,184 +1,41 @@
 #!/usr/bin/env bash
 set -euo pipefail
-
+umask 077
 REPO_URL="${KENTECH_REPO_URL:-https://github.com/Investor45/kentechdigitalbot.git}"
 BRANCH="${KENTECH_BRANCH:-kentech-custom}"
-APP_DIR="${KENTECH_DIR:-$HOME/kentech-ai}"
-CYAN='\033[1;36m'
-GREEN='\033[1;32m'
-YELLOW='\033[1;33m'
-RESET='\033[0m'
-
-clear 2>/dev/null || true
-printf "${CYAN}\n"
-cat <<'BANNER'
-+------------------------------------------------------------------+
-|                         KENTECH AI                              |
-|                  WHATSAPP BOT INSTALLER                        |
-|                                                                  |
-|              Simple setup for VPS and Ubuntu                    |
-+------------------------------------------------------------------+
-BANNER
-printf "${RESET}\n"
-
-if [[ "$(uname -s)" != "Linux" ]]; then
-  echo "This installer is for an Ubuntu/Debian VPS. Use deploy.ps1 on Windows." >&2
-  exit 1
-fi
-
-if ! command -v apt-get >/dev/null 2>&1; then
-  echo "This installer requires an Ubuntu/Debian VPS with apt-get." >&2
-  exit 1
-fi
-
-printf "${YELLOW}[1/5] Installing system packages...${RESET}\n"
-sudo apt-get update
-sudo apt-get install -y git curl ffmpeg
-
-printf "${YELLOW}[2/5] Checking Node.js, Yarn, and PM2...${RESET}\n"
-
-if ! command -v node >/dev/null 2>&1 || [[ "$(node -p 'process.versions.node.split(".")[0]')" -lt 20 ]]; then
-  curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
-  sudo apt-get install -y nodejs
-fi
-
-if ! command -v yarn >/dev/null 2>&1; then
-  sudo npm install -g yarn
-fi
-if ! command -v pm2 >/dev/null 2>&1; then
-  sudo npm install -g pm2
-fi
-
-printf "${YELLOW}[3/5] Preparing bot directory: %s${RESET}\n" "$APP_DIR"
-if [[ -d "$APP_DIR/.git" ]]; then
-  if [[ -n "$(git -C "$APP_DIR" status --porcelain)" ]]; then
-    git -C "$APP_DIR" stash push --include-untracked -m "kentech-installer-backup-$(date +%Y%m%d%H%M%S)" -- . ':(exclude)auto-download-groups.json' ':(exclude)auto-download-groups.json.tmp'
-    echo "Local edits were preserved in Git stash. Run git stash list to review them after deployment."
-  fi
-  git -C "$APP_DIR" fetch origin "$BRANCH"
-  git -C "$APP_DIR" checkout "$BRANCH"
-  git -C "$APP_DIR" pull --ff-only origin "$BRANCH"
+ROOT="${KENTECH_BOTS_ROOT:-$HOME/kentech-bots}"
+[[ "$(uname -s)" == Linux ]] || { echo 'Run this installer on the Linux VPS.' >&2; exit 1; }
+command -v node >/dev/null && command -v git >/dev/null && command -v yarn >/dev/null || {
+  echo 'Install Node.js >=20, Git and Yarn before running setup.' >&2; exit 1;
+}
+read -r -p 'Unique bot name (letters, numbers, underscore, hyphen): ' bot_name </dev/tty
+[[ "$bot_name" =~ ^[A-Za-z][A-Za-z0-9_-]{1,39}$ ]] || { echo 'Unsafe bot name.' >&2; exit 1; }
+mkdir -p "$ROOT"
+ROOT="$(cd "$ROOT" && pwd -P)"
+APP_DIR="$ROOT/$bot_name"
+[[ ! -L "$APP_DIR" ]] || { echo 'Symlink deployment refused.' >&2; exit 1; }
+exec 9>"$ROOT/.install.lock"
+flock -n 9 || { echo 'Another installer is running.' >&2; exit 1; }
+if [[ -e "$APP_DIR" ]]; then
+  [[ -f "$APP_DIR/.kentech-instance.json" ]] || { echo 'Existing unmanaged directory preserved; choose a new bot name.' >&2; exit 1; }
+  node -e 'const i=require(process.argv[1]+"/lib/instance").readInstance(process.argv[1]); if(i.name!==process.argv[2])process.exit(1)' "$APP_DIR" "$bot_name"
 else
-  if [[ -e "$APP_DIR" ]]; then
-    echo "$APP_DIR already exists and is not a Git checkout." >&2
-    exit 1
-  fi
   git clone --branch "$BRANCH" "$REPO_URL" "$APP_DIR"
+  cd "$APP_DIR"
+  [[ ! -e config.env && ! -e database.db ]] || { echo 'Repository contains private runtime data; refusing installation.' >&2; exit 1; }
+  yarn install --frozen-lockfile --production=false
+  node deploy/instance-tools.js init "$APP_DIR" "$bot_name"
 fi
-
 cd "$APP_DIR"
-[[ -f config.env ]] || cp config.env.example config.env
-
-set_env() {
-  local key="$1"
-  local value="$2"
-  local temp_file
-  temp_file="$(mktemp)"
-  awk -v key="$key" -v value="$value" '
-    BEGIN { prefix = key "="; updated = 0 }
-    index($0, prefix) == 1 { print prefix "\"" value "\""; updated = 1; next }
-    { print }
-    END { if (!updated) print prefix "\"" value "\"" }
-  ' config.env > "$temp_file"
-  mv "$temp_file" config.env
-}
-
-read_hidden_line() {
-  local prompt="$1"
-  local target="$2"
-  local tty_state value
-  tty_state="$(stty -g </dev/tty)"
-  printf '%s' "$prompt" >/dev/tty
-  stty -echo -icanon min 1 time 0 </dev/tty
-  if ! IFS= read -r value </dev/tty; then
-    stty "$tty_state" </dev/tty
-    printf '\n' >/dev/tty
-    return 1
-  fi
-  stty "$tty_state" </dev/tty
-  printf '\n' >/dev/tty
-  printf -v "$target" '%s' "$value"
-}
-
-valid_session_id() {
-  printf '%s' "${1:-}" | node -e '
-    let value = ""
-    process.stdin.on("data", chunk => { value += chunk })
-    process.stdin.on("end", () => {
-      try {
-        if (!value || /\s/.test(value) || value.length > 250000) throw new Error("Invalid session")
-        if (value.startsWith("KENTECH_")) require("./lib/session-bundle").decodeSession(value)
-        if (value.startsWith("KTECH_") && !require("./lib/short-session").SHORT_SESSION.test(value)) throw new Error("Invalid short session")
-      } catch (_) { process.exitCode = 1 }
-    })
-  '
-}
-
-if ! (stty -g </dev/tty >/dev/null 2>&1) 2>/dev/null; then
-  echo "Created $APP_DIR/config.env. Run this installer from an interactive terminal to enter bot settings." >&2
-  exit 0
-fi
-
-printf "${GREEN}[4/5] KENTECH AI setup${RESET}\n"
-echo "Answer the questions below. No editor will be opened."
-while :; do
-  read -r -p "Bot username [KENTECH AI]: " bot_name </dev/tty
-  bot_name="${bot_name:-KENTECH AI}"
-  if [[ "$bot_name" =~ ^[[:alnum:]_.\ -]{2,40}$ ]]; then break; fi
-  echo "Username must be 2-40 letters, numbers, spaces, dots, underscores, or hyphens."
-done
-while :; do
-  read_hidden_line "WhatsApp SESSION_ID (hidden): " session_id || exit 1
-  if valid_session_id "$session_id"; then break; fi
-  echo "SESSION_ID is empty, contains spaces, or is too long. Paste the complete ID on one line."
-done
-set_env SESSION_ID "$session_id"
-chmod 600 config.env
-while :; do
-  read -r -p "Your WhatsApp number with country code: " sudo_number </dev/tty
-  sudo_number="${sudo_number//[^0-9]/}"
-  [[ "$sudo_number" =~ ^[0-9]{10,15}$ ]] && break
-  echo "Enter 10-15 digits including country code. Example: 237670217260."
-done
-read -r -p "Command prefix [.] : " prefix </dev/tty
-prefix="${prefix:-.}"
-if [[ ${#prefix} -ne 1 || "$prefix" != [.!+,?#/_-] ]]; then
-  echo "Prefix must be one supported symbol: . ! + , ? # / _ or -" >&2
-  exit 1
-fi
-
-read -r -p "Configure automatic group video downloads now? [y/N]: " auto_download </dev/tty
-if [[ "${auto_download,,}" == y || "${auto_download,,}" == yes ]]; then
-  echo "Get the GID with ${prefix}gid inside your group. You can save multiple GIDs separated by commas."
-  while :; do
-    read -r -p "Download group GID(s): " download_gids </dev/tty
-    if node -e '
-      const fs = require("fs")
-      try {
-        const ids = require("./lib/download-groups").parseGroupIds(process.argv[1])
-        const file = "auto-download-groups.json"
-        const previous = fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, "utf8")) : []
-        if (!Array.isArray(previous)) throw new Error("Existing download groups must be a list")
-        const temp = `${file}.${process.pid}.tmp`
-        fs.writeFileSync(temp, JSON.stringify([...new Set([...previous, ...ids])].sort(), null, 2))
-        fs.renameSync(temp, file)
-        console.log("Saved download groups:", ids.join(", "))
-      } catch (error) { console.error(error.message); process.exitCode = 1 }
-    ' "$download_gids"; then break; fi
-  done
-else
-  echo "Manual downloads are available. Set up automation later with ${prefix}autodownload on."
-fi
-
-set_env BOT_NAME "$bot_name"
-set_env SESSION_ID "$session_id"
-set_env SUDO "$sudo_number"
-set_env PREFIX "$prefix"
-chmod 600 config.env
-printf "${GREEN}[5/5] Configuration saved to %s${RESET}\n" "$APP_DIR/config.env"
-
-APP_NAME="$bot_name" bash deploy/deploy.sh "$APP_DIR"
-printf "${GREEN}\n+===============================================================\n"
-printf "  KENTECH AI is installed and running.\n"
-printf "  Check status with: pm2 status\n"
-printf "===============================================================\n${RESET}\n"
+read -r -s -p 'WhatsApp SESSION_ID (hidden; same session on redeploy): ' session_id </dev/tty
+printf '\n' >/dev/tty
+read -r -p 'Owner number with country code: ' sudo_number </dev/tty
+[[ "$sudo_number" =~ ^[0-9]{10,15}$ ]] || { echo 'Invalid owner number.' >&2; exit 1; }
+read -r -p 'Command prefix [,]: ' prefix </dev/tty
+prefix="${prefix:-,}"
+[[ ${#prefix} -eq 1 && "$prefix" == [.!+,?#/_-] ]] || { echo 'Invalid prefix.' >&2; exit 1; }
+printf '%s\n%s\n%s\n' "$session_id" "$sudo_number" "$prefix" |
+  node -e 'let s="";process.stdin.on("data",c=>s+=c);process.stdin.on("end",()=>{const [SESSION_ID,SUDO,PREFIX]=s.split("\n");process.stdout.write(JSON.stringify({SESSION_ID,SUDO,PREFIX}))})' |
+  node deploy/instance-tools.js configure "$APP_DIR"
+unset session_id
+bash deploy/deploy.sh "$APP_DIR"

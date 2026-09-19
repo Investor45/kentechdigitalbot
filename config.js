@@ -1,6 +1,7 @@
 const { Sequelize } = require('sequelize')
 const { existsSync } = require('fs')
 const path = require('path')
+require('./lib/instance').configure(__dirname)
 const configPath = path.join(__dirname, './config.env')
 const databasePath = path.join(__dirname, './database.db')
 if (existsSync(configPath)) require('dotenv').config({ path: configPath })
@@ -16,7 +17,7 @@ const normalizeMode = (raw) => {
   return 'bot'
 }
 const MODE = normalizeMode(process.env.API_MODE)
-const SUDO = [...new Set(`${process.env.SUDO || ''},237670217260,670217260`
+const SUDO = [...new Set(`${process.env.SUDO || ''}`
   .split(',')
   .map(number => number.replace(/\D/g, ''))
   .filter(Boolean))].join(',')
@@ -68,6 +69,7 @@ module.exports = {
   PREFIX: (process.env.PREFIX || '^[.,!+]').trim(),
   SUDO,
   BOT_NAME: (process.env.BOT_NAME || 'KENTECH AI').trim(),
+  BOT_INSTANCE_ID: (process.env.BOT_INSTANCE_ID || process.env.INSTANCE_ID || '').trim(),
   BRANCH: 'kentech-custom',
   STICKER_PACKNAME: process.env.STICKER_PACKNAME || 'KENTECH AI',
   ALWAYS_ONLINE: process.env.ALWAYS_ONLINE,

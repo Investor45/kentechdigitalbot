@@ -6,6 +6,7 @@ const crypto = require('node:crypto')
 const { storeSession } = require('../lib/short-session')
 const { decodeSession } = require('../lib/session-bundle')
 const { readSessionFiles } = require('../lib/session-files')
+const { normalizePhoneNumber, sessionBelongsToPhone } = require('../lib/session-ownership')
 
 const PORT = Number(process.env.SESSION_PORT || 3100)
 const TTL = 10 * 60 * 1000
@@ -81,6 +82,16 @@ async function createPairing(job, phone) {
       await api.delay(5000)
       await auth.saveCreds()
       const files = await readSessionFiles(job.directory)
+      const pairedPhone = normalizePhoneNumber(socket.user?.id || files?.['creds.json']?.me?.id || '')
+      const expectedPhone = normalizePhoneNumber(phone)
+      if (!pairedPhone || pairedPhone !== expectedPhone || !sessionBelongsToPhone(files['creds.json'], phone)) {
+        job.state = 'failed'
+        job.error = 'The paired WhatsApp account does not match the requested number. Generate a new code for this phone.'
+        if (phoneJobs.get(phone) === job.id) phoneJobs.delete(phone)
+        try { socket.ws?.close() } catch (_) {}
+        fs.rmSync(job.directory, { recursive: true, force: true })
+        return
+      }
       job.sessionId = await storeSession(STORE, files)
       const selfJid = api.jidNormalizedUser(socket.user?.id || `${phone}@s.whatsapp.net`)
       const message = job.sessionId.length <= 55000
