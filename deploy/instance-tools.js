@@ -53,7 +53,11 @@ async function deploy(root) {
       instances: 1, exec_mode: 'fork', autorestart: false,
       env: { KENTECH_INSTANCE_ID: instance.id, BOT_INSTANCE_ID: instance.id },
     })
-    selectProcess(await call('list'), instance)
+    const after = await call('list')
+    const running = selectProcess(after, instance)
+    if (!running || running.pm2_env?.status !== 'online') {
+      throw new Error(`PM2 process ${instance.name} did not stay online; inspect its logs before retrying`)
+    }
     await call('dump')
     console.log('Exactly one owned PM2 entry saved. WhatsApp command acceptance remains required.')
   } finally {
