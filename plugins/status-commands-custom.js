@@ -45,7 +45,6 @@ async function groupids(message) {
 }
 
 async function gstatus(message, match) {
-  if (!isOwner(message)) return
   if (!repliedContent(message)) return message.send('Reply to an image, video, or text with .gstatus.')
   if (typeof message.groupStatus !== 'function') return message.send('Group status is not supported by this bot build.')
   // Read the full command as well: some dispatcher paths pass only one capture.
