@@ -180,9 +180,9 @@ async function createPairing(job, phone) {
         }
         if (update.isNewLogin) {
           await auth.saveCreds()
-          // Some WhatsApp versions do not emit the expected 515 close after
-          // pairing. Restarting here continues with the new credentials.
-          return restart({ status: 515, reason: 'new login', message: 'Restarting authenticated socket' })
+          // Keep the authenticated socket alive while WhatsApp finishes its
+          // initial sync. The open event finalizes and stores the session.
+          return
         }
         if (update.connection === 'close') {
           const info = disconnectInfo(update)
