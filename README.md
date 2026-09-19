@@ -20,6 +20,23 @@ and webhook support.
 - Git, FFmpeg and curl
 - At least 1 GB RAM; 2 GB is recommended
 
+## Generate a KENTECH session ID first
+
+Generate your `SESSION_ID` before starting the bot deployment. The session
+generator is available in the [session-generator folder](./session-generator/)
+and must run behind HTTPS when exposed publicly.
+
+Start it locally or on your VPS:
+
+```bash
+SESSION_PORT=3100 npm run session
+```
+
+Then click [Open the local Session Generator](http://127.0.0.1:3100), enter the
+WhatsApp number with country code, and follow the Linked Devices instructions.
+Keep the generated `KENTECH_...` value private; you will enter it as
+`SESSION_ID` during deployment.
+
 ## Deploy on a VPS or PC
 
 ### Quick VPS deployment
@@ -94,28 +111,6 @@ It asks for the bot username, WhatsApp session ID, deployer's WhatsApp number,
 and command prefix without opening an editor. Press Enter at the prefix prompt
 to use `.`. Never commit `config.env`, session files, or database files; they
 contain private account information.
-
-### Generate a KENTECH session ID
-
-Open the [KENTECH Session Generator](https://github.com/Investor45/kentechdigitalbot/tree/kentech-custom/session-generator)
-from the repository, or run the included web site locally:
-
-Start the included generator on the VPS or PC:
-
-```bash
-SESSION_PORT=3100 npm run session
-```
-
-For safe testing before a subdomain is connected, open an SSH tunnel from your PC:
-
-```bash
-ssh -L 3100:127.0.0.1:3100 user@your-server
-```
-
-Visit `http://127.0.0.1:3100`, enter the WhatsApp number with country code, and
-follow the Linked Devices instructions. Paste the generated `KENTECH_...` value
-into `SESSION_ID`. The generator binds only to localhost until an HTTPS reverse
-proxy is configured.
 
 ### 4. Install and start
 
