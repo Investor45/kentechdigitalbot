@@ -18,7 +18,7 @@ const start = async () => {
     if (!SESSION_ID) throw new Error('SESSION_ID is missing from config.env')
     if (!BOT_INSTANCE_ID) logger.warn('BOT_INSTANCE_ID is missing; legacy namespace compatibility is active')
     await DATABASE.authenticate({ retry: { max: 3 } })
-    await importSessionBundle(DATABASE, SESSION_ID, BOT_INSTANCE_ID || undefined)
+    await importSessionBundle(DATABASE, SESSION_ID)
   } catch (error) {
     logger.error({
       msg: 'Bot startup failed during database or session initialization',
