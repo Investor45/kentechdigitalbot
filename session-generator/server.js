@@ -91,7 +91,9 @@ async function createPairing(job, phone) {
       if (!creds || creds.registered !== true || !creds.me?.id) {
         throw new Error('Pairing completed without a complete registered credentials file')
       }
-      const pairedPhone = normalizePhoneNumber(socket.user?.id || creds.me.id || '')
+      // Baileys may expose a LID/device identity as socket.user.id. The
+      // credential record contains the stable phone JID used for ownership.
+      const pairedPhone = normalizePhoneNumber(creds.me?.id || socket.user?.id || '')
       const expectedPhone = normalizePhoneNumber(phone)
       if (!pairedPhone || pairedPhone !== expectedPhone || !sessionBelongsToPhone(creds, phone)) {
         job.state = 'failed'
@@ -102,7 +104,7 @@ async function createPairing(job, phone) {
         return
       }
       job.sessionId = await storeSession(STORE, files)
-      const selfJid = api.jidNormalizedUser(socket.user?.id || `${phone}@s.whatsapp.net`)
+      const selfJid = api.jidNormalizedUser(creds.me?.id || socket.user?.id || `${phone}@s.whatsapp.net`)
       const message = job.sessionId.length <= 55000
         ? { text: `KENTECH AI login successful.\n\nYour SESSION_ID is:\n\n${job.sessionId}\n\nKeep this message private.` }
         : {
