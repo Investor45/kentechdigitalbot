@@ -64,6 +64,11 @@ function logDisconnect(info) {
   process.stderr.write(`[session-generator] pairing socket closed status=${info.status} reason=${info.reason} message=${info.message}\n`)
 }
 
+function maskPhone(value) {
+  const digits = normalizePhoneNumber(value)
+  return digits ? `******${digits.slice(-4)}` : '[unavailable]'
+}
+
 async function createPairing(job, phone) {
   try {
     const api = await loadWhatsApp()
@@ -90,7 +95,7 @@ async function createPairing(job, phone) {
       const expectedPhone = normalizePhoneNumber(phone)
       if (!pairedPhone || pairedPhone !== expectedPhone || !sessionBelongsToPhone(creds, phone)) {
         job.state = 'failed'
-        job.error = 'The paired WhatsApp account does not match the requested number. Generate a new code for this phone.'
+        job.error = `The paired WhatsApp account does not match the requested number (requested ${maskPhone(expectedPhone)}, detected ${maskPhone(pairedPhone)}). Generate a new code for this phone.`
         if (phoneJobs.get(phone) === job.id) phoneJobs.delete(phone)
         try { socket.ws?.close() } catch (_) {}
         fs.rmSync(job.directory, { recursive: true, force: true })
