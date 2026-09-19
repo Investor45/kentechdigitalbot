@@ -82,9 +82,13 @@ async function createPairing(job, phone) {
       await api.delay(5000)
       await auth.saveCreds()
       const files = await readSessionFiles(job.directory)
-      const pairedPhone = normalizePhoneNumber(socket.user?.id || files?.['creds.json']?.me?.id || '')
+      const creds = files?.['creds.json']
+      if (!creds || creds.registered !== true || !creds.me?.id) {
+        throw new Error('Pairing completed without a complete registered credentials file')
+      }
+      const pairedPhone = normalizePhoneNumber(socket.user?.id || creds.me.id || '')
       const expectedPhone = normalizePhoneNumber(phone)
-      if (!pairedPhone || pairedPhone !== expectedPhone || !sessionBelongsToPhone(files['creds.json'], phone)) {
+      if (!pairedPhone || pairedPhone !== expectedPhone || !sessionBelongsToPhone(creds, phone)) {
         job.state = 'failed'
         job.error = 'The paired WhatsApp account does not match the requested number. Generate a new code for this phone.'
         if (phoneJobs.get(phone) === job.id) phoneJobs.delete(phone)
@@ -182,7 +186,7 @@ async function createPairing(job, phone) {
         }
         if (update.connection === 'close') {
           const info = disconnectInfo(update)
-          if (Number(info.status) === 515 || auth.state.creds.registered) return restart(info)
+          if (Number(info.status) === 515) return restart(info)
           job.state = 'failed'
           job.error = `WhatsApp closed the pairing request (status ${info.status}). Please create a new code.`
           if (phoneJobs.get(phone) === job.id) phoneJobs.delete(phone)
