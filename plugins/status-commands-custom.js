@@ -65,12 +65,20 @@ async function gstatus(message, match) {
       // setStatus uses the native status@broadcast payload and preserves the
       // replied image/video/text. The legacy groupStatus helper only carried
       // text on some client builds, so keep it as a compatibility fallback.
-      if (typeof message.setStatus === 'function') await message.setStatus(message, [jid], jid)
-      else await message.groupStatus(message, jid)
+      if (typeof message.setStatus === 'function') {
+        try {
+          await message.setStatus(message, [jid], jid)
+        } catch (nativeError) {
+          // Older WhatsApp sessions may reject the native audience form.
+          // Retry through the compatibility helper before reporting failure.
+          if (typeof message.groupStatus !== 'function') throw nativeError
+          await message.groupStatus(message, jid)
+        }
+      } else await message.groupStatus(message, jid)
       posted++
     } catch (error) {
       process.stderr.write(`[gstatus] Group post failed: ${error?.name || 'Error'}\n`)
-      await message.send(`Could not post the group status to ${jid}. WhatsApp may require admin permission for that group.`)
+      await message.send(`Could not post the group status to ${jid}. Confirm that this WhatsApp account is still a member of the group and that the group ID is correct.`)
     }
   }
   if (posted) return message.send(posted === 1 ? 'Group status posted.' : `Group status posted to ${posted} groups.`)
