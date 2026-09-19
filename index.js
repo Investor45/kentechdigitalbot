@@ -10,6 +10,8 @@ if (downloadGuardModule && typeof downloadGuardModule.install === 'function') do
 const { Client, logger } = require('./lib/client')
 const { DATABASE, VERSION, SESSION_ID, BOT_INSTANCE_ID } = require('./config')
 const { importSessionBundle } = require('./lib/import-session-bundle')
+const { notifyDeployment } = require('./lib/deployment-notify')
+const path = require('node:path')
 
 const start = async () => {
   logger.info(`KENTECH AI ${VERSION}`)
@@ -33,6 +35,11 @@ const start = async () => {
 
   try {
     await bot.connect()
+    try {
+      await notifyDeployment(bot, { botName: require('./config').BOT_NAME, markerDirectory: path.dirname(__filename) })
+    } catch (error) {
+      logger.warn({ msg: 'Admin deployment notification failed', error: error.message })
+    }
   } catch (error) {
     logger.error({ msg: 'Bot client failed to start', error: error.message, stack: error.stack })
     process.exitCode = 1

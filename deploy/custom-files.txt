@@ -2,6 +2,7 @@
 # Keep this list updated whenever a new custom plugin or runtime file is added.
 config.js
 index.js
+lib/deployment-notify.js
 lib/download-group-guard.js
 lib/owner-commands.js
 plugins/download-group-guard.js
