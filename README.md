@@ -97,6 +97,9 @@ contain private account information.
 
 ### Generate a KENTECH session ID
 
+Open the [KENTECH Session Generator](https://github.com/Investor45/kentechdigitalbot/tree/kentech-custom/session-generator)
+from the repository, or run the included web site locally:
+
 Start the included generator on the VPS or PC:
 
 ```bash
