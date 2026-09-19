@@ -46,7 +46,9 @@ async function groupids(message) {
 
 async function gstatus(message, match) {
   if (!repliedContent(message)) return message.send('Reply to an image, video, or text with .gstatus.')
-  if (typeof message.groupStatus !== 'function') return message.send('Group status is not supported by this bot build.')
+  if (typeof message.setStatus !== 'function' && typeof message.groupStatus !== 'function') {
+    return message.send('Group status is not supported by this bot build.')
+  }
   // Read the full command as well: some dispatcher paths pass only one capture.
   const command = String(message.text || '').trim().match(/^[.,!+]?gstatus(?:\s+|\/)([\s\S]*)$/i)
   const argument = String(command?.[1] || match || '').trim()
@@ -60,7 +62,11 @@ async function gstatus(message, match) {
   let posted = 0
   for (const jid of new Set(targets)) {
     try {
-      await message.groupStatus(message, jid)
+      // setStatus uses the native status@broadcast payload and preserves the
+      // replied image/video/text. The legacy groupStatus helper only carried
+      // text on some client builds, so keep it as a compatibility fallback.
+      if (typeof message.setStatus === 'function') await message.setStatus(message, [jid], jid)
+      else await message.groupStatus(message, jid)
       posted++
     } catch (error) {
       process.stderr.write(`[gstatus] Group post failed: ${error?.name || 'Error'}\n`)
