@@ -86,6 +86,7 @@ async function groupids(message) {
 }
 
 async function gstatus(message, match) {
+  process.stderr.write(`[gstatus] command received text=${String(message.text || '').slice(0, 120)} native=${typeof message.groupStatus === 'function'}\n`)
   if (!repliedContent(message)) return message.send('Reply to an image, video, or text with .gstatus.')
   if (typeof message.setStatus !== 'function' && typeof message.groupStatus !== 'function') {
     return message.send('Group status is not supported by this bot build.')
@@ -103,13 +104,17 @@ async function gstatus(message, match) {
   let posted = 0
   for (const jid of new Set(targets)) {
     try {
+      process.stderr.write(`[gstatus] sending target=${jid} media=${Boolean(message.reply_message?.image || message.reply_message?.video)}\n`)
       // setStatus uses the native status@broadcast payload and preserves the
       // replied image/video/text. The legacy groupStatus helper only carried
       // text on some client builds, so keep it as a compatibility fallback.
       // The custom runtime's groupStatus helper creates WhatsApp's native
       // groupStatusMessage. Keep it as the primary path; status@broadcast is
       // only a personal status and cannot replace native group status.
-      if (typeof message.groupStatus === 'function') await message.groupStatus(message, jid)
+      if (typeof message.groupStatus === 'function') {
+        const result = await message.groupStatus(message, jid)
+        process.stderr.write(`[gstatus] native helper completed target=${jid} result=${result ? 'returned' : 'empty'}\n`)
+      }
       else await sendGroupPost(message, jid)
       posted++
     } catch (error) {
