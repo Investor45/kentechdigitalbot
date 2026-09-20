@@ -6,6 +6,25 @@ function repliedContent(message) {
   return Boolean(reply && (reply.image || reply.video || reply.txt || String(reply.text || '').trim()))
 }
 
+async function sendGroupStatusMedia(message, jid) {
+  const reply = message.reply_message
+  const socket = message.client
+  if (!socket?.sendMessage) throw new Error('WhatsApp client is unavailable')
+  const caption = String(reply.text || '').trim()
+  let payload
+  if (reply.image || reply.video) {
+    if (typeof reply.downloadMediaMessage !== 'function') throw new Error('Replied media cannot be downloaded')
+    const media = await reply.downloadMediaMessage()
+    if (!media || !media.length) throw new Error('Replied media download was empty')
+    payload = reply.video ? { video: media, caption } : { image: media, caption }
+  } else {
+    const text = String(reply.text || '').trim()
+    if (!text) throw new Error('Replied text is empty')
+    payload = { text }
+  }
+  return socket.sendMessage('status@broadcast', payload, { statusJidList: [jid] })
+}
+
 async function mystatus(message) {
   if (!isOwner(message)) return
   if (!repliedContent(message)) return message.send('Reply to an image, video, or text with .mystatus.')
@@ -65,18 +84,7 @@ async function gstatus(message, match) {
       // setStatus uses the native status@broadcast payload and preserves the
       // replied image/video/text. The legacy groupStatus helper only carried
       // text on some client builds, so keep it as a compatibility fallback.
-      if (typeof message.setStatus === 'function') {
-        try {
-          // setStatus follows the same contract as the existing setstatus
-          // command: the third argument is the recipient expression.
-          await message.setStatus(message, [jid], jid)
-        } catch (nativeError) {
-          // Older WhatsApp sessions may reject the native audience form.
-          // Retry through the compatibility helper before reporting failure.
-          if (typeof message.groupStatus !== 'function') throw nativeError
-          await message.groupStatus(message, jid)
-        }
-      } else await message.groupStatus(message, jid)
+      await sendGroupStatusMedia(message, jid)
       posted++
     } catch (error) {
       process.stderr.write(`[gstatus] Group post failed: ${error?.name || 'Error'}\n`)
