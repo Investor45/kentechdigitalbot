@@ -106,7 +106,11 @@ async function gstatus(message, match) {
       // setStatus uses the native status@broadcast payload and preserves the
       // replied image/video/text. The legacy groupStatus helper only carried
       // text on some client builds, so keep it as a compatibility fallback.
-      await sendGroupPost(message, jid)
+      // The custom runtime's groupStatus helper creates WhatsApp's native
+      // groupStatusMessage. Keep it as the primary path; status@broadcast is
+      // only a personal status and cannot replace native group status.
+      if (typeof message.groupStatus === 'function') await message.groupStatus(message, jid)
+      else await sendGroupPost(message, jid)
       posted++
     } catch (error) {
       const detail = String(error?.message || error || 'unknown error').slice(0, 180)
