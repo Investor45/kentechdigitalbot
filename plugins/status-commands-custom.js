@@ -116,6 +116,6 @@ async function gstatus(message, match) {
   if (posted) return message.send(posted === 1 ? 'Group status posted.' : `Group status posted to ${posted} groups.`)
 }
 
-for (const [name, handler] of [['mystatus', mystatus], ['df', mystatus], ['groupids', groupids], ['gstatus', gstatus]]) {
+for (const [name, handler] of [['mystatus', mystatus], ['df', mystatus], ['groupids', groupids]]) {
   registerOwnerCommand(bot, name, handler, `Owner ${name} command`)
 }
