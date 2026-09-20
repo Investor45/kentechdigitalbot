@@ -111,7 +111,11 @@ async function gstatus(message, match) {
       // The custom runtime's groupStatus helper creates WhatsApp's native
       // groupStatusMessage. Keep it as the primary path; status@broadcast is
       // only a personal status and cannot replace native group status.
-      if (typeof message.groupStatus === 'function') {
+      if (message.reply_message?.image || message.reply_message?.video) {
+        // The bundled native helper is text-only. Upload media explicitly
+        // through the connected client so it is not silently discarded.
+        await sendGroupPost(message, jid)
+      } else if (typeof message.groupStatus === 'function') {
         const result = await message.groupStatus(message, jid)
         process.stderr.write(`[gstatus] native helper completed target=${jid} result=${result ? 'returned' : 'empty'}\n`)
       }
