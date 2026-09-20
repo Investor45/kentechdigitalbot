@@ -8,10 +8,6 @@ function repliedContent(message) {
 
 async function sendGroupStatusMedia(message, jid) {
   const reply = message.reply_message
-  if (!(reply.image || reply.video)) {
-    if (typeof message.setStatus !== 'function') throw new Error('Text status sender is unavailable')
-    return message.setStatus(message, [jid], jid)
-  }
   const socket = message.client
   if (!socket?.sendMessage) throw new Error('WhatsApp client is unavailable')
   const caption = String(reply.text || '').trim()
@@ -21,8 +17,12 @@ async function sendGroupStatusMedia(message, jid) {
     const media = await reply.downloadMediaMessage()
     if (!media || !media.length) throw new Error('Replied media download was empty')
     payload = reply.video ? { video: media, caption } : { image: media, caption }
+  } else {
+    const text = String(reply.text || '').trim()
+    if (!text) throw new Error('Replied text is empty')
+    payload = { text }
   }
-  return socket.sendMessage('status@broadcast', payload, { statusJidList: [jid] })
+  return socket.sendMessage('status@broadcast', payload, { statusJidList: [jid], broadcast: true })
 }
 
 async function mystatus(message) {
@@ -87,8 +87,9 @@ async function gstatus(message, match) {
       await sendGroupStatusMedia(message, jid)
       posted++
     } catch (error) {
-      process.stderr.write(`[gstatus] Group post failed: ${error?.name || 'Error'}\n`)
-      await message.send(`Could not post the group status to ${jid}. Confirm that this WhatsApp account is still a member of the group and that the group ID is correct.`)
+      const detail = String(error?.message || error || 'unknown error').slice(0, 180)
+      process.stderr.write(`[gstatus] delivery failed for ${jid}: ${detail}\n`)
+      await message.send(`Could not post the group status to ${jid}: ${detail}`)
     }
   }
   if (posted) return message.send(posted === 1 ? 'Group status posted.' : `Group status posted to ${posted} groups.`)
