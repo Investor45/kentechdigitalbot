@@ -6,16 +6,11 @@ function repliedContent(message) {
   return Boolean(reply && (reply.image || reply.video || reply.txt || String(reply.text || '').trim()))
 }
 
-async function sendGroupStatusMedia(message, jid) {
+async function sendGroupPost(message, jid) {
   const reply = message.reply_message
   const socket = message.client
   if (!socket?.sendMessage) throw new Error('WhatsApp client is unavailable')
   if (typeof socket.groupMetadata !== 'function') throw new Error('WhatsApp group metadata is unavailable')
-  const metadata = await socket.groupMetadata(jid)
-  const participants = (metadata?.participants || [])
-    .map(participant => String(participant.id || '').trim())
-    .filter(jid => /@(?:s\.whatsapp\.net|lid)$/.test(jid))
-  if (!participants.length) throw new Error('The group has no available status recipients')
   const caption = String(reply.text || '').trim()
   let payload
   if (reply.image || reply.video) {
@@ -28,10 +23,7 @@ async function sendGroupStatusMedia(message, jid) {
     if (!text) throw new Error('Replied text is empty')
     payload = { text }
   }
-  const result = await socket.sendMessage('status@broadcast', payload, {
-    broadcast: true,
-    statusJidList: [...new Set(participants)],
-  })
+  const result = await socket.sendMessage(jid, payload)
   if (!result?.key?.id) throw new Error('WhatsApp did not confirm the status message')
   return result
 }
@@ -95,7 +87,7 @@ async function gstatus(message, match) {
       // setStatus uses the native status@broadcast payload and preserves the
       // replied image/video/text. The legacy groupStatus helper only carried
       // text on some client builds, so keep it as a compatibility fallback.
-      await sendGroupStatusMedia(message, jid)
+      await sendGroupPost(message, jid)
       posted++
     } catch (error) {
       const detail = String(error?.message || error || 'unknown error').slice(0, 180)
@@ -106,6 +98,6 @@ async function gstatus(message, match) {
   if (posted) return message.send(posted === 1 ? 'Group status posted.' : `Group status posted to ${posted} groups.`)
 }
 
-for (const [name, handler] of [['mystatus', mystatus], ['groupids', groupids], ['gstatus', gstatus]]) {
+for (const [name, handler] of [['mystatus', mystatus], ['df', mystatus], ['groupids', groupids], ['gstatus', gstatus]]) {
   registerOwnerCommand(bot, name, handler, `Owner ${name} command`)
 }
