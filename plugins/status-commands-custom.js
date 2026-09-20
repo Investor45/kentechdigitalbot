@@ -28,7 +28,10 @@ async function sendGroupStatusMedia(message, jid) {
     if (!text) throw new Error('Replied text is empty')
     payload = { text }
   }
-  const result = await socket.sendMessage('status@broadcast', payload, { statusJidList: [...new Set(participants)] })
+  const result = await socket.sendMessage('status@broadcast', payload, {
+    broadcast: true,
+    statusJidList: [...new Set(participants)],
+  })
   if (!result?.key?.id) throw new Error('WhatsApp did not confirm the status message')
   return result
 }
