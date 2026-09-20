@@ -8,6 +8,10 @@ function repliedContent(message) {
 
 async function sendGroupStatusMedia(message, jid) {
   const reply = message.reply_message
+  if (!(reply.image || reply.video)) {
+    if (typeof message.setStatus !== 'function') throw new Error('Text status sender is unavailable')
+    return message.setStatus(message, [jid], jid)
+  }
   const socket = message.client
   if (!socket?.sendMessage) throw new Error('WhatsApp client is unavailable')
   const caption = String(reply.text || '').trim()
@@ -17,10 +21,6 @@ async function sendGroupStatusMedia(message, jid) {
     const media = await reply.downloadMediaMessage()
     if (!media || !media.length) throw new Error('Replied media download was empty')
     payload = reply.video ? { video: media, caption } : { image: media, caption }
-  } else {
-    const text = String(reply.text || '').trim()
-    if (!text) throw new Error('Replied text is empty')
-    payload = { text }
   }
   return socket.sendMessage('status@broadcast', payload, { statusJidList: [jid] })
 }
