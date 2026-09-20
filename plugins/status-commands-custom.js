@@ -67,10 +67,9 @@ async function gstatus(message, match) {
       // text on some client builds, so keep it as a compatibility fallback.
       if (typeof message.setStatus === 'function') {
         try {
-          // The third argument is the status delivery mode, not the group ID.
-          // Passing the JID here makes text appear to work while media
-          // payloads are rejected by the native status sender.
-          await message.setStatus(message, [jid], 'status')
+          // setStatus follows the same contract as the existing setstatus
+          // command: the third argument is the recipient expression.
+          await message.setStatus(message, [jid], jid)
         } catch (nativeError) {
           // Older WhatsApp sessions may reject the native audience form.
           // Retry through the compatibility helper before reporting failure.
