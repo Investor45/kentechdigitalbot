@@ -10,6 +10,12 @@ async function sendGroupStatusMedia(message, jid) {
   const reply = message.reply_message
   const socket = message.client
   if (!socket?.sendMessage) throw new Error('WhatsApp client is unavailable')
+  if (typeof socket.groupMetadata !== 'function') throw new Error('WhatsApp group metadata is unavailable')
+  const metadata = await socket.groupMetadata(jid)
+  const participants = (metadata?.participants || [])
+    .flatMap(participant => [participant.id, participant.lid, participant.phoneNumber])
+    .filter(Boolean)
+  if (!participants.length) throw new Error('The group has no available status recipients')
   const caption = String(reply.text || '').trim()
   let payload
   if (reply.image || reply.video) {
@@ -22,7 +28,7 @@ async function sendGroupStatusMedia(message, jid) {
     if (!text) throw new Error('Replied text is empty')
     payload = { text }
   }
-  return socket.sendMessage('status@broadcast', payload, { statusJidList: [jid], broadcast: true })
+  return socket.sendMessage('status@broadcast', payload, { statusJidList: [...new Set(participants)] })
 }
 
 async function mystatus(message) {
