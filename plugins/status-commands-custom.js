@@ -28,25 +28,35 @@ async function sendGroupPost(message, jid) {
   return result
 }
 
+async function sendPersonalStatus(message) {
+  const socket = message.client
+  if (!socket?.sendMessage) throw new Error('WhatsApp client is unavailable')
+  const reply = message.reply_message
+  const caption = String(reply.text || '').trim()
+  let payload
+  if (reply.image || reply.video) {
+    if (typeof reply.downloadMediaMessage !== 'function') throw new Error('Replied media cannot be downloaded')
+    const media = await reply.downloadMediaMessage()
+    if (!media || !media.length) throw new Error('Replied media download was empty')
+    payload = reply.video ? { video: media, caption } : { image: media, caption }
+  } else {
+    if (!caption) throw new Error('Replied text is empty')
+    payload = { text: caption }
+  }
+  const result = await socket.sendMessage('status@broadcast', payload, { broadcast: true })
+  if (!result?.key?.id) throw new Error('WhatsApp did not confirm the personal status')
+  return result
+}
+
 async function mystatus(message) {
   if (!isOwner(message)) return
   if (!repliedContent(message)) return message.send('Reply to an image, video, or text with .mystatus.')
-  if (typeof message.setStatus !== 'function') return message.send('Personal status is not supported by this bot build.')
   try {
-    let count
-    try {
-      count = await message.setStatus(message, [], 'contact')
-    } catch (error) {
-      if (!/contact list is empty/i.test(String(error?.message || error))) throw error
-      const own = [message.client?.user?.id, message.client?.user?.jid, message.client?.user?.lid]
-        .map(String).find(jid => /@(s\.whatsapp\.net|lid)$/.test(jid))
-      if (!own) throw error
-      count = await message.setStatus(message, [own], own)
-    }
+    await sendPersonalStatus(message)
     return message.send('Personal status posted successfully.')
   } catch (error) {
     process.stderr.write(`[mystatus] ${error?.stack || error}\n`)
-    return message.send('Could not post your personal status. Reply to the media again and try.')
+    return message.send(`Could not post your personal status: ${String(error?.message || error).slice(0, 180)}`)
   }
 }
 
