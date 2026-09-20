@@ -101,7 +101,11 @@ async function gstatus(message, match) {
   for (const jid of new Set(targets)) {
     try {
       process.stderr.write(`[gstatus] sending target=${jid} media=${Boolean(message.reply_message?.image || message.reply_message?.video)}\n`)
-      await sendGroupPost(message, jid)
+      if (typeof message.groupStatus !== 'function') {
+        throw new Error('Native group status is unavailable in this bot runtime')
+      }
+      const result = await message.groupStatus(message, jid)
+      process.stderr.write(`[gstatus] native group status completed target=${jid} result=${result ? 'returned' : 'empty'}\n`)
       posted++
     } catch (error) {
       const detail = String(error?.message || error || 'unknown error').slice(0, 180)
