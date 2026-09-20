@@ -13,8 +13,8 @@ async function sendGroupStatusMedia(message, jid) {
   if (typeof socket.groupMetadata !== 'function') throw new Error('WhatsApp group metadata is unavailable')
   const metadata = await socket.groupMetadata(jid)
   const participants = (metadata?.participants || [])
-    .flatMap(participant => [participant.id, participant.lid, participant.phoneNumber])
-    .filter(Boolean)
+    .map(participant => String(participant.id || '').trim())
+    .filter(jid => /@(?:s\.whatsapp\.net|lid)$/.test(jid))
   if (!participants.length) throw new Error('The group has no available status recipients')
   const caption = String(reply.text || '').trim()
   let payload
@@ -28,7 +28,9 @@ async function sendGroupStatusMedia(message, jid) {
     if (!text) throw new Error('Replied text is empty')
     payload = { text }
   }
-  return socket.sendMessage('status@broadcast', payload, { statusJidList: [...new Set(participants)] })
+  const result = await socket.sendMessage('status@broadcast', payload, { statusJidList: [...new Set(participants)] })
+  if (!result?.key?.id) throw new Error('WhatsApp did not confirm the status message')
+  return result
 }
 
 async function mystatus(message) {
