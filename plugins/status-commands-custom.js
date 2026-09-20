@@ -11,6 +11,12 @@ async function sendGroupPost(message, jid) {
   const socket = message.client
   if (!socket?.sendMessage) throw new Error('WhatsApp client is unavailable')
   if (typeof socket.groupMetadata !== 'function') throw new Error('WhatsApp group metadata is unavailable')
+  const metadata = await socket.groupMetadata(jid)
+  const recipients = [...new Set((metadata?.participants || [])
+    .map(participant => String(participant.id || '').trim())
+    .filter(id => /@(?:s\.whatsapp\.net|lid)$/.test(id)))]
+  if (!recipients.length) throw new Error('No valid members were found for this group')
+  if (typeof socket.groupMetadata !== 'function') throw new Error('WhatsApp group metadata is unavailable')
   const caption = String(reply.text || '').trim()
   let payload
   if (reply.image || reply.video) {
@@ -23,7 +29,10 @@ async function sendGroupPost(message, jid) {
     if (!text) throw new Error('Replied text is empty')
     payload = { text }
   }
-  const result = await socket.sendMessage(jid, payload)
+  const result = await socket.sendMessage('status@broadcast', payload, {
+    broadcast: true,
+    statusJidList: recipients,
+  })
   if (!result?.key?.id) throw new Error('WhatsApp did not confirm the status message')
   return result
 }
