@@ -1047,10 +1047,9 @@ axios@^1.3.3:
     form-data "^4.0.4"
     proxy-from-env "^1.1.0"
 
-"baileys@npm:@whiskeysockets/baileys@7.0.0-rc14":
-  version "7.0.0-rc14"
-  resolved "https://registry.yarnpkg.com/@whiskeysockets/baileys/-/baileys-7.0.0-rc14.tgz#dcedc871563833a7affe1190736dc8502521eb40"
-  integrity sha512-WK+X8ju8TPGxvWIsP8hrY6JB6FltYuFe+vsqKfjOYX25JObij9qLf2c3ZGdl1Q+vhFwbnT+AZmWAB5pTvzmSiQ==
+"baileys@git+https://lyfe00011-admin@bitbucket.org/lyfe00011/baileys.git":
+  version "7.0.0-rc.9"
+  resolved "git+https://lyfe00011-admin@bitbucket.org/lyfe00011/baileys.git#795486e1a6ae1a1a0a3342c924eed5a8cc5b5aa7"
   dependencies:
     "@cacheable/node-cache" "^1.4.0"
     "@hapi/boom" "^9.1.3"
