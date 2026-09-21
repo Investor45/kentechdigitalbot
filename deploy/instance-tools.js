@@ -50,7 +50,9 @@ async function deploy(root) {
     if (selected) await call('restart', selected.pm_id)
     else await call('start', {
       name: instance.name, cwd: root, script: path.join(root, 'index.js'),
-      instances: 1, exec_mode: 'fork', autorestart: false,
+      instances: 1, exec_mode: 'fork', autorestart: true,
+      restart_delay: 5000, exp_backoff_restart_delay: 100,
+      max_restarts: 20,
       env: { KENTECH_INSTANCE_ID: instance.id, BOT_INSTANCE_ID: instance.id },
     })
     const after = await call('list')
