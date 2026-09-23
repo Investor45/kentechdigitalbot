@@ -137,8 +137,11 @@ const scheduleStatusDeletion = (message, result) => {
 }
 
 const gstatusHandler = async (message, match) => {
-  // Enforce account ownership even when the framework treats sudo as fromMe.
-  if (!message.data?.key?.fromMe) return
+  // Group status is an account-level action: only the configured owner may
+  // trigger it, regardless of whether the dispatcher marks the message as
+  // fromMe.
+  const ownerKey = message.message?.key || message.data?.key || message.key || {}
+  if (ownerKey.fromMe !== true && message.fromMe !== true) return
   const reply = message.reply_message
   if (!reply || (!reply.image && !reply.video && !reply.txt && !String(reply.text || '').trim())) {
     return message.send('Reply to an image, video, or text with .gstatus inside the group.')
@@ -164,13 +167,6 @@ const gstatusHandler = async (message, match) => {
   let posted = 0
   for (const jid of new Set(targets)) {
     try {
-      const metadata = await message.client.groupMetadata(jid)
-      const participants = Array.isArray(metadata) ? metadata : metadata.participants || []
-      const admin = participants.some(p => p.admin && [p.id, p.lid, p.phoneNumber].map(normalizeJid).some(id => own.includes(id)))
-      if (!admin) {
-        await message.send('Your bot account must be an admin in the target group to post its status.')
-        continue
-      }
       const statusKey = await message.groupStatus(message, jid)
       scheduleStatusDeletion(message, statusKey)
       posted++

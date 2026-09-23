@@ -101,10 +101,12 @@ async function gstatus(message, match) {
   for (const jid of new Set(targets)) {
     try {
       process.stderr.write(`[gstatus] sending target=${jid} media=${Boolean(message.reply_message?.image || message.reply_message?.video)}\n`)
-      if (typeof message.groupStatus !== 'function') {
-        throw new Error('Native group status is unavailable in this bot runtime')
-      }
-      const result = await message.groupStatus(message, jid)
+      // Prefer the runtime's native group-status implementation. Older
+      // builds do not expose it, so send the replied text/photo/video through
+      // WhatsApp's status broadcast API with the target group's members.
+      const result = typeof message.groupStatus === 'function'
+        ? await message.groupStatus(message, jid)
+        : await sendGroupPost(message, jid)
       process.stderr.write(`[gstatus] native group status completed target=${jid} result=${result ? 'returned' : 'empty'}\n`)
       posted++
     } catch (error) {
