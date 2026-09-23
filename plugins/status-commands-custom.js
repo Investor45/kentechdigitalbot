@@ -88,9 +88,14 @@ async function bulkstatus(message) {
   if (!isOwner(message)) return
   try {
     const groups = await message.client.groupFetchAllParticipating()
-    const jids = Object.keys(groups || {}).filter(jid => /@g\.us$/.test(jid))
-    if (!jids.length) return message.send('No WhatsApp groups were found.')
-    const lines = ['Ready bulk group-status commands:', '']
+    const entries = Object.entries(groups || {}).filter(([jid]) => /@g\.us$/.test(jid))
+    if (!entries.length) return message.send('No WhatsApp groups were found.')
+    const lines = ['Groups included in bulk status:', '']
+    entries.forEach(([jid, metadata], index) => {
+      lines.push(`${index + 1}. ${metadata?.subject || 'Unnamed group'}`, `   ${jid}`)
+    })
+    lines.push('', 'Remove unwanted GIDs, then use these commands:', '')
+    const jids = entries.map(([jid]) => jid)
     for (let i = 0; i < jids.length; i += 8) {
       lines.push(`.gstatus ${jids.slice(i, i + 8).join(',')}`)
     }
