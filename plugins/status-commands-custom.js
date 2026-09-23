@@ -84,6 +84,22 @@ async function groupids(message) {
   }
 }
 
+async function bulkstatus(message) {
+  if (!isOwner(message)) return
+  try {
+    const groups = await message.client.groupFetchAllParticipating()
+    const jids = Object.keys(groups || {}).filter(jid => /@g\.us$/.test(jid))
+    if (!jids.length) return message.send('No WhatsApp groups were found.')
+    const lines = ['Ready bulk group-status commands:', '']
+    for (let i = 0; i < jids.length; i += 8) {
+      lines.push(`.gstatus ${jids.slice(i, i + 8).join(',')}`)
+    }
+    return message.send(lines.join('\n'))
+  } catch (_) {
+    return message.send('I could not fetch your WhatsApp groups. Please try again.')
+  }
+}
+
 async function gstatus(message, match) {
   process.stderr.write(`[gstatus] command received text=${String(message.text || '').slice(0, 120)} native=${typeof message.groupStatus === 'function'}\n`)
   if (!repliedContent(message)) return message.send('Reply to an image, video, or text with .gstatus.')
@@ -119,6 +135,6 @@ async function gstatus(message, match) {
   if (posted) return message.send(posted === 1 ? 'Group status posted.' : `Group status posted to ${posted} groups.`)
 }
 
-for (const [name, handler] of [['mystatus', mystatus], ['df', mystatus], ['groupids', groupids], ['gstatus', gstatus]]) {
+for (const [name, handler] of [['mystatus', mystatus], ['df', mystatus], ['groupids', groupids], ['bulkstatus', bulkstatus], ['gstatus', gstatus]]) {
   registerOwnerCommand(bot, name, handler, `Owner ${name} command`)
 }
