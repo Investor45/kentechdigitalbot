@@ -10,7 +10,7 @@ async function control(message, action) {
   try {
     if (action === 'status') {
       const cfg = guard.group(message.jid)
-      return message.send(`Bot filter: ${cfg?.enabled ? 'ON' : 'OFF'}\nSilenced accounts: ${cfg?.blocked.length || 0}\nReleased accounts: ${cfg?.released.length || 0}\nMembers can still request downloads.\n.botguard on / off\nReply with .silencebot or .releasebot\n.releasebots turns the filter off for this group.`)
+      return message.send(`Bot filter: ${cfg?.enabled ? 'ON' : 'OFF'}\nUnsupported-link filter: ${cfg?.enabled ? 'ON' : 'OFF'}\nSilenced accounts: ${cfg?.blocked.length || 0}\nReleased accounts: ${cfg?.released.length || 0}\nGroup admins and this bot are exempt.\n.botguard on / off\n.disablebotdownloads on / off`)
     }
     const reply = message.reply_message
     const targets = [...(message.mention || []), reply?.jid, reply?.key?.participant, reply?.key?.participantAlt].filter(Boolean)
