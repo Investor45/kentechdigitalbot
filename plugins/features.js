@@ -22,6 +22,8 @@ const FEATURES = [
   '.groupids  - list group IDs',
   '.bulkstatus  - prepare bulk status commands',
   '.autodownload  - manage automatic downloads',
+  '.autodownload save GROUP_GID  - manually add a download group',
+  '.autodownload off GROUP_GID  - remove a download group',
   '.botguard status  - view group protection status',
   '',
   'The bot can automate routine work while you are offline, but WhatsApp permissions and anti-spam limits still apply.',
