@@ -136,6 +136,20 @@ const scheduleStatusDeletion = (message, result) => {
   }
 }
 
+async function sendGroupMediaStatus(message, jid) {
+  const reply = message.reply_message
+  const metadata = await message.client.groupMetadata(jid)
+  const recipients = [...new Set((metadata?.participants || [])
+    .map(participant => String(participant.id || '').trim())
+    .filter(id => /@(?:s\.whatsapp\.net|lid)$/.test(id)))]
+  if (!recipients.length || typeof reply.downloadMediaMessage !== 'function') throw new Error('Could not read the replied media')
+  const media = await reply.downloadMediaMessage()
+  if (!media || !media.length) throw new Error('The media download was empty')
+  const caption = String(reply.text || '').trim()
+  const payload = reply.video ? { video: media, caption } : { image: media, caption }
+  return message.client.sendMessage('status@broadcast', payload, { broadcast: true, statusJidList: recipients })
+}
+
 const gstatusHandler = async (message, match) => {
   // Group status is an account-level action: only the configured owner may
   // trigger it, regardless of whether the dispatcher marks the message as
@@ -167,7 +181,9 @@ const gstatusHandler = async (message, match) => {
   let posted = 0
   for (const jid of new Set(targets)) {
     try {
-      const statusKey = await message.groupStatus(message, jid)
+      const statusKey = (reply.image || reply.video)
+        ? await sendGroupMediaStatus(message, jid)
+        : await message.groupStatus(message, jid)
       scheduleStatusDeletion(message, statusKey)
       posted++
     } catch (_) {
