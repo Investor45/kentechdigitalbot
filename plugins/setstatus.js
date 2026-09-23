@@ -173,11 +173,9 @@ const gstatusHandler = async (message, match) => {
     targets = message.isGroup ? [message.jid] : []
   }
   if (!targets.length) return message.send('Use .gstatus/<group-name> from private chat, or .gstatus inside a group.')
-  if (typeof message.groupStatus !== 'function') {
+  if (!reply.image && !reply.video && typeof message.groupStatus !== 'function') {
     return message.send('Group status is not supported by this bot build.')
   }
-  const own = [message.client.user?.id, message.client.user?.jid, message.client.user?.lid,
-    message.data.key.participant, message.data.key.participantAlt].map(normalizeJid).filter(Boolean)
   let posted = 0
   for (const jid of new Set(targets)) {
     try {
