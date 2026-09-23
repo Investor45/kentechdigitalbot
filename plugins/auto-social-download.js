@@ -80,6 +80,20 @@ function downloadedCaption(platform) {
   return `⚡ KENTECH AI • MEDIA ENGINE\n\n✅ DOWNLOAD SUCCESSFUL\n\nSOURCE   ${platformName(platform)}\nMEDIA    Video\nSTATUS   Ready ✓\n\nPOWERED BY KENTECH AI\nIntelligent Media Processing\n\n💬 Support: wa.me/kentechai`
 }
 
+function senderPrivateJid(message) {
+  const key = message.message?.key || message.data?.key || message.key || {}
+  const sender = key.participantAlt || key.participant || message.participant
+  return String(sender || '').replace(/:\d+(?=@)/, '')
+}
+
+async function sendPrivateDownload(message, payload) {
+  const recipient = senderPrivateJid(message)
+  if (!/@(?:s\.whatsapp\.net|lid)$/.test(recipient)) {
+    throw new Error('Could not identify the sender for private delivery')
+  }
+  return message.client.sendMessage(recipient, payload)
+}
+
 async function handleLink(message) {
   const jid = String(message.jid || message.data?.key?.remoteJid || '')
   const isGroup = Boolean(message.isGroup || jid.endsWith('@g.us'))
@@ -105,20 +119,22 @@ async function handleLink(message) {
     if (platform !== 'youtube' && platform !== 'tiktok') {
       const mediaUrl = bestMediaUrl(media)
       if (!mediaUrl) return message.send('I could not find a downloadable video.', { quoted: message.data })
-      return message.client.sendMessage(jid, {
+      await sendPrivateDownload(message, {
         video: { url: mediaUrl },
         caption: downloadedCaption(platform),
-      }, { quoted: message.data })
+      })
+      return message.send('✅ Video downloaded and sent to you privately.', { quoted: message.data })
     }
 
     if (Buffer.isBuffer(media) && media.length > 60 * 1024 * 1024) {
       return message.send('That video is larger than the 60 MB automatic-download limit.', { quoted: message.data })
     }
-    return await message.client.sendMessage(jid, {
+    await sendPrivateDownload(message, {
       video: media,
       caption: downloadedCaption(platform),
       mimetype: 'video/mp4',
-    }, { quoted: message.data })
+    })
+    return message.send('✅ Video downloaded and sent to you privately.', { quoted: message.data })
   } catch (error) {
     process.stderr.write(`[auto-download:${platform}] ${error.code || error.name || 'Error'}\n`)
     return message.send('The video could not be downloaded.', { quoted: message.data })
