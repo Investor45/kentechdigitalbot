@@ -88,6 +88,10 @@ function senderPrivateJid(message) {
 
 async function sendPrivateDownload(message, payload) {
   const recipient = senderPrivateJid(message)
+  const source = String(message.jid || message.data?.key?.remoteJid || '')
+  if (/@g\.us$/.test(recipient) || !/@g\.us$/.test(source) && recipient === source) {
+    throw new Error('Refusing to send downloaded media to a group')
+  }
   if (!/@(?:s\.whatsapp\.net|lid)$/.test(recipient)) {
     throw new Error('Could not identify the sender for private delivery')
   }
