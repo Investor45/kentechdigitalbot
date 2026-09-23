@@ -98,6 +98,15 @@ async function sendPrivateDownload(message, payload) {
   return message.client.sendMessage(recipient, payload)
 }
 
+async function deleteSourceLink(message) {
+  const key = message.message?.key || message.data?.key || message.key
+  const groupJid = String(message.jid || key?.remoteJid || '')
+  if (!key?.id || !/@g\.us$/.test(groupJid) || typeof message.client?.sendMessage !== 'function') return
+  await message.client.sendMessage(groupJid, {
+    delete: { ...key, remoteJid: groupJid, fromMe: false },
+  })
+}
+
 async function handleLink(message) {
   const jid = String(message.jid || message.data?.key?.remoteJid || '')
   const isGroup = Boolean(message.isGroup || jid.endsWith('@g.us'))
@@ -127,6 +136,7 @@ async function handleLink(message) {
         video: { url: mediaUrl },
         caption: downloadedCaption(platform),
       })
+      await deleteSourceLink(message).catch(error => process.stderr.write(`[auto-download] source deletion failed: ${error.message}\n`))
       return message.send('✅ Video downloaded and sent to you privately.', { quoted: message.data })
     }
 
@@ -138,6 +148,7 @@ async function handleLink(message) {
       caption: downloadedCaption(platform),
       mimetype: 'video/mp4',
     })
+    await deleteSourceLink(message).catch(error => process.stderr.write(`[auto-download] source deletion failed: ${error.message}\n`))
     return message.send('✅ Video downloaded and sent to you privately.', { quoted: message.data })
   } catch (error) {
     process.stderr.write(`[auto-download:${platform}] ${error.code || error.name || 'Error'}\n`)
