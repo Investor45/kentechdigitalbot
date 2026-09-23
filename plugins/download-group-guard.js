@@ -31,3 +31,7 @@ registerOwnerCommand(bot, 'botguard', (message, match) => control(message, Strin
 registerOwnerCommand(bot, 'silencebot', message => control(message, 'block'), 'Silence the replied sender')
 registerOwnerCommand(bot, 'releasebot', message => control(message, 'release'), 'Release the replied sender')
 registerOwnerCommand(bot, 'releasebots', message => control(message, 'off'), 'Disable the group bot filter')
+registerOwnerCommand(bot, 'disablebotdownloads', (message, match) => {
+  const action = String(match || 'on').trim().toLowerCase() || 'on'
+  return control(message, action === 'status' ? 'status' : action === 'off' ? 'off' : 'on')
+}, 'Block other bot downloads while allowing group administrators')
