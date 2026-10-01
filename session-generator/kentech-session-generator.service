@@ -1,0 +1,28 @@
+[Unit]
+Description=KENTECH WhatsApp session generator
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=kentech-session
+Group=kentech-session
+WorkingDirectory=/opt/kentech-session-generator/current
+ExecStart=/usr/bin/node session-generator/server.js
+Environment=NODE_ENV=production
+Environment=SESSION_HOST=127.0.0.1
+Environment=SESSION_PORT=3100
+Environment=SESSION_STORE_DIR=/var/lib/kentech-session-generator
+Restart=on-failure
+RestartSec=5
+StateDirectory=kentech-session-generator
+StateDirectoryMode=0700
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/kentech-session-generator
+
+[Install]
+WantedBy=multi-user.target
