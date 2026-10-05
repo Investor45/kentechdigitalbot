@@ -28,3 +28,5 @@ auto-download-groups.json.tmp
 .backups/
 .tmp-*/
 bash deploydeploy.sh rootKENBOY5.txt
+
+.admin-notification-inbox/
