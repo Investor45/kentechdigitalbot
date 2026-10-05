@@ -69,7 +69,7 @@ Generate your `SESSION_ID` before starting the bot deployment.
 
 ### 🌐 Hosted Session Generator
 
-👉 **[Generate Your KENTECH Session ID](http://172.236.137.138:3100/)**
+👉 **[Generate Your KENTECH Session ID](https://172.236.139.122/)**
 
 Enter your WhatsApp number **including the country code**, then follow the WhatsApp **Linked Devices** instructions.
 

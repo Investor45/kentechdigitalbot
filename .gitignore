@@ -24,3 +24,7 @@ download-group-guard-status.json
 .kentech-session-vault/
 auto-download-groups.json
 auto-download-groups.json.tmp
+
+.backups/
+.tmp-*/
+bash deploydeploy.sh rootKENBOY5.txt

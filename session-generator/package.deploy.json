@@ -1,0 +1,9 @@
+{
+  "name": "kentech-session-generator",
+  "version": "1.0.0",
+  "private": true,
+  "engines": { "node": ">=20" },
+  "dependencies": {
+    "baileys": "npm:@whiskeysockets/baileys@7.0.0-rc14"
+  }
+}
