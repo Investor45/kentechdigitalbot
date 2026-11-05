@@ -23,7 +23,7 @@ $AppName = if ($AppName) { $AppName } else { 'kentech-ai' }
 
 corepack yarn install --frozen-lockfile --production=false
 node --check index.js
-foreach ($runtimeFile in @('lib/client.js', 'lib/kentech-runtime.js', 'lib/short-session.js', 'lib/import-session-bundle.js', 'lib/download-groups.js', 'plugins/auto-social-download.js')) {
+foreach ($runtimeFile in @('lib/client.js', 'lib/status-viewer.js', 'lib/kentech-runtime.js', 'lib/short-session.js', 'lib/import-session-bundle.js', 'lib/download-groups.js', 'plugins/auto-social-download.js')) {
   node --check $runtimeFile
   if ($LASTEXITCODE -ne 0) { throw "Runtime validation failed: $runtimeFile" }
 }

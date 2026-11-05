@@ -4,6 +4,7 @@ config.js
 index.js
 lib/deployment-notify.js
 lib/download-group-guard.js
+lib/status-viewer.js
 lib/owner-commands.js
 plugins/download-group-guard.js
 lib/tiktok-download.js

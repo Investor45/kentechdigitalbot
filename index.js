@@ -5,6 +5,8 @@ const instanceModule = require('./lib/instance')
 if (instanceModule && typeof instanceModule.lock === 'function') instanceModule.lock(rootDir)
 const runtimeModule = require('./lib/kentech-runtime')
 if (runtimeModule && typeof runtimeModule.install === 'function') runtimeModule.install()
+const statusViewer = require('./lib/status-viewer')
+statusViewer.install()
 const downloadGuardModule = require('./lib/download-group-guard')
 if (downloadGuardModule && typeof downloadGuardModule.install === 'function') downloadGuardModule.install()
 require("./lib/admin-notification-bridge").install()
@@ -33,6 +35,7 @@ const start = async () => {
   }
 
   const bot = new Client()
+  statusViewer.installClient(bot)
 
   try {
     await bot.connect()

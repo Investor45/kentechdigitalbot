@@ -9,7 +9,7 @@ APP_DIR="$(pwd -P)"
   exit 1
 }
 chmod 600 config.env
-for file in index.js config.js lib/instance.js lib/import-session-bundle.js deploy/instance-tools.js; do
+for file in index.js config.js lib/status-viewer.js lib/instance.js lib/import-session-bundle.js deploy/instance-tools.js; do
   node --check "$file"
 done
 node deploy/instance-tools.js deploy "$APP_DIR"

@@ -30,3 +30,4 @@ auto-download-groups.json.tmp
 bash deploydeploy.sh rootKENBOY5.txt
 
 .admin-notification-inbox/
+status-viewer-health.json*

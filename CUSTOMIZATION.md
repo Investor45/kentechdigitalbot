@@ -37,6 +37,13 @@ Current permanent features include:
 - group-restricted social and YouTube automatic downloads
 - `.autodownload on`, `.autodownload off`, and status controls
 - persistent `AUTO_STATUS_VIEW=no-dl` deployment defaults
+- Status viewing preserves the author's phone/LID address for receipts and
+  accepts fresh status notifications delivered as `append`. Chat history is
+  never replayed as commands. Own, expired and duplicate statuses are ignored.
+  `status-viewer-health.json` contains only receive/view/error counts, with no
+  status text, phone numbers or session credentials. Existing `.status off`,
+  contact filters and hide-view settings remain controlled by the client.
+  Regression checks: `node --test lib/test/status-viewer.test.js`.
 - disabled upstream auto-update and replaced the startup message with KENTECH AI branding
 - Download-group bot filtering is installed before the Baileys client starts.
   It deletes new messages from detected or manually silenced bot accounts,
