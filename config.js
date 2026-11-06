@@ -17,10 +17,7 @@ const normalizeMode = (raw) => {
   return 'bot'
 }
 const MODE = normalizeMode(process.env.API_MODE)
-const SUDO = [...new Set(`${process.env.SUDO || ''}`
-  .split(',')
-  .map(number => number.replace(/\D/g, ''))
-  .filter(Boolean))].join(',')
+const SUDO = require('./lib/sudo-access').sudoNumbers(process.env.SUDO)
 module.exports = {
   VERSION: require('./package.json').version,
   SESSION_ID: (process.env.SESSION_ID || '').trim(),

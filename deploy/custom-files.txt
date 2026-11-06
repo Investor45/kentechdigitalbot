@@ -41,3 +41,4 @@ eplugins/0vv.js
 plugins/setstatus.js
 plugins/status-commands-custom.js
 deploy/install.sh
+lib/sudo-access.js
