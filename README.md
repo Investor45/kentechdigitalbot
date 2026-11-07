@@ -71,6 +71,11 @@ Generate your `SESSION_ID` before starting the bot deployment.
 
 👉 **[Generate Your KENTECH Session ID](https://172.236.139.122/)**
 
+The session link remains valid during the VPS migration: the original HTTPS host
+acts as a gateway to the replacement server. The replacement VPS's NAT address
+is not a public pairing URL. Existing short session IDs retain their encrypted
+store and do not need to be regenerated solely because of the server move.
+
 Enter your WhatsApp number **including the country code**, then follow the WhatsApp **Linked Devices** instructions.
 
 > 🔐 **Keep your session ID private.** Anyone with valid session credentials may access the connected WhatsApp session.
