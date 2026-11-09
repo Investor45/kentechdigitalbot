@@ -1,4 +1,4 @@
-const { downloadCaption } = require('../lib/download-presentation')
+const { downloadCaption, sendDownloadCard } = require('../lib/download-presentation')
 const fs = require('fs')
 const path = require('path')
 const { bot, facebook, instagram } = require('../lib/')
@@ -133,10 +133,11 @@ async function handleLink(message) {
     if (platform !== 'youtube' && platform !== 'tiktok') {
       const mediaUrl = bestMediaUrl(media)
       if (!mediaUrl) return message.send('I could not find a downloadable video.', { quoted: message.data })
-      await sendPrivateDownload(message, {
+      const delivered = await sendPrivateDownload(message, {
         video: { url: mediaUrl },
         caption: downloadedCaption(platform),
       })
+      if (delivered) await sendDownloadCard({ send: (image, options) => sendPrivateDownload(message, { image, caption: options.caption }) }, platform, 'Video')
       await deleteSourceLink(message).catch(error => process.stderr.write(`[auto-download] source deletion failed: ${error.message}\n`))
       return message.send('✅ Video downloaded and sent to you privately.', { quoted: message.data })
     }
@@ -144,11 +145,12 @@ async function handleLink(message) {
     if (Buffer.isBuffer(media) && media.length > 60 * 1024 * 1024) {
       return message.send('That video is larger than the 60 MB automatic-download limit.', { quoted: message.data })
     }
-    await sendPrivateDownload(message, {
+    const delivered = await sendPrivateDownload(message, {
       video: media,
       caption: downloadedCaption(platform),
       mimetype: 'video/mp4',
     })
+    if (delivered) await sendDownloadCard({ send: (image, options) => sendPrivateDownload(message, { image, caption: options.caption }) }, platform, 'Video')
     await deleteSourceLink(message).catch(error => process.stderr.write(`[auto-download] source deletion failed: ${error.message}\n`))
     return message.send('✅ Video downloaded and sent to you privately.', { quoted: message.data })
   } catch (error) {
