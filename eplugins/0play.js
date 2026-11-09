@@ -15,8 +15,8 @@ bot(
     if (!result.length) return await message.send(`*${match} not found*`)
     const { title, id } = result[0]
     await message.send(`_Downloading ${title}_`)
-    const buffer = await song(id, message.id)
+    const { buffer } = await song(id, message.id)
     if (!buffer) return await message.send('failed!')
-    await sendDownload(message, 'youtube', buffer, { mimetype: 'audio/mpeg' }, 'audio')
+    await sendDownload(message, 'youtube', buffer, { mimetype: 'audio/mpeg', fileName: `${title}.mp3` }, 'audio')
   }
 )
