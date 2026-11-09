@@ -1,3 +1,4 @@
+const { sendDownload } = require('../lib/download-presentation')
 const { bot, yts, song, addAudioMetaData, generateList, lang, YT_URL_REGEX } = require('../lib/')
 const { downloadYouTube, youtubeId } = require('../lib/youtube-download')
 
@@ -44,7 +45,7 @@ bot(
       if (!buffer) return await message.send(lang.plugins.song.not_found)
 
       const meta = await addAudioMetaData(buffer, title, author, '', thumbnail?.url || thumbnail)
-      return await message.send(
+      return await sendDownload(message, 'youtube',
         meta,
         { quoted: message.data, mimetype: 'audio/mpeg', fileName: `${title}.mp3` },
         'audio'
@@ -109,7 +110,7 @@ bot(
 
     const options = quality ? { videoQuality: quality } : {};
     try {
-      return await message.send(
+      return await sendDownload(message, 'youtube',
         await downloadYouTube(vid[1], options),
         { quoted: message.data, mimetype: 'video/mp4', fileName: `${vid[1]}.mp4` },
         'video'

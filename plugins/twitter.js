@@ -1,3 +1,4 @@
+const { sendDownloadedUrl } = require('../lib/download-presentation')
 const { twitter, bot, generateList, isUrl, lang } = require('../lib/')
 
 bot(
@@ -21,7 +22,7 @@ bot(
 
     if (result.length > 1) {
       const qualityOptions = result.map((video) => ({
-        id: `upload ${video.url}`,
+        id: `upload ktech:twitter ${video.url}`,
         text: video.quality.split('x')[0],
       }))
 
@@ -36,6 +37,6 @@ bot(
       return await message.send(list.message, {}, list.type)
     }
 
-    await message.sendFromUrl(result[0].url, { quoted: message.quoted })
+    await sendDownloadedUrl(message, 'twitter', result[0].url, { quoted: message.quoted })
   }
 )

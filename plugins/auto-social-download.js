@@ -1,3 +1,4 @@
+const { downloadCaption } = require('../lib/download-presentation')
 const fs = require('fs')
 const path = require('path')
 const { bot, facebook, instagram } = require('../lib/')
@@ -77,7 +78,7 @@ function platformName(platform) {
 }
 
 function downloadedCaption(platform) {
-  return `⚡ KENTECH AI • MEDIA ENGINE\n\n✅ DOWNLOAD SUCCESSFUL\n\nSOURCE   ${platformName(platform)}\nMEDIA    Video\nSTATUS   Ready ✓\n\nPOWERED BY KENTECH AI\nIntelligent Media Processing\n\n💬 Support: wa.me/kentechai`
+  return downloadCaption(platform, 'Video')
 }
 
 function senderPrivateJid(message) {

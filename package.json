@@ -1,6 +1,6 @@
 {
   "name": "kentech-ai-whatsapp-bot",
-  "version": "6.0.6",
+  "version": "6.0.7",
   "description": "KENTECH AI self-hosted WhatsApp bot with group moderation, media tools, status commands, plugins and API support.",
   "keywords": [
     "whatsapp",

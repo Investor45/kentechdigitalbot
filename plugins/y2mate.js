@@ -1,3 +1,4 @@
+const { sendDownload } = require('../lib/download-presentation')
 const { y2mate, bot, addAudioMetaData, yts, generateList, lang } = require('../lib/')
 const ytIdRegex =
   /(?:http(?:s|):\/\/|)(?:(?:www\.|)youtube(?:\-nocookie|)\.com\/(?:watch\?.*(?:|\&)v=|embed|shorts\/|v\/)|youtu\.be\/)([-_0-9A-Za-z]{11})/
@@ -16,7 +17,7 @@ bot(
       const [_, q, id] = match.split(';')
       const buffer = await y2mate.dl(id, 'video', q)
       if (!buffer) return await message.send(lang.plugins.y2mate.no_video, { quoted: message.data })
-      return await message.send(buffer, { mimetype: 'video/mp4', quoted: message.data }, 'video')
+      return await sendDownload(message, 'youtube', buffer, { mimetype: 'video/mp4', quoted: message.data }, 'video')
     }
 
     if (!ytIdRegex.test(match)) {
@@ -87,7 +88,7 @@ bot(
     const buffer = await y2mate.dl(id, 'audio')
     if (!buffer) return await message.send(lang.plugins.y2mate.no_audio, { quoted: message.data })
 
-    return await message.send(
+    return await sendDownload(message, 'youtube',
       await addAudioMetaData(buffer, title, '', '', thumbUrl),
       { quoted: message.data, mimetype: 'audio/mpeg' },
       'audio'

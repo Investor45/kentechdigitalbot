@@ -1,3 +1,4 @@
+const { sendDownloadedUrl } = require('../lib/download-presentation')
 const { story, bot, generateList, lang } = require('../lib/')
 
 bot(
@@ -18,7 +19,7 @@ bot(
     if (result.length > 1) {
       const list = generateList(
         result.map((url, index) => ({
-          id: `upload ${url}`,
+          id: `upload ktech:instagram ${url}`,
           text: `${index + 1}/${result.length}`,
         })),
         lang.plugins.story.list.format(result.length),
@@ -30,6 +31,6 @@ bot(
       return await message.send(list.message, {}, list.type)
     }
 
-    await message.sendFromUrl(result)
+    await sendDownloadedUrl(message, 'instagram', result)
   }
 )

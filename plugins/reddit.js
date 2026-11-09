@@ -1,3 +1,4 @@
+const { sendDownloadedUrl } = require('../lib/download-presentation')
 const { reddit, bot, isUrl, lang } = require('../lib/')
 
 bot(
@@ -14,6 +15,6 @@ bot(
       return await message.send(lang.plugins.reddit.error, {
         quoted: message.quoted,
       })
-    return await message.sendFromUrl(result)
+    return await sendDownloadedUrl(message, 'reddit', result)
   }
 )

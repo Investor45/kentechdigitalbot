@@ -1,3 +1,4 @@
+const { sendDownloadedUrl } = require('../lib/download-presentation')
 const { mediafire, bot, isUrl } = require('../lib')
 
 bot(
@@ -14,6 +15,6 @@ bot(
       return await message.send('*Not found*', {
         quoted: message.quoted,
       })
-    return await message.sendFromUrl(result)
+    return await sendDownloadedUrl(message, 'mediafire', result)
   }
 )

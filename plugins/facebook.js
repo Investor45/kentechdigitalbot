@@ -1,3 +1,4 @@
+const { sendDownloadedUrl } = require('../lib/download-presentation')
 const { facebook, bot, generateList, isUrl, lang } = require('../lib/')
 
 bot(
@@ -22,12 +23,12 @@ bot(
     }
 
     if (result.length === 1) {
-      return message.sendFromUrl(result[0].url, { quoted: message.data })
+      return sendDownloadedUrl(message, 'facebook', result[0].url, { quoted: message.data })
     }
 
     const list = generateList(
       result.map((e) => ({
-        id: `upload ${e.url}`,
+        id: `upload ktech:facebook ${e.url}`,
         text: e.quality,
       })),
       lang.plugins.fb.quality,

@@ -1,3 +1,4 @@
+const { sendDownload } = require('../lib/download-presentation')
 const { bot, yts, song } = require('../lib/')
 
 bot(
@@ -16,6 +17,6 @@ bot(
     await message.send(`_Downloading ${title}_`)
     const buffer = await song(id, message.id)
     if (!buffer) return await message.send('failed!')
-    await message.send(buffer, { mimetype: 'audio/mpeg' }, 'audio')
+    await sendDownload(message, 'youtube', buffer, { mimetype: 'audio/mpeg' }, 'audio')
   }
 )

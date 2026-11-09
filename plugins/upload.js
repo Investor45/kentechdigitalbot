@@ -1,3 +1,4 @@
+const { sendDownloadedUrl, uploadSource } = require('../lib/download-presentation')
 const { bot, isUrl, getImgUrl, lang } = require('../lib/')
 bot(
   {
@@ -6,9 +7,10 @@ bot(
     type: 'download',
   },
   async (message, match) => {
-    match = isUrl(match || message.reply_message.text)
+    const selected = uploadSource(match || message.reply_message?.text)
+    match = isUrl(selected.url)
     if (!match) return await message.send(lang.plugins.upload.usage)
     if (match.startsWith('https://images.app.goo.gl')) match = await getImgUrl(match)
-    await message.sendFromUrl(match, { buffer: false })
+    await sendDownloadedUrl(message, selected.source, match, { buffer: false })
   }
 )

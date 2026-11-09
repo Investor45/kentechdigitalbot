@@ -1,3 +1,4 @@
+const { sendDownloadedUrl } = require('../lib/download-presentation')
 const { bot, apkMirror, generateList, lang } = require('../lib')
 
 bot(
@@ -39,7 +40,7 @@ bot(
       }
       if (button.length == 1) {
         const res = await apkMirror(button[0].id.replace('apk ', ''))
-        return await message.sendFromUrl(res.result)
+        return await sendDownloadedUrl(message, 'apk', res.result)
       }
       const list = generateList(
         button,
@@ -51,6 +52,6 @@ bot(
       return message.send(list.message, { quoted: message.data }, list.type)
     }
 
-    return message.sendFromUrl(result, { quoted: message.data })
+    return sendDownloadedUrl(message, 'apk', result, { quoted: message.data })
   }
 )

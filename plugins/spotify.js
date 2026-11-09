@@ -1,3 +1,4 @@
+const { sendDownload } = require('../lib/download-presentation')
 const { bot, IsSpotify, isUrl, dowloadTrack, getSpotifyPlaylist, lang } = require('../lib/')
 
 bot(
@@ -14,7 +15,7 @@ bot(
     match = isUrl(match)
     if (spotify === 'track') {
       const track = await dowloadTrack(match)
-      return await message.send(
+      return await sendDownload(message, 'spotify',
         track.buffer,
         { fileName: track.title, quoted: message.data, mimetype: 'audio/mpeg' },
         'document'
@@ -25,7 +26,7 @@ bot(
     for (const song of playlist) {
       try {
         const track = await dowloadTrack(song.title)
-        await message.send(
+        await sendDownload(message, 'spotify',
           track.buffer,
           { fileName: track.title, quoted: message.data, mimetype: 'audio/mpeg' },
           'document'
