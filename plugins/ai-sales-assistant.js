@@ -334,6 +334,7 @@ async function welcomeMenu(message) {
 }
 
 async function salesAssistant(message) {
+  if (require('../lib/ai-support').getSupport().reserves(message)) return
   if (message.isGroup || message.fromMe) return
 
   const jid = String(message.jid || '')

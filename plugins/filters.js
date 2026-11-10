@@ -55,11 +55,13 @@ bot({ on: 'text', fromMe: false, type: 'filterOrLydia' }, async (message) => {
     }
   }
 
+  if (require('../lib/ai-support').getSupport().reserves(message)) return
   const chatbotResponse = await chatBot(message)
   if (chatbotResponse) return message.send(chatbotResponse, { quoted: message.data })
 })
 
 bot({ on: 'text', fromMe: true, type: 'lydia' }, async (message) => {
+  if (require('../lib/ai-support').getSupport().reserves(message)) return
   const chatbotResponse = await chatBot(message)
   if (chatbotResponse) return message.send(chatbotResponse, { quoted: message.data })
 })

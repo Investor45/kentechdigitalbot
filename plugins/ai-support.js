@@ -1,0 +1,6 @@
+const { bot } = require('../lib')
+const { registerOwnerCommand } = require('../lib/owner-commands')
+const support = require('../lib/ai-support').getSupport()
+registerOwnerCommand(bot, 'aisupport', support.control, 'Admin-controlled AI business support')
+bot({ on: 'text', fromMe: false, type: 'aiSupport' }, message => support.handle(message))
+bot({ on: 'text', fromMe: true, type: 'aiSupportHuman' }, message => support.handle(message))
