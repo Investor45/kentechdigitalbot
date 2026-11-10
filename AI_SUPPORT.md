@@ -6,6 +6,7 @@ owner's phone need not be online. It does not train on or scrape historical chat
 In a private chat, the linked owner or permanent platform administrator can use:
 
 - `.aisupport facts TEXT`: save approved public business information (maximum 12,000 characters).
+- `.aisupport facts shop`: use the connected public shop catalog and approved service information (default source).
 - `.aisupport on`: enable after configuring facts and a provider key.
 - `.aisupport off`: disable and cancel pending replies.
 - `.aisupport status`: show configuration status without exposing secrets or facts.
@@ -15,6 +16,13 @@ Use your configured command prefix. Add `GEMINI_API_KEY` privately to `config.en
 optionally set `AI_SUPPORT_MODEL` (default `gemini-2.5-flash`). Never send a key in
 WhatsApp. Restart after changing environment variables. Gemini usage may be billed.
 API documentation: https://ai.google.dev/api/generate-content
+
+On managed VPS installations, `kentech-ai-support-catalog.timer` refreshes a
+public-only catalog snapshot every 30 minutes. The AI selects up to eight relevant
+products for each question. Snapshots older than two hours fail closed, and prices
+and stock must still be confirmed in Telegram before purchase. No customer,
+payment, order or delivered-account tables are exported. Standalone installations
+without a shop snapshot can use custom facts instead.
 
 Customers receive an automated-support disclosure identifying Google Gemini.
 `SUPPORT START` consents to processing subsequent support questions;
