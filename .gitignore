@@ -33,3 +33,4 @@ bash deploydeploy.sh rootKENBOY5.txt
 status-viewer-health.json*
 ai-support.json*
 ai-support-shop.json*
+command-health.json*

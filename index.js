@@ -12,6 +12,7 @@ if (downloadGuardModule && typeof downloadGuardModule.install === 'function') do
 require("./lib/admin-notification-bridge").install()
 const { Client, logger } = require('./lib/client')
 require('./lib/sudo-access').install()
+require('./lib/command-prefix').install()
 const { DATABASE, VERSION, SESSION_ID, BOT_INSTANCE_ID } = require('./config')
 const { importSessionBundle } = require('./lib/import-session-bundle')
 const { notifyDeployment } = require('./lib/deployment-notify')
@@ -37,6 +38,7 @@ const start = async () => {
 
   const bot = new Client()
   statusViewer.installClient(bot)
+  require('./lib/command-health').attach(bot)
 
   try {
     await bot.connect()
