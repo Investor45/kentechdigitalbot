@@ -4,6 +4,12 @@ Private chats accept the configured bot prefix as well as the legacy `+` alias.
 Group command patterns and all existing active/fromMe/sudo restrictions remain
 unchanged. New plugin registrations and prefix changes are synchronized.
 
+Fresh commands sent from the linked phone into Message Yourself are accepted
+when WhatsApp marks them as append/history events. Only fromMe messages in the
+linked account's own PN/LID chat, created since the socket started, qualify.
+Message IDs are deduplicated across notify/append/history routes. Ordinary chat
+history and generated bot replies are not promoted into commands.
+
 The legacy loader previously forced private patterns to `^[+]`, which caused a
 valid configured command such as `!ping` to be ignored in private conversations.
 The adaptation wraps registration and prefix updates without editing obfuscated
