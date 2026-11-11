@@ -1,5 +1,12 @@
 # Command prefixes and reply health
 
+Socket creation restores a 15-second IQ/query timeout when the legacy client
+passes an undefined or invalid value. Explicit finite timeouts up to 60 seconds
+are retained. Managed Telegram bots skip chat-history downloads, keeping live
+message delivery and status receipts enabled. This prevents unnecessary history
+sync work from holding up the shared incoming-message path; it does not bypass
+authentication, sender permissions or command restrictions.
+
 Private chats accept the configured bot prefix as well as the legacy `+` alias.
 Group command patterns and all existing active/fromMe/sudo restrictions remain
 unchanged. New plugin registrations and prefix changes are synchronized.
