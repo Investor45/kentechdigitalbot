@@ -18,6 +18,11 @@ upstream files.
 `command-health.json` is a private, bounded snapshot of connection state, command
 registry counts and reply queue progress. Ping diagnostics record counts and
 event metadata only, never message text, chat addresses or credentials.
+Transport message counts, decoded message-event counts, own-message counts,
+history-event counts and event-buffer state distinguish a connected socket
+from a connection actually delivering commands. Counters reset per socket;
+quiet connections alone never trigger a restart. These diagnostics do not
+confirm that a command was answered: confirm delivery with a fresh phone test.
 
 A connected, paused reply queue with pending work and no running worker resumes
 after one stable minute. A connected active queue with no progress for ten
