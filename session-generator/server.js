@@ -146,6 +146,9 @@ async function createPairing(job, phone) {
         auth: auth.state,
         version,
         printQRInTerminal: false,
+        // Phone-code requests have the job's lifetime, rather than the much
+        // shorter default QR rotation window closing their socket early.
+        qrTimeout: TTL,
         logger: { trace() {}, debug() {}, info() {}, warn() {}, error() {}, fatal() {}, child() { return this } },
         // A canonical browser tuple avoids WhatsApp rejecting the pairing IQ.
         browser: ['Ubuntu', 'Chrome', '22.04.4'],
