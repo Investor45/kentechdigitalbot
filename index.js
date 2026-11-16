@@ -3,6 +3,7 @@ const rootDir = typeof __dirname === 'string'
   : (typeof process?.cwd === 'function' ? process.cwd() : '.')
 const instanceModule = require('./lib/instance')
 if (instanceModule && typeof instanceModule.lock === 'function') instanceModule.lock(rootDir)
+require('./lib/media-cleanup').install()
 const runtimeModule = require('./lib/kentech-runtime')
 if (runtimeModule && typeof runtimeModule.install === 'function') runtimeModule.install()
 const statusViewer = require('./lib/status-viewer')
