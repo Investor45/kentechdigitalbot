@@ -47,19 +47,4 @@ bot(
   }
 )
 
-bot(
-  {
-    pattern: 'allvar ?(.*)',
-    desc: lang.plugins.allvar.desc,
-    type: 'vars',
-  },
-  async (message, match) => {
-    const vars = await getVars(message.id)
-    const sortedVars = sortObject(vars)
-    const allVars = Object.entries(sortedVars)
-      .map(([key, value]) => `${key} = ${value}`)
-      .join('\n\n')
-
-    await message.send(allVars)
-  }
-)
+// allvar is registered by hosting-settings.js, including hosted deployments.

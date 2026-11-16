@@ -281,17 +281,7 @@ bot(
     type: 'video',
   },
   async (message, match) => {
-    if (!message.reply_message || !message.reply_message.video)
-      return await message.send(lang.plugins.compress.usage)
-    return await message.send(
-      await getFfmpegBuffer(
-        await message.reply_message.downloadAndSaveMediaMessage('compress'),
-        'ocompress.mp4',
-        'compress'
-      ),
-      { quoted: message.data },
-      'video'
-    )
+    return require('../lib/media-tools').conversionCommand(message, 'mp4', true)
   }
 )
 
