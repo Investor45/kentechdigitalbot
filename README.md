@@ -69,7 +69,7 @@ Generate your `SESSION_ID` before starting the bot deployment.
 
 ### 🌐 Hosted Session Generator
 
-👉 **[Generate Your KENTECH Session ID](https://172.236.139.122/)**
+👉 **[Generate Your KENTECH Session ID](https://kentechdigital.site/pair/)**
 
 The session link remains valid during the VPS migration: the original HTTPS host
 acts as a gateway to the replacement server. The replacement VPS's NAT address
